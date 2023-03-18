@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>2. ルベーグ積分 &#8212; Mnemosyne 1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="1. Arduino" href="../kit/2020-03-13-arduino-network-lamp.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>2. ルベーグ積分<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script><p>本ポストは測度論的確率論に関する個人的な定義・定理のまとめ(<a class="reference external" href="https://www.ms.u-tokyo.ac.jp/~yasuyuki/sem.htm">ゼミ</a>ならおそらく暗唱しなければならない事項．ただし厳密性は重視しない．)．
+主に、吉田洋一先生の「ルベグ積分入門」( <a class="footnote-reference brackets" href="#id13" id="id2">1</a>)を参考にして作成されている．
+[2]_をもとにしたpdfのテキスト( <a class="footnote-reference brackets" href="#id15" id="id3">3</a>)があるので、そちらも適宜参考にしたい．</p>
+<p>また，途中に確率論の定義を伊藤清先生の確率論をもとに入れる予定 <a class="footnote-reference brackets" href="#id16" id="id4">4</a>．
+最後に、私自身の解釈も含まれているためことを注意されたい(後にアップデートされる)．</p>
+<section id="id5">
+<h2>1. 外測度、ルベーグ測度<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>1.1 外測度 (Outer measure)</p>
+<div class="math notranslate nohighlight">
+\[m^{\ast}(A)\]</div>
+<hr class="docutils" />
+<p>まずは一次元の測度を議論する．</p>
+<p>外測度は次の５つの条件を満たすように定義する(P. 83)，</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+0 \leq m^{\ast}(A) \leq +\infty
+\label{eq:11}\tag{C1}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+A \subseteq B \text{ならば} m^{\ast}(A) \leqq m^{\ast}(B)
+\label{eq:12}\tag{C2}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+m^{\ast}\left(\bigcup_{i=1}^{\infty} A_{i}\right) \leq \sum_{i=1}^{\infty} m^{\ast}\left(A_{i}\right)
+\label{eq:13}\tag{C3}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+m^{\ast}([a,b)) = b-a
+\label{eq:14}\tag{C4}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+\text{点集合AとBが合同ならば} m^{\ast}(A) = m^{\ast}(B)
+\label{eq:15}\tag{C5}
+\end{equation}\]</div>
+<p>注意点として，Eq.</p>
+<div class="math notranslate nohighlight">
+\[\eqref{eq:13}\]</div>
+<p>で直和であることを要求しないことがある．
+「なるべく広い範囲の点集合」を考えたい．</p>
+<p>ここで，外測度を次のように定義すると上記５つの条件が満たせる．</p>
+<p>半開区間の列，</p>
+<div class="math notranslate nohighlight">
+\[\left \{ I_{1},... I_{n},... \right\}\]</div>
+<p>に対して，</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+m^{\ast}(A):=\inf \left\{ \sum_{n=1}^{\infty} \left|I_{n}\right| : A \subseteq \bigcup_{n=1}^{\infty} I_{n} \right \}
+\label{eq:16}\tag{1.1}
+\end{equation}\]</div>
+<section id="p-96">
+<h3>1.2. 可測集合 (P.96)<a class="headerlink" href="#p-96" title="Permalink to this headline">¶</a></h3>
+<p>Aを決まった点集合とする．</p>
+<div class="math notranslate nohighlight">
+\[B \subseteq A\]</div>
+<p>および</p>
+<div class="math notranslate nohighlight">
+\[B' \subseteq A^{c}\]</div>
+<p>であればいつでも，</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+m^{\ast}(B \cup B') = m^{\ast}(B) + m^{\ast}(B')
+\label{eq:17}\tag{1.2}
+\end{equation}\]</div>
+<p>が成立するとき，</p>
+<div class="math notranslate nohighlight">
+\[A\]</div>
+<p>はルベグ可測であるという．</p>
+<p>同値な条件として，</p>
+<div class="math notranslate nohighlight">
+\[X\]</div>
+<p>を任意の点集合とする時，</p>
+<div class="math notranslate nohighlight">
+\[A\]</div>
+<p>が可測であることは，</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+m^{\ast}(B)=m^{\ast}(B \cap A)+m^{\ast}\left(B \cap A^{c}\right)
+\label{eq:18}\tag{1.3}
+\end{equation}\]</div>
+<p>が成立することである． (Eq.</p>
+<div class="math notranslate nohighlight">
+\[\eqref{eq:18}\]</div>
+<p>で</p>
+<div class="math notranslate nohighlight">
+\[B=X\cap A, B'= X\cap A^{c}\]</div>
+<p>とおく)</p>
+<p>可測集合の例を残しておく</p>
+</section>
+<section id="id6">
+<h3>1.2.1 可測集合族<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+\phi \in \mathcal{M}
+\label{eq:121}\tag{M1}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+A \in \mathcal{M} \Longrightarrow A^{c} \in \mathcal{M}
+\label{eq:122}\tag{M2}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+A_{n} \in \mathcal{M} \text{  } (n=1,2,...) \text{ならば，} \bigcup_{i=1}^{\infty} A_{i} \in \mathcal{M}
+\label{eq:123}\tag{M3}
+\end{equation}\]</div>
+<p>可測集合に限らない時，一般に<strong>加法的集合族</strong>と呼ぶ．</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+G\text{が開集合ならば，} G \in \mathcal{M}
+\label{eq:124}\tag{M4}
+\end{equation}\]</div>
+<p>さらに可測集合の場合は次が成り立つ．</p>
+<p>例．ボレル集合族</p>
+<div class="math notranslate nohighlight">
+\[\eqref{eq:121}, \eqref{eq:122},\eqref{eq:123},\eqref{eq:124}\]</div>
+<p>を満たすあらゆる集合を考え，その交わり(=“最小”のもの)をとった集合族</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{B}\]</div>
+<p>．</p>
+</section>
+<section id="id7">
+<h3>1.3. ルベグ測度<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[A\]</div>
+<p>が可測であるとき，</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+m(A) = m^{\ast}(A)
+\end{equation}\]</div>
+<p>このとき，</p>
+<div class="math notranslate nohighlight">
+\[m(A)\]</div>
+<p>を</p>
+<div class="math notranslate nohighlight">
+\[A\]</div>
+<p>のルベグ測度と呼ぶ．</p>
+<div class="math notranslate nohighlight">
+\[m(A)\]</div>
+<p>は次の条件を満たす．</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+0 \leq m(A) \leq +\infty
+\label{eq:131}\tag{L1}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+m\left(\bigcup_{i=1}^{\infty} A_{i}\right) \leq \sum_{i=1}^{\infty} m\left(A_{i}\right)
+\label{eq:132}\tag{L2}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+m([a,b)) = b-a
+\label{eq:133}\tag{L3}
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+\text{点集合AとBが合同ならば} m(A) = m(B)
+\label{eq:134}\tag{L4}
+\end{equation}\]</div>
+<p>外測度が満たすEq.</p>
+<div class="math notranslate nohighlight">
+\[\eqref{eq:12}\]</div>
+<p>について記述がない．</p>
+</section>
+</section>
+<section id="id8">
+<h2>2. 可測関数<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<section id="id9">
+<h3>2.1. 可測関数と連続関数との関連性<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[f\]</div>
+<p>が可測集合</p>
+<div class="math notranslate nohighlight">
+\[A\]</div>
+<p>を定義域とする関数のとき，どの実数</p>
+<div class="math notranslate nohighlight">
+\[c\]</div>
+<p>に対しても，</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+A(f(x) &gt; c) = \{ x | x \in A, f(x) &gt; c \}
+\end{equation}\]</div>
+<p>が可測であるとき**</p>
+<div class="math notranslate nohighlight">
+\[f\]</div>
+<p>は</p>
+<div class="math notranslate nohighlight">
+\[A\]</div>
+<p>で可測な関数**．</p>
+</section>
+<section id="id10">
+<h3>2.2. 確率論の準備<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>この段階でいくつか確率論の準備ができる． * 確率測度</p>
+<ul>
+<li><p>確率変数の定義</p>
+<div class="math notranslate nohighlight">
+\[(\Omega,\mathcal{A},P)\]</div>
+<p>を確率空間として 扱いづらい可測空間から扱いやすい可測空間への写像</p>
+</li>
+<li><p>確率分布の定義</p></li>
+</ul>
+</section>
+</section>
+<section id="id11">
+<h2>3. ルベグ積分<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>正値単関数で定理を各種導出し，それらをもとに，正値関数の定理を導出する(正値関数が導出できれば，一般の関数についても導出可能)．</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+A=A_{1} \cup A_{2} \cup \cdots \cup A_{k} (i \neq j \text{ then}, A_{i} \cap A_{j}=\varnothing )
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+a_{i}=\inf \left\{f(x) | x \in A_{i}\right\} \quad(i=1,2, \cdots, k)
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+\mathrm{s}=a_{1} m\left(A_{1}\right)+a_{2} m\left(A_{2}\right)+\cdots+a_{k} m\left(A_{k}\right)
+\end{equation}\]</div>
+<div class="math notranslate nohighlight">
+\[\mathcal{s}\]</div>
+<p>を</p>
+<div class="math notranslate nohighlight">
+\[f\]</div>
+<p>の</p>
+<div class="math notranslate nohighlight">
+\[A\]</div>
+<p>における近似和と呼ぶ．</p>
+<div class="math notranslate nohighlight">
+\[A\]</div>
+<p>のあらゆる分割</p>
+<div class="math notranslate nohighlight">
+\[\left\{A_{1}, A_{2}, \cdots, A_{k}\right\}\]</div>
+<p>について近似和をつくる． これらの集合を</p>
+<div class="math notranslate nohighlight">
+\[\langle \mathcal{s} \rangle\]</div>
+<p>と表す．</p>
+<p>ここでルベーグ積分の定義は，</p>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+\int_{A} f(x) d x=\sup \langle \mathcal{s}\rangle
+\end{equation}\]</div>
+<p>である．</p>
+<section id="x">
+<h3>3.x 単調収束定理<a class="headerlink" href="#x" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="fatou-p-168">
+<h3>3.2 Fatouの定理 (P. 168)<a class="headerlink" href="#fatou-p-168" title="Permalink to this headline">¶</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{equation}
+\int_{A} \displaystyle \varliminf_{n} f_{n} (x) dx \leqq \displaystyle \varliminf_{n} \int_{A} f_{n}(x) dx
+\end{equation}\]</div>
+</section>
+<section id="lebesgue">
+<h3>3.3 Lebesgue の項別積分定理<a class="headerlink" href="#lebesgue" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="y">
+<h3>3.y ルベグ積分とリーマン積分との関係<a class="headerlink" href="#y" title="Permalink to this headline">¶</a></h3>
+<p>どういった状況で積分可能か？の例</p>
+</section>
+</section>
+<section id="id12">
+<h2>4. 測度空間、ルベーグ＝スティルチェス積分<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="%7B%7B%20site.baseurl%20%7D%7D/Black-Scholes">Black-Scholes post</a></p>
+<dl class="footnote brackets">
+<dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p><a class="reference external" href="https://www.amazon.co.jp/dp/B06XGHV4SR/ref=dp-kindle-redirect?_encoding=UTF8&amp;btkr=1">ルベグ積分入門</a></p>
+</dd>
+<dt class="label" id="id14"><span class="brackets">2</span></dt>
+<dd><p><a class="reference external" href="https://www.amazon.co.jp/dp/B06XGHV4SR/ref=dp-kindle-redirect?_encoding=UTF8&amp;btkr=1">ルベグ積分入門</a></p>
+</dd>
+<dt class="label" id="id15"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p><a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/lebesgue.pdf">ルベーグ積分の基礎のキソ</a></p>
+</dd>
+<dt class="label" id="id16"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p><a class="reference external" href="https://www.amazon.co.jp/%E7%A2%BA%E7%8E%87%E8%AB%96-%E5%B2%A9%E6%B3%A2%E5%9F%BA%E7%A4%8E%E6%95%B0%E5%AD%A6%E9%81%B8%E6%9B%B8-%E4%BC%8A%E8%97%A4-%E6%B8%85/dp/400007816X">確率論(岩波書店)</a></p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Mnemosyne</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../kit/2020-03-13-arduino-network-lamp.html">1. Arduino</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. ルベーグ積分</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id5">1. 外測度、ルベーグ測度</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#p-96">1.2. 可測集合 (P.96)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">1.2.1 可測集合族</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">1.3. ルベグ測度</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">2. 可測関数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">2.1. 可測関数と連続関数との関連性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">2.2. 確率論の準備</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">3. ルベグ積分</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#x">3.x 単調収束定理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fatou-p-168">3.2 Fatouの定理 (P. 168)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lebesgue">3.3 Lebesgue の項別積分定理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#y">3.y ルベグ積分とリーマン積分との関係</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">4. 測度空間、ルベーグ＝スティルチェス積分</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../kit/2020-03-13-arduino-network-lamp.html" title="previous chapter">1. Arduino</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, ntaka19.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/src/mathematicalfinance/2020-03-16-lebesgue.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

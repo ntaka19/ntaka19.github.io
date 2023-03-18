@@ -3,12 +3,21 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to githubpages's documentation!
-=======================================
+.. image:: ./figures/profile.png 
+   :align: right
+   :width: 150
+
+Wherever U may Roam
+======================
+
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
+
+   ./src/kit/2020-03-13-arduino-network-lamp.rst
+
+   ./src/mathematicalfinance/2020-03-16-lebesgue.rst
 
 
 
