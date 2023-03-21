@@ -19,7 +19,8 @@ Wherever U may Roam
 
    ./src/mathematicalfinance/2020-03-16-lebesgue.rst
 
-
+   ./src/paper/chatgpt_papers.rst
+   ./src/paper/stablediffusion_papers.rst
 
 Indices and tables
 ==================
