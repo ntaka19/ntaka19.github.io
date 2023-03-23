@@ -5,7 +5,7 @@
 
 
 
-.. image:: ./figures/profile.png 
+.. image:: ./figures/profile2.png 
    :align: right
    :width: 300
 
