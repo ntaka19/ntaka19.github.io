@@ -3,14 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+
+.. image:: ./figures/profile2.png 
+   :align: left
+   :width: 80
+
 四季
 =====
-.. image:: ./figures/profile2.png 
-   :align: right
-   :width: 300
 
 
-   
 théma 
 ~~~~~~~~~~~~~
 
