@@ -3,27 +3,11 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-
-
+四季
+=====
 .. image:: ./figures/profile2.png 
    :align: right
    :width: 300
-
-
-
-四季
-=====
-
-
-.. raw:: html
-
-   <style>
-   /* Style for numbered list in toctree */
-   .toctree-l1 > ul {
-       list-style-type: decimal !important;
-   }
-   </style>
-
 
 
    
@@ -32,19 +16,22 @@ théma
 
 .. toctree::
    :maxdepth: 2
-   :hidden:
 
    ./src/theme/chatgpt_papers.rst
    ./src/theme/stablediffusion_papers.rst
 
-
-
 .. raw:: html
 
-   <a class="show-more" href="">Show mor3e2</a>
+   <a class="show-more" href="./src/theme/index.html">Show mor3e2</a>
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   ./src/theme/index.rst
 
 
-Mathematics
+mathimatiká
 ~~~~~~~~~~~~~
 .. toctree::
    :maxdepth: 1
@@ -52,16 +39,18 @@ Mathematics
    ./src/stochasticcalculus/index
 
 
-Engineering
+michanikí
 ~~~~~~~~~~~~~
-
 .. toctree::
    :maxdepth: 1
    
    ./src/kit/2020-03-13-arduino-network-lamp.rst
    ./src/effectivecsharp/index.rst
+   ./src/excel/index.rst
+   ./src/softwareengineering/index.rst
 
-Finance
+
+oikonomía
 ~~~~~~~~~~~~~
 .. toctree::
    :maxdepth: 1
@@ -69,9 +58,19 @@ Finance
    ./src/securitiestradelifecycle/index
    
 
-Neuroscience
+nevroepistími
 ~~~~~~~~~~~~~
+.. toctree::
+   :maxdepth: 1
 
+   ./src/neuroscience/index.rst
+
+Tips
+~~~~~
+.. toctree::
+   :maxdepth: 1
+
+   ./src/Tips/index.rst
 
 
 Indices and tables
