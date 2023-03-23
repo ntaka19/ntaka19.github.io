@@ -49,7 +49,7 @@ Mathematics
 .. toctree::
    :maxdepth: 1
 
-   ./src/mathematicalfinance/index
+   ./src/stochasticcalculus/index
 
 
 Engineering

@@ -1,4 +1,4 @@
-Mathematical Finance
+Stochastic Calculus
 ====================
 
 .. toctree::
