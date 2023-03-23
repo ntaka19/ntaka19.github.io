@@ -1,1 +1,23 @@
 /* This file intentionally left blank. */
+.show-more {
+  display: block;
+  margin-top: 30px;
+  text-align: right;
+}
+
+.show-more:hover {
+  text-decoration: underline;
+}
+
+.wy-nav-side.collapsed .toctree-l1,
+.wy-nav-side.collapsed .toctree-l2 {
+  display: none;
+}
+
+.wy-nav-side.collapsed .show-more {
+  display: block;
+}
+
+.wy-nav-side:not(.collapsed) .show-more {
+  display: none;
+}
