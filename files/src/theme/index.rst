@@ -6,3 +6,4 @@ théma
 
    ./chatgpt_papers.rst
    ./stablediffusion_papers.rst
+   ./zerotoone.rst

@@ -20,6 +20,7 @@ théma
 
    ./src/theme/chatgpt_papers.rst
    ./src/theme/stablediffusion_papers.rst
+   ./src/theme/zerotoone.rst
 
 .. raw:: html
 
@@ -49,6 +50,7 @@ michanikí
    ./src/effectivecsharp/index.rst
    ./src/excel/index.rst
    ./src/softwareengineering/index.rst
+   ./src/MLApp/index.rst
 
 
 oikonomía
