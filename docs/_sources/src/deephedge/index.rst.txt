@@ -1,13 +1,20 @@
 
-Deep Hedge Research
+Deep Hedge
 ===========================================================================================
 
-考える訓練になるので、ここでいくつかまとめてみる。
-まずはZero to Oneのまとめについて。
+Deep Hedgeについてまとめる。
+まず通常のヘッジでは、
 
 
 
 
+Deep Hedge
+~~~~~~~~~~~
 
 
+This link might be useful.
+https://github.com/YuMan-Tam/deep-hedging
 
+
+PfHedge
+~~~~~~~
