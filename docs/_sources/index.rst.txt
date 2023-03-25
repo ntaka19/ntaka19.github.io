@@ -59,6 +59,7 @@ oikonomía
    :maxdepth: 1
 
    ./src/securitiestradelifecycle/index
+   ./src/deephedge/index.rst
    
 
 nevroepistími
