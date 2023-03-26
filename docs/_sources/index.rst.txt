@@ -75,6 +75,7 @@ Tips
    :maxdepth: 1
 
    ./src/Tips/index.rst
+   ./src/excel/index.rst
 
 
 Indices and tables
