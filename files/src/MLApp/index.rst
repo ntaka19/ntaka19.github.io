@@ -1,11 +1,8 @@
-Machine Learning System
+Machine Learning
 =========================
 
+.. toctree::
+   :maxdepth: 1
 
-StreamLit
-~~~~~~~~~~~
-
-
-
-Docker
-~~~~~~~~~~
+   ./AzureML.rst
+   ./MLSystem.rst
