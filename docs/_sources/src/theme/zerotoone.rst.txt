@@ -7,6 +7,31 @@ What important truth do very few people agree with you on?
 
 
 
+.. graphviz::
+    :caption: graphvizでフローチャートを作成する際の主な流れ
+
+    digraph G1 {
+
+        graph [size="4,4"];
+        node [shape=diamond] d ;
+        node [shape=parallelogram] b c e;
+        node [shape=box,style=rounded] a f ;
+            a [label="スタート"];
+            b [label="Kateでtext fileを編集し、\n dotファイルを作成"];
+            c [label="xdotで確認"];
+            d [label="正しくできているか"];
+            e [label="sphinxに取り込む"];
+            f [label="エンド"];
+
+
+            a->b;
+            b->c;
+            c->d;
+            d->e [label="Yes"];
+            d->b [label="No"];
+            e->f;
+
+    }
 
 
 

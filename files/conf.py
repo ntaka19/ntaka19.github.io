@@ -65,5 +65,5 @@ html_static_path = ['_static']
 #]
 
 
-extensions = ['sphinxcontrib.video',]
+extensions = ['sphinxcontrib.video', 'sphinx.ext.graphviz']
 
