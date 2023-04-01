@@ -1,0 +1,6 @@
+.. graphviz:: network_graph
+   :name: network_graph
+   :alt: Network Graph
+
+   python:from network_graph import make_network_graph; make_network_graph()
+

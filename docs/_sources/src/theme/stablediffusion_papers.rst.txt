@@ -10,6 +10,6 @@ Interesting Papers on Stable Diffusion
     * PSYCHO-PASSの世界観に近づいた感じがして面白い。
 
 
-# Try Stable diffusion online
+#. Try Stable diffusion online
 
 * https://stablediffusionweb.com/#demo 

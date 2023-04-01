@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Mnemosyne'
+project = 'Home'
 copyright = '2023, ntaka19'
 author = 'ntaka19'
 
@@ -65,5 +65,5 @@ html_static_path = ['_static']
 #]
 
 
-extensions = ['sphinxcontrib.video', 'sphinx.ext.graphviz']
+extensions = ['sphinxcontrib.video', 'sphinx.ext.graphviz', 'jupyter_sphinx']
 
