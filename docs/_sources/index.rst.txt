@@ -76,6 +76,7 @@ Tips
 
    ./src/Tips/index.rst
    ./src/excel/index.rst
+   ./src/Tips/todo.rst
 
 
 Indices and tables
