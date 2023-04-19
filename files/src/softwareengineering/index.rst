@@ -1,4 +1,4 @@
-Software Engineering
+Software Engineering(★)
 =======================
 
 
@@ -21,7 +21,14 @@ Software Engineering
 
    ./Upstream/reqdefinition.rst
 
+DevOps
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. toctree::
+   :maxdepth: 1
+   
+   ./DevOps/docker.rst
+ 
 
 Web Development Basics
 ~~~~~~~~~~~~~~~~~~~~~~~

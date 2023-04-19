@@ -1,5 +1,5 @@
-Tips
-=====
+Sphinx Tips
+===========
 
 
 
@@ -7,6 +7,36 @@ Tips
 #. Sphinx directives
 
    https://www.sphinx-doc.org/ja/master/usage/restructuredtext/directives.html
+
+#. githubpagesで利用可能とするためには
+
+
+  ::
+
+    # Minimal makefile for Sphinx documentation
+    #
+
+    # You can set these variables from the command line, and also
+    # from the environment for the first two.
+    SPHINXOPTS    ?=
+    SPHINXBUILD   ?= sphinx-build
+    SOURCEDIR     = .
+    BUILDDIR      = ../docs#_build
+
+    # Put it first so that "make" without argument is like "make help".
+    help:
+            @$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+    .PHONY: help Makefile
+
+    # Catch-all target: route all unknown targets to Sphinx using the new
+    # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+    # $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/
+    %: Makefile
+            # @$(SPHINXBUILD) -b $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+            sphinx-autobuild -b $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) --host 0.0.0.0 --port 8000
+
+
 
 #. Pandocコマンド
 

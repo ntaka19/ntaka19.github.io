@@ -48,7 +48,6 @@ michanikí
    
    ./src/kit/2020-03-13-arduino-network-lamp.rst
    ./src/effectivecsharp/index.rst
-   ./src/excel/index.rst
    ./src/softwareengineering/index.rst
    ./src/MLApp/index.rst
 
@@ -74,7 +73,7 @@ Tips
 .. toctree::
    :maxdepth: 1
 
-   ./src/Tips/index.rst
+   ./src/Tips/sphinx-tips.rst
    ./src/excel/index.rst
    ./src/Tips/todo.rst
 
