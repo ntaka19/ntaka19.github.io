@@ -1,27 +1,26 @@
 Docker
 =========
 
-sphinxの環境構築をDockerの学習がてら行う。
+ここではsphinxの環境構築をテーマにDockerの学習記録を記載する。
 
 目的は
 
-* githubでソースは管理できること
-* それと同時に必要な環境はDocker imageで管理できること。
+* githubでソースの管理できること
+* 必要な環境はDocker imageで管理できること。(sphinx autobuildなども使いたい)
 
-したがって、ソースは永続性を持たせることに。
-
+→ したがって、ファイルソースは永続性を持たせて環境と分離することに。
 
 
 参考：
+
 * https://qiita.com/ntatsuya/items/ef8f48d5e482d4b0f100
-
-
+* Containers from scratch (https://www.youtube.com/watch?v=8fi7uSYlOdc)
 
 
 Dockerfile
 ~~~~~~~~~~~
 
-sphinx環境をセットアップするためのDockerfileは以下の通り。
+sphinx環境をセットアップするためのイメージはDockerfileで記述する。
 
 ::
 
@@ -70,43 +69,73 @@ sphinx環境をセットアップするためのDockerfileは以下の通り。
     RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > 
 
 
-* Docker buildはimageからコンテナを作成する。すでにimageをビルドしたことがあり、その後にDockerfileで追記したとして、同じimageを指定してビルドした場合、差分からビルドしてくれる模様。(頭からのビルドには基本的にはならない)  
-
 
 * 特定のpythonのバージョンを指定して持ってきたい場合...
   https://qiita.com/ntatsuya/items/ef8f48d5e482d4b0f100
 
-* ポートをexposeする場合(sphinx-autobuildが使いたくなる場合)
-  ホストのブラウザからアクセスするためにはポートをマッピングする必要がある。
 
 
 イメージの作成・コンテナの起動
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Docker build
+#. Docker build (Dockerfileからイメージの作成)
 
     ::
      
-      docker build . -t image3
+      docker build . -t イメージ名
         
+    * Dockerfileは今のディレクトリにある想定。
+    * Docker buildはimageからコンテナを作成する。すでにimageをビルドしたことがあり、その後にDockerfileで追記したとして、同じimageを指定してビルドした場合、差分からビルドしてくれる模様。(頭からのビルドには基本的にはならない。頭からのビルドだとpython3の導入など含み10分以上かかる場合もある)  
 
-#. コンテナの起動test
+
+#. Docker run (= docker create + start) (イメージからコンテナの作成と起動)
 
     ::
     
-      docker run -p 8000:8000 -it --name container2 --mount type=bind,source="$(pwd)",target=/home image3
+      docker run -p 8000:8000 -it --name コンテナ名 --mount type=bind,source="$(pwd)",target=/home イメージ名
 
     
-    ここで--mountはbind mountを行なっている。volumeとの違いは後でのせる。sourceはホスト側のディレクトリ。
+    * --mountはbind mountを行なっている。volumeとの違いは後述。sourceはホスト側のディレクトリ。
 
-    ポートはexposeしておく必要がある。コンテナ内の8000ポートとホストの8000ポートを一致させる。
+    * -p: ポートはexposeしておく必要がある。コンテナ内の8000ポートとホストの8000ポートを一致させる。左側がホストのポート。
 
+      * これをしないとsphinx-autobuildで建てられたサーバーにホスト側のブラウザからアクセスできなくなる。
+      * また、sphinx-autobuild側の設定でも対応するポートを指定しておく必要がある。(--host --port設定).
+        sphinxのMakefileに以下を記述。
+
+      ::
+        
+        %: Makefile
+        sphinx-autobuild -b $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) --host 0.0.0.0 --port 8000
+
+
+#. コンテナを止める。ctrl-D
+
+
+#. (すでに作られている）コンテナの起動
+
+    ::
+       
+      docker start -i コンテナ名
     
+    * iを入れることでコンテナの中でターミナルから操作が可能になる。
+    * -i (interactive) と-a (attach)の違いは?
 
+    * https://qiita.com/kooohei/items/f0352f408056861a8f74
 
 
 Docker Composeとは
 ~~~~~~~~~~~~~~~~~~
 
   
+* そもそもDocker engineの一部ではなくpython製のツール。
+
+
+
+Docker Composeで何ができるか？
+
+* Wordpress + SQL の二種類のコンテナを用意して実行することができる。
+* もしかしたら、FTP/SFTPなどを複数のコンテナを用意して試せるかもしれない。
+
+
 

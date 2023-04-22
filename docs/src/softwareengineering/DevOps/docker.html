@@ -40,18 +40,21 @@
             
   <section id="docker">
 <h1>Docker<a class="headerlink" href="#docker" title="Permalink to this heading">¶</a></h1>
-<p>sphinxの環境構築をDockerの学習がてら行う。</p>
+<p>ここではsphinxの環境構築をテーマにDockerの学習記録を記載する。</p>
 <p>目的は</p>
 <ul class="simple">
-<li><p>githubでソースは管理できること</p></li>
-<li><p>それと同時に必要な環境はDocker imageで管理できること。</p></li>
+<li><p>githubでソースの管理できること</p></li>
+<li><p>必要な環境はDocker imageで管理できること。(sphinx autobuildなども使いたい)</p></li>
 </ul>
-<p>したがって、ソースは永続性を持たせることに。</p>
-<p>参考：
-* <a class="reference external" href="https://qiita.com/ntatsuya/items/ef8f48d5e482d4b0f100">https://qiita.com/ntatsuya/items/ef8f48d5e482d4b0f100</a></p>
+<p>→ したがって、ファイルソースは永続性を持たせて環境と分離することに。</p>
+<p>参考：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://qiita.com/ntatsuya/items/ef8f48d5e482d4b0f100">https://qiita.com/ntatsuya/items/ef8f48d5e482d4b0f100</a></p></li>
+<li><p>Containers from scratch (<a class="reference external" href="https://www.youtube.com/watch?v=8fi7uSYlOdc">https://www.youtube.com/watch?v=8fi7uSYlOdc</a>)</p></li>
+</ul>
 <section id="dockerfile">
 <h2>Dockerfile<a class="headerlink" href="#dockerfile" title="Permalink to this heading">¶</a></h2>
-<p>sphinx環境をセットアップするためのDockerfileは以下の通り。</p>
+<p>sphinx環境をセットアップするためのイメージはDockerfileで記述する。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#ベースイメージはubuntuにしておく。alpineが軽量?
 FROM ubuntu:20.04
 
@@ -96,36 +99,70 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt;
 </pre></div>
 </div>
 </li>
-<li><p>Docker buildはimageからコンテナを作成する。すでにimageをビルドしたことがあり、その後にDockerfileで追記したとして、同じimageを指定してビルドした場合、差分からビルドしてくれる模様。(頭からのビルドには基本的にはならない)</p></li>
 <li><p>特定のpythonのバージョンを指定して持ってきたい場合…
 <a class="reference external" href="https://qiita.com/ntatsuya/items/ef8f48d5e482d4b0f100">https://qiita.com/ntatsuya/items/ef8f48d5e482d4b0f100</a></p></li>
-<li><p>ポートをexposeする場合(sphinx-autobuildが使いたくなる場合)
-ホストのブラウザからアクセスするためにはポートをマッピングする必要がある。</p></li>
 </ul>
 </section>
 <section id="id1">
 <h2>イメージの作成・コンテナの起動<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic">
-<li><p>Docker build</p>
+<li><p>Docker build (Dockerfileからイメージの作成)</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">image3</span>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">イメージ名</span>
 </pre></div>
 </div>
+<ul class="simple">
+<li><p>Dockerfileは今のディレクトリにある想定。</p></li>
+<li><p>Docker buildはimageからコンテナを作成する。すでにimageをビルドしたことがあり、その後にDockerfileで追記したとして、同じimageを指定してビルドした場合、差分からビルドしてくれる模様。(頭からのビルドには基本的にはならない。頭からのビルドだとpython3の導入など含み10分以上かかる場合もある)</p></li>
+</ul>
 </div></blockquote>
 </li>
-<li><p>コンテナの起動test</p>
+<li><p>Docker run (= docker create + start) (イメージからコンテナの作成と起動)</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8000</span><span class="p">:</span><span class="mi">8000</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">name</span> <span class="n">container2</span> <span class="o">--</span><span class="n">mount</span> <span class="nb">type</span><span class="o">=</span><span class="n">bind</span><span class="p">,</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;$(pwd)&quot;</span><span class="p">,</span><span class="n">target</span><span class="o">=/</span><span class="n">home</span> <span class="n">image3</span>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8000</span><span class="p">:</span><span class="mi">8000</span> <span class="o">-</span><span class="n">it</span> <span class="o">--</span><span class="n">name</span> <span class="n">コンテナ名</span> <span class="o">--</span><span class="n">mount</span> <span class="nb">type</span><span class="o">=</span><span class="n">bind</span><span class="p">,</span><span class="n">source</span><span class="o">=</span><span class="s2">&quot;$(pwd)&quot;</span><span class="p">,</span><span class="n">target</span><span class="o">=/</span><span class="n">home</span> <span class="n">イメージ名</span>
 </pre></div>
 </div>
-<p>ここで–mountはbind mountを行なっている。volumeとの違いは後でのせる。sourceはホスト側のディレクトリ。</p>
-<p>ポートはexposeしておく必要がある。コンテナ内の8000ポートとホストの8000ポートを一致させる。</p>
+<ul>
+<li><p>–mountはbind mountを行なっている。volumeとの違いは後述。sourceはホスト側のディレクトリ。</p></li>
+<li><p>-p: ポートはexposeしておく必要がある。コンテナ内の8000ポートとホストの8000ポートを一致させる。左側がホストのポート。</p>
+<ul class="simple">
+<li><p>これをしないとsphinx-autobuildで建てられたサーバーにホスト側のブラウザからアクセスできなくなる。</p></li>
+<li><p>また、sphinx-autobuild側の設定でも対応するポートを指定しておく必要がある。(–host –port設定).
+sphinxのMakefileに以下を記述。</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>%: Makefile
+sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINXOPTS) $(O) --host 0.0.0.0 --port 8000
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>コンテナを止める。ctrl-D</p></li>
+<li><p>(すでに作られている）コンテナの起動</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">start</span> <span class="o">-</span><span class="n">i</span> <span class="n">コンテナ名</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>iを入れることでコンテナの中でターミナルから操作が可能になる。</p></li>
+<li><p>-i (interactive) と-a (attach)の違いは?</p></li>
+<li><p><a class="reference external" href="https://qiita.com/kooohei/items/f0352f408056861a8f74">https://qiita.com/kooohei/items/f0352f408056861a8f74</a></p></li>
+</ul>
 </div></blockquote>
 </li>
 </ol>
 </section>
 <section id="docker-compose">
 <h2>Docker Composeとは<a class="headerlink" href="#docker-compose" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>そもそもDocker engineの一部ではなくpython製のツール。</p></li>
+</ul>
+<p>Docker Composeで何ができるか？</p>
+<ul class="simple">
+<li><p>Wordpress + SQL の二種類のコンテナを用意して実行することができる。</p></li>
+<li><p>もしかしたら、FTP/SFTPなどを複数のコンテナを用意して試せるかもしれない。</p></li>
+</ul>
 </section>
 </section>
 
@@ -147,6 +184,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt;
 
 <h3>Navigation</h3>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../theme/morningsatelite.html">モーサテウォッチ(★)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../theme/chatgpt_papers.html">Topic on GPT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../theme/stablediffusion_papers.html">Interesting Papers on Stable Diffusion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../theme/zerotoone.html">What important truth do very few people agree with you on?</a></li>
@@ -155,7 +193,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt;
 <li class="toctree-l1"><a class="reference internal" href="../../theme/index.html">théma</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../stochasticcalculus/index.html">Stochastic Calculus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mathematics/stochasticcalculus/index.html">Stochastic Calculus</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../kit/2020-03-13-arduino-network-lamp.html">Arduino</a></li>

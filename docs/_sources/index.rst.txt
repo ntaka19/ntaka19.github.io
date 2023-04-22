@@ -6,10 +6,12 @@
 
 .. image:: ./figures/profile2.png 
    :align: left
-   :width: 80
+   :width: 70
 
-四季
-=====
+四季 Letter
+==============
+
+(★) : Hot section (最新あるいはコンテンツが比較的充実)
 
 
 théma 
@@ -17,14 +19,15 @@ théma
 
 .. toctree::
    :maxdepth: 2
-
+    
+   ./src/theme/morningsatelite.rst
    ./src/theme/chatgpt_papers.rst
    ./src/theme/stablediffusion_papers.rst
    ./src/theme/zerotoone.rst
 
 .. raw:: html
 
-   <a class="show-more" href="./src/theme/index.html">Show mor3e2</a>
+   <a class="show-more" href="./src/theme/index.html"> >>Show more</a>
 
 .. toctree::
    :maxdepth: 2
@@ -38,7 +41,7 @@ mathimatiká
 .. toctree::
    :maxdepth: 1
 
-   ./src/stochasticcalculus/index
+   ./src/mathematics/stochasticcalculus/index
 
 
 michanikí
