@@ -178,4 +178,6 @@ Sphinx Tips
 
         }
 
+#. Highlight word in sphinx
+   (https://stackoverflow.com/questions/49210787/how-do-i-highlight-text-in-python-sphinx)
 

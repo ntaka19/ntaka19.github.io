@@ -1,4 +1,4 @@
-Machine Learning
+Machine Learning(★)
 =========================
 
 .. toctree::
@@ -6,3 +6,4 @@ Machine Learning
 
    ./AzureML.rst
    ./MLSystem.rst
+   ./DatascienceCompetition.rst

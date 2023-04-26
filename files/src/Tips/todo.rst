@@ -12,3 +12,14 @@ Todo
 
 #. githubpages 独自ドメインを利用する方法は
 
+#. サブスク有効活用できている?
+
+    * globis
+    * kindle unlimited
+    * テレ東biz
+    * udemy
+    * newspicks
+    * 楽天マガジン
+
+
+

@@ -8,10 +8,10 @@
    :align: left
    :width: 70
 
-四季 Letter
+四季~Letter~
 ==============
 
-(★) : Hot section (最新あるいはコンテンツが比較的充実)
+(★) : Hot article
 
 
 théma 
@@ -62,6 +62,8 @@ oikonomía
 
    ./src/securitiestradelifecycle/index
    ./src/deephedge/index.rst
+   ./src/regulations/frtb.rst
+   ./src/regulations/benchmarkreform.rst
    
 
 nevroepistími
@@ -78,6 +80,7 @@ Tips
 
    ./src/Tips/sphinx-tips.rst
    ./src/excel/index.rst
+   ./src/Tips/tennis.rst
    ./src/Tips/todo.rst
 
 

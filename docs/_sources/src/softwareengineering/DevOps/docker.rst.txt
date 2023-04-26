@@ -24,40 +24,43 @@ sphinx環境をセットアップするためのイメージはDockerfileで記�
 
 ::
 
-    #ベースイメージはubuntuにしておく。alpineが軽量?
-    FROM ubuntu:20.04
+  #ベースイメージはubuntuにしておく。alpineが軽量?
+  FROM ubuntu:20.04
 
-    # time zoneを設定
-    ENV TZ=Asia/Tokyo
-    RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+  # time zoneを設定
+  ENV TZ=Asia/Tokyo
+  RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-    # 必要そうなものをinstall
-    RUN apt-get update && apt-get install -y --no-install-recommends wget build-essential libreadline-dev \ 
-    libncursesw5-dev libssl-dev libsqlite3-dev libgdbm-dev libbz2-dev liblzma-dev zlib1g-dev uuid-dev libffi-dev libdb-dev
+  # 必要そうなものをinstall
+  RUN apt-get update && apt-get install -y --no-install-recommends wget build-essential libreadline-dev \ 
+  libncursesw5-dev libssl-dev libsqlite3-dev libgdbm-dev libbz2-dev liblzma-dev zlib1g-dev uuid-dev libffi-dev libdb-dev
 
-    #任意バージョンのpython install
-    RUN wget --no-check-certificate https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tgz \
-    && tar -xf Python-3.9.5.tgz \
-    && cd Python-3.9.5 \
-    && ./configure --enable-optimizations\
-    && make \
-    && make install
+  #任意バージョンのpython install
+  RUN wget --no-check-certificate https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tgz \
+  && tar -xf Python-3.9.5.tgz \
+  && cd Python-3.9.5 \
+  && ./configure --enable-optimizations\
+  && make \
+  && make install
 
-    #サイズ削減のため不要なものは削除
-    RUN apt-get autoremove -y
+  #必要なpythonパッケージをpipでインストール
+  #RUN pip3 install --upgrade pip && pip3 install --no-cache-dir jupyterlab
+  RUN apt-get update
+  RUN apt install -y graphviz
 
-    #必要なpythonパッケージをpipでインストール
-    #RUN pip3 install --upgrade pip && pip3 install --no-cache-dir jupyterlab
+  #サイズ削減のため不要なものは削除
+  RUN apt-get autoremove -y
 
-    RUN apt-get update
-    RUN apt install -y graphviz
+  COPY ./requirements.txt /root/
+  #requirements.txtなら以下のように
+  RUN pip3 install -r /root/requirements.txt
 
-    # requirementsはコンテナにコピーしておく必要がある。(ホスト側は見ない) 
-    COPY ./requirements.txt /root/
-    
-    #requirements.txtなら以下のように
-    #pipなどは最後の方にしておく。apt-getでとったものに依存する可能性があるため。
-    RUN pip3 install -r /root/requirements.txt
+  # docker run後の最初のディレクトリ
+  WORKDIR /home/files
+  
+  # なぜかmakeが動かない。bind mountする前に実行されるから?
+  # RUN make html
+
 
 
 * apt installをするときにTimezone 設定をしろと言われてフリーズしてしまう問題。(https://northshorequantum.com/archives/dockerbuild_tz_hang.html)
@@ -138,4 +141,51 @@ Docker Composeで何ができるか？
 * もしかしたら、FTP/SFTPなどを複数のコンテナを用意して試せるかもしれない。
 
 
+基本的な文法：
 
+::
+
+  version: "バージョン値"
+  services:
+  コンテナ名:
+    build: Dockerfileのパス 
+    ports:
+      - "ホスト側のポート:コンテナのポート"
+  コンテナ名:
+    image: "イメージ名"
+    ports:
+      - "ホスト側のポート:コンテナのポート"
+
+
+
+今回作成したdocker-compose.yml：
+
+::
+
+  version: "3"
+  services:
+  container3:
+    build: .
+    ports:
+      - "8000:8000"
+    image: "image4"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    command: /bin/bash
+    volumes:
+      - type: bind
+        source: .
+        target: "/home"
+
+実行方法：
+
+::
+
+  docker compose up -d
+
+
+この後に、中にexecできる。
+
+::
+
+  docker-compose exec container3 bash

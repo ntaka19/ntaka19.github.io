@@ -13,13 +13,17 @@ Software Engineering(★)
    ./Architecture/serviceorientedarchitecture.rst
    
  
-システム開発の流れ
-~~~~~~~~~~~~~~~~~~~
+システム開発(上流工程)
+~~~~~~~~~~~~~~~~~~~~~~
+
+参考：「はじめての上流工程」(著：ひぐま流IT道場)
 
 .. toctree::
    :maxdepth: 1
 
-   ./Upstream/reqdefinition.rst
+   ./Upstream/index.rst
+
+
 
 DevOps
 ~~~~~~~~~~~~~~~~~~~~~~~~~

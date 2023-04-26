@@ -18,18 +18,18 @@ RUN wget --no-check-certificate https://www.python.org/ftp/python/3.9.5/Python-3
 && make \
 && make install
 
-#サイズ削減のため不要なものは削除
-RUN apt-get autoremove -y
 
 #必要なpythonパッケージをpipでインストール
 #RUN pip3 install --upgrade pip && pip3 install --no-cache-dir jupyterlab
-
 RUN apt-get update
 RUN apt install -y graphviz
 
+#サイズ削減のため不要なものは削除
+RUN apt-get autoremove -y
 
 COPY ./requirements.txt /root/
 #requirements.txtなら以下のように
 RUN pip3 install -r /root/requirements.txt
 
-
+WORKDIR /home/files
+# RUN make html

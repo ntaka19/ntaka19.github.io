@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Apache VS. Nginx" href="../Web/apachevsnginx.html" />
-    <link rel="prev" title="要件定義" href="../Upstream/reqdefinition.html" />
+    <link rel="prev" title="3. プロジェクトマネジメント" href="../Upstream/3-projectmanagement.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
@@ -74,21 +74,23 @@ RUN wget --no-check-certificate https://www.python.org/ftp/python/3.9.5/Python-3
 &amp;&amp; make \
 &amp;&amp; make install
 
-#サイズ削減のため不要なものは削除
-RUN apt-get autoremove -y
-
 #必要なpythonパッケージをpipでインストール
 #RUN pip3 install --upgrade pip &amp;&amp; pip3 install --no-cache-dir jupyterlab
-
 RUN apt-get update
 RUN apt install -y graphviz
 
-# requirementsはコンテナにコピーしておく必要がある。(ホスト側は見ない)
-COPY ./requirements.txt /root/
+#サイズ削減のため不要なものは削除
+RUN apt-get autoremove -y
 
+COPY ./requirements.txt /root/
 #requirements.txtなら以下のように
-#pipなどは最後の方にしておく。apt-getでとったものに依存する可能性があるため。
 RUN pip3 install -r /root/requirements.txt
+
+# docker run後の最初のディレクトリ
+WORKDIR /home/files
+
+# なぜかmakeが動かない。bind mountする前に実行されるから?
+# RUN make html
 </pre></div>
 </div>
 <ul>
@@ -163,6 +165,44 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 <li><p>Wordpress + SQL の二種類のコンテナを用意して実行することができる。</p></li>
 <li><p>もしかしたら、FTP/SFTPなどを複数のコンテナを用意して試せるかもしれない。</p></li>
 </ul>
+<p>基本的な文法：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">version</span><span class="p">:</span> <span class="s2">&quot;バージョン値&quot;</span>
+<span class="n">services</span><span class="p">:</span>
+<span class="n">コンテナ名</span><span class="p">:</span>
+  <span class="n">build</span><span class="p">:</span> <span class="n">Dockerfileのパス</span>
+  <span class="n">ports</span><span class="p">:</span>
+    <span class="o">-</span> <span class="s2">&quot;ホスト側のポート:コンテナのポート&quot;</span>
+<span class="n">コンテナ名</span><span class="p">:</span>
+  <span class="n">image</span><span class="p">:</span> <span class="s2">&quot;イメージ名&quot;</span>
+  <span class="n">ports</span><span class="p">:</span>
+    <span class="o">-</span> <span class="s2">&quot;ホスト側のポート:コンテナのポート&quot;</span>
+</pre></div>
+</div>
+<p>今回作成したdocker-compose.yml：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">version</span><span class="p">:</span> <span class="s2">&quot;3&quot;</span>
+<span class="n">services</span><span class="p">:</span>
+<span class="n">container3</span><span class="p">:</span>
+  <span class="n">build</span><span class="p">:</span> <span class="o">.</span>
+  <span class="n">ports</span><span class="p">:</span>
+    <span class="o">-</span> <span class="s2">&quot;8000:8000&quot;</span>
+  <span class="n">image</span><span class="p">:</span> <span class="s2">&quot;image4&quot;</span>
+  <span class="n">stdin_open</span><span class="p">:</span> <span class="n">true</span> <span class="c1"># docker run -i</span>
+  <span class="n">tty</span><span class="p">:</span> <span class="n">true</span>        <span class="c1"># docker run -t</span>
+  <span class="n">command</span><span class="p">:</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span>
+  <span class="n">volumes</span><span class="p">:</span>
+    <span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">bind</span>
+      <span class="n">source</span><span class="p">:</span> <span class="o">.</span>
+      <span class="n">target</span><span class="p">:</span> <span class="s2">&quot;/home&quot;</span>
+</pre></div>
+</div>
+<p>実行方法：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="o">-</span><span class="n">d</span>
+</pre></div>
+</div>
+<p>この後に、中にexecできる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">exec</span> <span class="n">container3</span> <span class="n">bash</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -199,11 +239,13 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 <li class="toctree-l1"><a class="reference internal" href="../../kit/2020-03-13-arduino-network-lamp.html">Arduino</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../effectivecsharp/index.html">Effective C Sharp #6.0, #7.0 まとめ</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Software Engineering(★)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../MLApp/index.html">Machine Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../MLApp/index.html">Machine Learning(★)</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../securitiestradelifecycle/index.html">Securities Trade Lifecycle</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../deephedge/index.html">Deep Hedge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../regulations/frtb.html">トレーディング勘定の抜本的見直し（FRTB）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../regulations/benchmarkreform.html">Benchmark Reform</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../neuroscience/index.html">Neuroscience</a></li>
@@ -211,6 +253,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../Tips/sphinx-tips.html">Sphinx Tips</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../excel/index.html">Excel Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tips/tennis.html">Tennis Tips (★)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Tips/todo.html">Todo</a></li>
 </ul>
 
@@ -219,7 +262,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 <ul>
   <li><a href="../../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Software Engineering(★)</a><ul>
-      <li>Previous: <a href="../Upstream/reqdefinition.html" title="previous chapter">要件定義</a></li>
+      <li>Previous: <a href="../Upstream/3-projectmanagement.html" title="previous chapter">3. プロジェクトマネジメント</a></li>
       <li>Next: <a href="../Web/apachevsnginx.html" title="next chapter">Apache VS. Nginx</a></li>
   </ul></li>
   </ul></li>
@@ -251,7 +294,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
       &copy;2023, ntaka19.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
