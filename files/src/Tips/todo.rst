@@ -33,4 +33,7 @@ Todo
   
   * https://zenn.dev/hashito/articles/7c292f966c0b59
 
-#. 
+  * github actions 最初のステップ: https://mo-gu-mo-gu.com/about-basic-github-actions/
+  * scheduler https://mottox2.com/posts/407
+
+#.  
