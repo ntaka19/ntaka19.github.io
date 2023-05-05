@@ -166,7 +166,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 <li><p>もしかしたら、FTP/SFTPなどを複数のコンテナを用意して試せるかもしれない。</p></li>
 </ul>
 <p>基本的な文法：</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">version</span><span class="p">:</span> <span class="s2">&quot;バージョン値&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">version</span><span class="p">:</span> <span class="s2">&quot;Docker composeのバージョン値?&quot;</span>
 <span class="n">services</span><span class="p">:</span>
 <span class="n">コンテナ名</span><span class="p">:</span>
   <span class="n">build</span><span class="p">:</span> <span class="n">Dockerfileのパス</span>
@@ -203,6 +203,9 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">exec</span> <span class="n">container3</span> <span class="n">bash</span>
 </pre></div>
 </div>
+</section>
+<section id="kubernetes">
+<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this heading">¶</a></h2>
 </section>
 </section>
 

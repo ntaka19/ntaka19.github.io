@@ -32,6 +32,7 @@ DevOps
    :maxdepth: 1
    
    ./DevOps/docker.rst
+   ./DevOps/jenkins.rst
  
 
 Web Development Basics

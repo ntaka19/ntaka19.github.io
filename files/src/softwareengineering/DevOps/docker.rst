@@ -145,7 +145,7 @@ Docker Composeで何ができるか？
 
 ::
 
-  version: "バージョン値"
+  version: "Docker composeのバージョン値?"
   services:
   コンテナ名:
     build: Dockerfileのパス 
@@ -189,3 +189,13 @@ Docker Composeで何ができるか？
 ::
 
   docker-compose exec container3 bash
+
+
+
+
+Kubernetes
+~~~~~~~~~~~~
+
+
+
+
