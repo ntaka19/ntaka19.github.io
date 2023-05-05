@@ -4,7 +4,7 @@ name: Sample actions
 # トリガーの設定
 on:
   push:
-    branches: master # mainブランチの場合はmainに変更
+    branches: main 
 
 jobs:
   build:
