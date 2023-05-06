@@ -33,4 +33,11 @@ Todo
   
   * https://zenn.dev/hashito/articles/7c292f966c0b59
 
-#. 
+  * github actions 最初のステップ: https://mo-gu-mo-gu.com/about-basic-github-actions/
+  * scheduler https://mottox2.com/posts/407
+    * issueに書き込むには権限を設定する必要がある。(https://zenn.dev/tatsugon/articles/github-actions-permission-error)
+  * gh-pages: https://qiita.com/peaceiris/items/d401f2e5724fdcb0759d
+
+  * gh-pagesとはなにか：https://engawapg.net/software-development/2393/github-pages-branch/
+
+#.  
