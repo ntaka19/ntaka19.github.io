@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import requests
 import json
 import matplotlib.pyplot as plt
@@ -14,20 +8,20 @@ response = requests.get(url)
 data = json.loads(response.text)
 
 #plt.rcParams['figure.figsize'] = [6, 3]
-#plt.rcParams['figure.facecolor'] = "black"
 
 def draw_chart(data):
   labels = data['hourly']['time']
-
+  
   new_labels = [ '-'.join(element.split("-")[1:]) for element in labels]
+  print(new_labels)
   #new_labels = [ element.split("T")[0]  for element in labels]
   rain = data['hourly']['rain']
   showers = data['hourly']['showers']
   temperature = data['hourly']['temperature_2m']
 
   fig, ax1 = plt.subplots(figsize=(10, 4))
-  plt.xticks(range(0, len(new_labels), 12), rotation=90)
-
+  plt.xticks(range(0, len(new_labels), 6), rotation=90)
+  
   ax1.plot(new_labels, temperature, label='Temperature', color='red')
   ax2 = ax1.twinx()
 
@@ -41,8 +35,8 @@ def draw_chart(data):
   ax2.legend(loc='upper right')
   plt.show()
 
-
   fig.tight_layout()
 
 draw_chart(data)
+
 
