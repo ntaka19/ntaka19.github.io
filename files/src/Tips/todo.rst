@@ -40,4 +40,6 @@ Todo
 
   * gh-pagesとはなにか：https://engawapg.net/software-development/2393/github-pages-branch/
 
-#.  
+#. 定期的に更新されるDashboardを作成する。jupyter execute, API, githubactionsによる定期的なデプロイを利用する。
+
+#. github actionsで機械学習のモジュールを動かすことができるか検証する 
