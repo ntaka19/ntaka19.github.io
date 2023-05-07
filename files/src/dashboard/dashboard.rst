@@ -1,6 +1,6 @@
 Weather data by Open-Meteo.com<https://open-meteo.com/>
 
-.. figure:: ./forecast.png 
+.. image:: ./src/dashboard/forecast.png
    :align: center
 
 
