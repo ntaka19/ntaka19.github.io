@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Part 2 &#8212; Home 1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Software Engineering(★)" href="../softwareengineering/index.html" />
+    <link rel="prev" title="Part 1" href="part1.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="part-2">
+<h1>Part 2<a class="headerlink" href="#part-2" title="Permalink to this heading">¶</a></h1>
+<ol class="arabic" start="11">
+<li><p>.Netリソース管理を理解する.</p>
+<ul class="simple">
+<li><p>実行環境におけるメモリやそのほかの主要なリソースの管理豊富おを理解する必要がある。.Netの場合は、メモリ管理や
+ガーベッジコレクタ。</p></li>
+<li><p>イベントハンドラやデリゲートを使用することでオブジェクトの間の結びつきが生まれ、その結果として、地震が意図するよりも長い期間オブジェクトがメモリに存在し続けることがあり得る。</p></li>
+<li><p>ガーベっじとなったオブジェクトを見つけ出す。GCはアプリケーション内で生存中のオブジェクトからエンティティが到達可能かどうか把握できる。アプリケーションから到達不可能であれば消去される。</p></li>
+<li><p>また、GCは実行されるたび、コンパクションする。ヒープにある使用中のオブジェクトの再配置が行われる。</p></li>
+</ul>
+</li>
+<li><p>メンバには割り当て演算子よりもオブジェクト初期化子を利用すること。</p>
+<ul>
+<li><p>各コンストラクタ内でメンバ変数を初期化するのではなく、メンバ変数を宣言した時点で初期化してしまうと良い。</p></li>
+<li><p>initializer 構文</p></li>
+<li><p>オブジェクト初期化子：new</p></li>
+<li><p>オブジェクト初期化子を使用すると、オブジェクトの作成時にアクセスできるフィールドまたはプロパティに、コンストラクターを呼び出して代入ステートメントを使用しなくても、値を割り当てることができます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Cat</span> <span class="n">cat</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Cat</span> <span class="p">{</span> <span class="n">Age</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">Name</span> <span class="o">=</span> <span class="s2">&quot;Fluffy&quot;</span> <span class="p">};</span>
+<span class="n">Cat</span> <span class="n">sameCat</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Cat</span><span class="p">(</span><span class="s2">&quot;Fluffy&quot;</span><span class="p">){</span> <span class="n">Age</span> <span class="o">=</span> <span class="mi">10</span> <span class="p">};</span>
+</pre></div>
+</div>
+</li>
+<li><p>メンバ初期化子は、今ストラクより先に実行される。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">MyClass</span>
+<span class="p">{</span>
+ <span class="n">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">new</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">();</span>
+
+ <span class="n">public</span> <span class="n">MyClass</span><span class="p">(){</span><span class="o">...</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Staticメンバを適切に初期化すること</p>
+<ul>
+<li><p>staticメンバ変数は型のインスタンスが1つ以上作成されるよりも前に初期化されるべき。（どういう意味？）
+newする前にstatic member=5みたいに設定する。</p></li>
+<li><p>CLRは、「型がアプリケーション空間(AppDomain)において初めてアクセスする」よりも前の時点で、その型のstatic
+コンストラクタを自動的に呼び出す。staticコンストラクタで例外が出た場合、型の初期化に失敗する（Appdomainで呼び出さる前に）。その派生型によっても問題が引き起こされる。AppDomainがアンロードされない限り型を初期化されない状態になる。</p></li>
+<li><p>　staticメンバの初期化はオブジェクト初期化ではなく、staticコンストラクタで行うべき。
+staticメンバに対してオブジェクト初期化子を使用する場合、発生した例外をクラス自身で処理できない。　staticコンストラクタの場合はクラス内での例外処理が可能.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">MySingleton</span><span class="p">(){</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="n">theOneAndOnly</span> <span class="o">=</span> <span class="n">new</span> <span class="n">MySingleton</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">catch</span><span class="p">{</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>staticコンストラクタ：ほかのメソッドや変数、プロパティに対するアクセスよりも前に実行される。これによりsingleton
+patternの強制などができる。</p></li>
+<li><p>static変数初期化子(=new
+をメンバ定義時に行う）、staticコンストラクタはクラス内のstaticメンバを初期化する場合に最適な方法。</p></li>
+</ul>
+</li>
+<li><p>初期化ロジックの重複を最小化する。(デフォルト引数 vs.
+コンストラクタオーバーライド）</p>
+<ul>
+<li><p>コンストラクタを定義するという作業は幾度となく繰り返されるもの。</p></li>
+<li><p>デフォルト引数は、引数の名前とそのデフォルト値がpublic
+interfaceの一部になる。つまり引数の名前を変更した場合、このクラスを使用する全てのコードが名前の変更に追従しないといけない。</p></li>
+<li><p>static プロパティはコンパイル時定数ではない。</p>
+<ul class="simple">
+<li><p>コンパイル時定数：コンパイルした後に値を直書きしたときと同じように扱われる。</p></li>
+</ul>
+</li>
+<li><p>利用側を再コンパイルするまで…ライブラリだけコンパイルして再配布はできない。</p></li>
+<li><p>名前付き引数は、それを追従しているときにエラーが出る可能性がある。これはどういうことかというと、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">Sum</span><span class="p">(</span><span class="nb">int</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>に対して、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sum</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>と呼び出しできるし、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sum</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>としても呼び出すことができるが、 例えば、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="nb">int</span> <span class="n">Sum</span><span class="p">(</span><span class="nb">int</span> <span class="n">x</span><span class="p">,</span> <span class="nb">int</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">int</span> <span class="n">zzz</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">zzz</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>と変更した場合、呼び出しがエラーになる。</p>
+</li>
+<li><p>将来起こりうる変化に対しては、オーバーロードされたコンストラクタの方が耐性がある。</p></li>
+<li><p>コンストラクタに共有する処理を別メソッドとして切り出す方法にはデメリットがある。</p>
+<ul>
+<li><p>コンパイラはいくつかの機能を呼び出すためのコードを自動的にコンストラクタに追加する。</p></li>
+<li><p>全ての変数に愛するオブジェクト初期化子用のぶんを追加する。</p></li>
+<li><p>こっちが実装として良い：（「コンパイル時にオブジェクト初期化子用のコードがよばれる回数が少なくて済む。親クラスのコンストラクタ呼び出しの回数(object())も一回だけ)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>public class MyClass{
+  private List&lt;ImportantDat&gt; call;
+
+  private string name;
+
+  public Myclass(null, &quot;&quot;){
+  }
+  public MyClass(int initialCount):this(initialCount, string.Empty){
+
+  }
+  public MyClass(int initialCount, string name){            //コンパイル時にここでオブジェクトだったり、初期化子用のコードがよばれる。
+
+    col =(initialCount &gt; 0) ? new List&lt;ImportantData&gt;(initialCount) : new List&lt;ImportantData&gt;();
+    this.name = name;
+  }
+}
+</pre></div>
+</div>
+<p>共通の機能を切り出してしまうと、非効率的になる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  public class MyClass{
+  private List&lt;ImportantDat&gt; call;
+
+  private string name;
+
+  public Myclass(null, &quot;&quot;){
+      //コンパイル時にここでオブジェクトだったり、初期化子用のコードがよばれる。
+    commonConstructor(null, &quot;&quot;);
+  }
+
+  public MyClass(int initialCount):this(initialCount, string.Empty){
+    //コンパイル時にここでオブジェクトだったり、初期化子用のコードがよばれる。
+    commonConstructor(initialCount, name);
+  }
+
+  private void commonConstructor(int count, string name){
+    col =(initialCount &gt; 0) ? new List&lt;ImportantData&gt;(initialCount) : new List&lt;ImportantData&gt;();
+    this.name = name;
+  }
+}
+</pre></div>
+</div>
+</li>
+<li><p>型のインスタンスが初めて生成される際に行われる処理の流れ：</p>
+<ol class="arabic simple">
+<li><p>static変数のメモリストレージがnullに初期化される</p></li>
+<li><p>static変数の初期化子が実行される</p></li>
+<li><p>親クラスの staticコンストラクタが実行される</p></li>
+<li><p>staticコンストラクタが実行される</p></li>
+<li><p>インスタンス変数のメモリストレージがnullに初期化される</p></li>
+<li><p>インスタンス変数の初期化子が実行される</p></li>
+<li><p>適切な親クラスのコンストラクタが実行される</p></li>
+<li><p>インスタンスコンストラクタが実行される</p></li>
+</ol>
+<p>型の初期化処理は1回しか行われない。同じ型の別インスタンスにおける初期化処理は手順5(「インスタンス変数のメモリストレージが初期化」から始まる。</p>
+</li>
+</ul>
+</li>
+<li><p>「static初期化子はクラスのロード時に行われる」</p></li>
+</ul>
+</li>
+<li><p>不必要なオブジェクト生成を避けること</p>
+<ul>
+<li><p>ヒープオブジェクト：いろんなことができる。スタックは、</p></li>
+<li><p>参照型のオブジェクトをメソッド中でローカル変数として大量に使用s流ほど、アプリケーショのパフォーマンスに大きな影響を与えることになる。</p></li>
+<li><p>GCの実行条件はメモリの確保料と確保の頻度！GCにできるだけ仕事させないこと！</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">protected</span> <span class="n">override</span> <span class="n">void</span> <span class="n">OnPaint</span><span class="p">(</span><span class="n">PaintEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">using</span> <span class="p">(</span><span class="n">Font</span> <span class="n">MyFont</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Font</span><span class="p">(</span><span class="s2">&quot;Arial&quot;</span><span class="p">,</span><span class="mf">10.0</span><span class="n">f</span><span class="p">){</span>
+        <span class="n">e</span><span class="o">.</span><span class="n">Graphics</span><span class="o">.</span><span class="n">DrawString</span><span class="p">(</span><span class="n">DateTime</span><span class="o">.</span><span class="n">Now</span><span class="o">.</span><span class="n">ToString</span><span class="p">(),</span> <span class="n">myFont</span><span class="p">,</span> <span class="n">Brushes</span><span class="o">.</span><span class="n">Black</span><span class="p">,</span><span class="n">newPointF</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="n">base</span><span class="o">.</span><span class="n">OnPaint</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Fontオブジェクトが毎回破棄されなければならなくなる。
+その代わりメンバに昇格させると良い。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">readonly</span> <span class="n">Font</span> <span class="n">myFont</span> <span class="o">=</span> <span class="n">newFont</span><span class="p">(</span><span class="s2">&quot;Arial&quot;</span><span class="p">,</span> <span class="mf">10.0</span><span class="n">f</span><span class="p">);</span>
+<span class="n">protected</span> <span class="n">override</span> <span class="n">void</span> <span class="n">OnPaint</span><span class="p">(</span><span class="n">PaintEventArgs</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="n">Graphics</span><span class="o">.</span><span class="n">DrawString</span><span class="p">(</span><span class="n">DateTime</span><span class="o">.</span><span class="n">Now</span><span class="o">.</span><span class="n">ToString</span><span class="p">(),</span> <span class="n">myFont</span><span class="p">,</span> <span class="n">Brushes</span><span class="o">.</span><span class="n">Black</span><span class="p">,</span><span class="n">newPointF</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>
+    <span class="n">base</span><span class="o">.</span><span class="n">OnPaint</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><p>Fontオブジェクトのように、IDisposableインターフェイスを実装するオブジェクトをローカル変数からメンバ変数に昇格させる場合は、暮らす自身にもIDisposableインタフェースを実装するべき。</p></li>
+<li></li>
+</ul>
+</li>
+</ol>
+<p>.Net frameworkの構造から頑張る必要がある。</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Home</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../theme/morningsatelite.html">モーサテウォッチ(★)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theme/chatgpt_papers.html">Topic on GPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theme/stablediffusion_papers.html">Interesting Papers on Stable Diffusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theme/zerotoone.html">What important truth do very few people agree with you on?</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../theme/index.html">théma</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/stochasticcalculus/index.html">Stochastic Calculus</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../kit/2020-03-13-arduino-network-lamp.html">Arduino</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Effective C Sharp #6.0, #7.0 まとめ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../softwareengineering/index.html">Software Engineering(★)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../MLApp/index.html">Machine Learning(★)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../securitiestradelifecycle/index.html">Securities Trade Lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deephedge/index.html">Deep Hedge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regulations/frtb.html">トレーディング勘定の抜本的見直し（FRTB）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regulations/benchmarkreform.html">Benchmark Reform</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../neuroscience/index.html">Neuroscience</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Tips/sphinx-tips.html">Sphinx Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../excel/index.html">Excel Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tips/tennis.html">Tennis Tips (★)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tips/todo.html">Todo</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Effective C Sharp #6.0, #7.0 まとめ</a><ul>
+      <li>Previous: <a href="part1.html" title="previous chapter">Part 1</a></li>
+      <li>Next: <a href="../softwareengineering/index.html" title="next chapter">Software Engineering(★)</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, ntaka19.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/src/effectivecsharp/part2.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

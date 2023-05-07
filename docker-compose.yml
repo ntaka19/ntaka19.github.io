@@ -1,0 +1,15 @@
+
+version: "3"
+services:
+  container3:
+    build: .
+    ports:
+      - "8000:8000"
+    image: "image4"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    command: /bin/bash
+    volumes:
+      - type: bind
+        source: .
+        target: "/home"

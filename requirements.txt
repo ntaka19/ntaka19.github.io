@@ -1,0 +1,7 @@
+sphinx
+sphinx-autobuild
+numpy
+matplotlib
+sphinxcontrib.video
+jupyter_sphinx
+graphviz

@@ -1,0 +1,6 @@
+
+Interesting Papers on ChatGPT
+===========================================================================================
+
+1. GPTs are GPTs: An Early Look at the Labor Market Impact Potential of Large Language Models
+(https://arxiv.org/pdf/2303.10130.pdf)
