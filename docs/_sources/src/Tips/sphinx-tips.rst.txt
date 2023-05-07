@@ -181,3 +181,9 @@ Sphinx Tips
 #. Highlight word in sphinx
    (https://stackoverflow.com/questions/49210787/how-do-i-highlight-text-in-python-sphinx)
 
+#. javascriptボタンクリックは実装できるが、chart がなぜかできない。
+
+
+#. github actionsでgithub pages用にデプロイをスケジューリングしてあげることで、定期的にページの更新を行うことができる。例えば天気予報を取得することができる。github actionsはmainブランチからしか実装できない? 
+
+
