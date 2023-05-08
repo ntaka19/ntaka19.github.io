@@ -12,9 +12,11 @@
 ==============
 
 
-.. include::
+.... include::
   ./src/dashboard/dashboard.rst
 
+.. image:: ./figures/forecast.png
+   :align: center
 
   
 (★) : Hot article
