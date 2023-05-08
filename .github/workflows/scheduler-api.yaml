@@ -1,8 +1,8 @@
-name: Python application
+name: Deploy to Gh-pages (Scheduled)
 
 on:
   schedule:
-    - cron:  '*/15 * * * *'
+    - cron:  '0 * * * *'
 
 jobs:
   build:
