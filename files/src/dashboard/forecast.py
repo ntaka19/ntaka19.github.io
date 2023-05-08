@@ -81,7 +81,7 @@ def draw_chart(data):
 
     plt.tight_layout()
     #plt.savefig('forecast.png')
-    plt.savefig('../../figures/forecast.png')
+    plt.savefig('figures/forecast.png')
 
 draw_chart(data)
 
