@@ -39,10 +39,9 @@ def draw_chart(data):
   plt.title('Weather Forecast(TOKYO) ' + labels[0].split('-')[0] )
   ax1.legend(loc='upper left')
   ax2.legend(loc='upper right')
-  plt.show()
+  #plt.show()
+  plt.savefig('forecast.png')
 
-
-  fig.tight_layout()
 
 draw_chart(data)
 

@@ -13,7 +13,7 @@
 
 
 .. include::
-  ./src/dashboard.rst
+  ./src/dashboard/dashboard.rst
 
 
   
