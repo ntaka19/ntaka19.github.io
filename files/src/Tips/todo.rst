@@ -41,5 +41,9 @@ Todo
   * gh-pagesとはなにか：https://engawapg.net/software-development/2393/github-pages-branch/
 
 #. 定期的に更新されるDashboardを作成する。jupyter execute, API, githubactionsによる定期的なデプロイを利用する。
+  
+  * figureを更新する際の注意点としてはsphinx-buildはgithubpagesは行わないので、docs/_imagesの方に入れること。(filesはsphinx-buildする前のところ。auto-buildしていたら気づきづらい。)
+
 
 #. github actionsで機械学習のモジュールを動かすことができるか検証する 
+
