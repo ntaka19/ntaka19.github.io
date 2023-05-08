@@ -1,6 +1,7 @@
 import requests
 import json
 import matplotlib.pyplot as plt
+import seaborn
 
 url = 'https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=139.69&hourly=temperature_2m,rain,showers&timezone=Asia%2FTokyo'
 
