@@ -80,7 +80,8 @@ def draw_chart(data):
     ax2.legend(loc='upper right')
 
     plt.tight_layout()
-    plt.savefig('forecast.png')
+    #plt.savefig('forecast.png')
+    plt.savefig('./files/figures/forecast2.png')
 
 draw_chart(data)
 
