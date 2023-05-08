@@ -40,6 +40,9 @@ def draw_chart(data):
     ax2.bar(new_labels, rain, color='blue', label='Rain')
     ax2.bar(new_labels, showers, color='green', label='Showers')
 
+    ax2.set_ylim(0, 5)
+    #https://withbrides.co.jp/lady/precipitation_amount-1mm/
+
     x_labels = [datetime.fromisoformat(label).strftime('%m-%d %a') for label in labels]
 
     # set x-axis tick labels
