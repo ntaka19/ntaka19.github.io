@@ -90,7 +90,7 @@ def draw_chart(data):
     }
 
     # Write the dictionary to a file in JSON format
-    with open('./docs/_images/forecast/updatetime_dict.json', 'w') as f:
+    with open('./docs/_images/updatetime_dict.json', 'w') as f:
         json.dump(data_dict, f)
 
 draw_chart(data)
