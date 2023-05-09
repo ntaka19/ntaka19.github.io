@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>プロキシ・リバースプロキシサーバー &#8212; Home 1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
@@ -13,11 +13,12 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="FTP/SFTP" href="../Network/ftp.html" />
@@ -39,14 +40,14 @@
           <div class="body" role="main">
             
   <section id="id1">
-<h1>プロキシ・リバースプロキシサーバー<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h1>
+<h1>プロキシ・リバースプロキシサーバー<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference external" href="https://qiita.com/yamionp/items/8f8d52d6b41bf9d4d16d">https://qiita.com/yamionp/items/8f8d52d6b41bf9d4d16d</a></p></li>
 <li><p><a class="reference external" href="https://eset-info.canon-its.jp/malware_info/special/detail/201021.html">https://eset-info.canon-its.jp/malware_info/special/detail/201021.html</a></p></li>
 </ul>
 <p>だれを守っているかの視点がよいかも。</p>
 <section id="proxy">
-<h2>proxy<a class="headerlink" href="#proxy" title="Permalink to this heading">¶</a></h2>
+<h2>proxy<a class="headerlink" href="#proxy" title="Permalink to this headline">¶</a></h2>
 <p>社内LAN ⇆ (forward) proxy ⇆ Internet ⇆ Web server</p>
 <ol class="arabic simple">
 <li><p>社内LANのPCからproxyサーバーへリクエスト</p></li>
@@ -61,7 +62,7 @@
 </ul>
 </section>
 <section id="reverse-proxy">
-<h2>Reverse proxy<a class="headerlink" href="#reverse-proxy" title="Permalink to this heading">¶</a></h2>
+<h2>Reverse proxy<a class="headerlink" href="#reverse-proxy" title="Permalink to this headline">¶</a></h2>
 <p>Client ⇆ Internet ⇆ Firewall ⇆ Reverse proxy ⇆ 内部ネットワーク ⇆ web server</p>
 <ol class="arabic simple">
 <li><p>Client からinternetでリクエストを送信</p></li>
@@ -147,7 +148,7 @@
     </form>
     </div>
 </div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -164,8 +165,8 @@
       &copy;2023, ntaka19.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.2.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="../../../_sources/src/softwareengineering/Web/proxy.rst.txt"
