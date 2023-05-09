@@ -48,8 +48,9 @@ def draw_chart(data):
         # No match found
         marker = [0]
 
+    updated_time = datetime.now().strftime('%H:%M')
     # plot data
-    ax.plot(new_labels, temperature, '-D',markevery = marker, color='red', label='Temperature')
+    ax.plot(new_labels, temperature, '-D',markevery = marker, color='red', label='Temperature \n ' + "(updated:" + updated_time +")" )
     ax2 = ax.twinx()
     ax2.bar(new_labels, rain, color='blue', label='Rain')
     ax2.bar(new_labels, showers, color='green', label='Showers')
@@ -81,6 +82,7 @@ def draw_chart(data):
 
         #ax.text( i, 0.5, day_of_week, color='black', ha='center', va='center')
     # set labels and title
+    
     ax.set_xlabel('Date')
     ax.set_ylabel('Temperature')
     ax2.set_ylabel('mm')
