@@ -3,6 +3,9 @@ import requests
 import json
 import matplotlib.pyplot as plt
 from datetime import datetime
+import bisect
+
+from matplotlib.ticker import FixedLocator
 
 url = 'https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=139.69&hourly=temperature_2m,rain,showers&timezone=Asia%2FTokyo'
 
@@ -34,8 +37,19 @@ def draw_chart(data):
     ax.yaxis.label.set_color('black')
     ax.title.set_color('black')
 
+    #mark current time (hours) on the graph
+    #bisec is not very efficient we know index is at the beginning (within first day)
+    current_time = datetime.now().replace(minute=0, second=0, microsecond=0).strftime('%Y-%m-%dT%H:%M')
+    index = bisect.bisect_left(labels, current_time)
+    if index < len(labels) and labels[index] == current_time:
+        # Match found at index
+        marker = [index]
+    else:
+        # No match found
+        marker = [0]
+
     # plot data
-    ax.plot(new_labels, temperature, color='red', label='Temperature')
+    ax.plot(new_labels, temperature, '-D',markevery = marker, color='red', label='Temperature')
     ax2 = ax.twinx()
     ax2.bar(new_labels, rain, color='blue', label='Rain')
     ax2.bar(new_labels, showers, color='green', label='Showers')
@@ -45,12 +59,9 @@ def draw_chart(data):
 
     x_labels = [datetime.fromisoformat(label).strftime('%m-%d %a') for label in labels]
 
-    # set x-axis tick labels
-    #ax.set_xticks(range(0, len(new_labels), 12))
-    #ax.set_xticklabels(new_labels[::12], rotation=90)
-
-    ax.set_xticks(range(0, len(x_labels), 24))
-    ax.set_xticklabels(x_labels[::24])
+    #working ticks
+    ax.set_xticks(range(0, len(x_labels), 12))
+    ax.set_xticklabels([x_labels[i * 12] if i%2==0 else "" for i in range(len(x_labels[::12]))])
 
     #date_obj = datetime.strptime(date_str, "%Y-%m-%d")
     #day_of_week = date_obj.strftime("%A")
@@ -73,17 +84,17 @@ def draw_chart(data):
     ax.set_xlabel('Date')
     ax.set_ylabel('Temperature')
     ax2.set_ylabel('mm')
-    ax.set_title('Weather Forecast(TOKYO) ' + labels[0].split('-')[0])
+    ax.set_title('Weather Forecast (TOKYO) ' + labels[0].split('-')[0])
 
     # set legend
     ax.legend(loc='upper left')
     ax2.legend(loc='upper right')
 
     plt.tight_layout()
-    #plt.savefig('forecast.png')
+    #plt.savefig('forecast2.png')
     plt.savefig('./docs/_images/forecast.png')
 
-
+    """
     # Generate a dictionary with the data
     data_dict = {
         'updated date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
@@ -92,6 +103,6 @@ def draw_chart(data):
     # Write the dictionary to a file in JSON format
     with open('./docs/_images/updatetime_dict.json', 'w') as f:
         json.dump(data_dict, f)
-
+    """
 draw_chart(data)
 

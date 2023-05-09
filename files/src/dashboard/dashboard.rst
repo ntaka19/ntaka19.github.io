@@ -4,7 +4,7 @@ Weather data by Open-Meteo.com<https://open-meteo.com/>
    :align: center
 
 
-.. literalinclude:: ./figures/updatetime_dict.json
-   :language: json
+.. .. literalinclude:: ./figures/updatetime_dict.json
+..   :language: json
 
 end dashboard.
