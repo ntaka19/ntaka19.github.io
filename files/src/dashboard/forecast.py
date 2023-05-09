@@ -4,8 +4,7 @@ import json
 import matplotlib.pyplot as plt
 from datetime import datetime
 import bisect
-
-from matplotlib.ticker import FixedLocator
+from pytz import timezone
 
 url = 'https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=139.69&hourly=temperature_2m,rain,showers&timezone=Asia%2FTokyo'
 
@@ -39,7 +38,7 @@ def draw_chart(data):
 
     #mark current time (hours) on the graph
     #bisec is not very efficient we know index is at the beginning (within first day)
-    current_time = datetime.now().replace(minute=0, second=0, microsecond=0).strftime('%Y-%m-%dT%H:%M')
+    current_time = datetime.now(timezone("Asia/Tokyo")).replace(minute=0, second=0, microsecond=0).strftime('%Y-%m-%dT%H:%M')
     index = bisect.bisect_left(labels, current_time)
     if index < len(labels) and labels[index] == current_time:
         # Match found at index
@@ -48,7 +47,7 @@ def draw_chart(data):
         # No match found
         marker = [0]
 
-    updated_time = datetime.now().strftime('%H:%M')
+    updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%H:%M')
     # plot data
     ax.plot(new_labels, temperature, '-D',markevery = marker, color='red', label='Temperature \n ' + "(updated:" + updated_time +")" )
     ax2 = ax.twinx()
