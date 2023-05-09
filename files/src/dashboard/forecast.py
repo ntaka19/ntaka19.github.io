@@ -83,5 +83,15 @@ def draw_chart(data):
     #plt.savefig('forecast.png')
     plt.savefig('./docs/_images/forecast.png')
 
+
+    # Generate a dictionary with the data
+    data_dict = {
+        'updated date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+    }
+
+    # Write the dictionary to a file in JSON format
+    with open('./docs/_images/forecast/updatetime_dict.json', 'w') as f:
+        json.dump(data_dict, f)
+
 draw_chart(data)
 
