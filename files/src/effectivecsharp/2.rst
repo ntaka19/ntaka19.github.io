@@ -1,0 +1,68 @@
+2. const よりもreadonlyを使用すること。
+=====================================================
+
+-  コンパイル時定数（const)：パフォーマンスが要求される場面で、かつ低数値が将来のリリースにわたって変更されない場合のみに利用する。コンパイル時にMSILにコードが変更される。
+
+    ::
+
+                public const int Millennium = 2000;
+
+    とした場合、
+
+    ::
+
+                if(myDateTime.Year == Millennium)
+
+    がコンパイルしてMSILにした時点で、
+
+    ::
+
+                if(myDateTime.Year == 2000)
+
+    と同等なものになる。
+    整数型、浮動小数型、列挙型、文字列型しかできない。
+    さらたに、プリミティブ型であってもコンパイル時定数をnew
+    で初期化することはできない。
+
+-  　実行時定数(readonly)：こちらをなるべく使用したほうがよい。コンパイル時定数は若干早いけど柔軟性の意味でデメリットがある。メソッド内では定義できない。
+    すべての型で可能。 readonlyの値が実行時に解決される。
+
+    ::
+
+                public class UsefulValues{
+                    public static readonly int StartValue = 5;
+                    public const int EndValue = 10;
+                }
+
+    がInfrastructureというアセンブリに存在していたとする。これをApplicationのアセンブリから参照し、コンパイルした。
+    続いて、
+
+    ::
+
+                public class UsefulValues{
+                    public static readonly int StartValue = 105;
+                    public const int EndValue = 120;
+                }
+
+    と変更したとする。Infrastructureのアセンブリをビルドしても、この場合、Applicationのアセンブリをビルドしない限り、Application側ではEndValue
+    = 10のまま計算してしまう。
+
+    .. rubric:: const, readonly
+        :name: const-readonly
+
+    コンパイル時定数と、実行時定数がある。
+
+    一般的に実行時定数を用いほうが良いとされている。
+
+    -  コンパイル時定数(const)：パフォーマンスが要求される場面で、かつ低数値が将来のリリースにわたって変更されない場合で利用する。（暗黙的にstaticになっている）
+
+    -  実行時定数(readonly)：実行時に評価される。"readonlyは実行時に値が決定するので、必ずしも同じ値になるとは限らない。つまり、デフォルトではstaticとして宣言されていないのでインスタンスの中にある変数の一つであると見なすことができる。"
+        インスタンスごとに異なる値を持つことができる。
+
+    -  static readonly:
+        "定数値が必要だが、その値の型がconst宣言では使用できない場合、またはその値をコンパイル時に計算できない場合はstatic
+        readonlyフィールド。 Effective
+        C#では、バージョニング問題の観点からconstよりもstatic
+        readonlyの使用が推奨されています"
+
+    （参考：https://qiita.com/4_mio_11/items/203c88eb5299e4a45f31）

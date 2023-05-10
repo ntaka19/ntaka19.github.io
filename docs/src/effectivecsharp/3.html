@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>3. キャストにはisまたはasを利用すること &#8212; Home 1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="isas">
+<h1>3. キャストにはisまたはasを利用すること<a class="headerlink" href="#isas" title="Permalink to this heading">¶</a></h1>
+<ol class="arabic">
+<li><p>変換できないときの挙動の違い。as演算子の場合はnull.キャストの場合はexception.</p>
+<p>書籍の内容：</p>
+<ul>
+<li><p>強い型付けとはコードおける方の不一致をコンパイラが見つけてくれるということ。しかし場合によっては実行時の型チェックが避けられないケースがある。as演算子を使用する方法とcastを使用して開発者の意思をコンパイラに強制させる方法がある。</p></li>
+<li><p>むやみにキャストするよりもas演算子のほうが安全で、実行時の効率も優れるためこちらを利用したほうがよい。使えるときは使う。</p></li>
+<li><p>try catchを避けることができるため、よい。overheadの意味で。</p></li>
+<li><p>一番の違い：asやisはユーザー定義の変換をまったく行わない。実行時の型をチェックする。キャストは指定の方への変換演算子を利用できる。</p></li>
+<li><p>as
+演算子はボックス化された値型をボックス化解除されたnull許容型へと変換する場合、新しい型を作成する。</p></li>
+<li><p>キャストを使用すると、nullは任意の参照型へとキャストできるが、as演算子の場合はnull参照に対して、nullが返される。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">object</span> <span class="n">o</span> <span class="o">=</span> <span class="n">Factory</span><span class="o">.</span><span class="n">GetObject</span><span class="p">();</span>
+<span class="n">MyType</span> <span class="n">t</span> <span class="o">=</span> <span class="n">o</span> <span class="k">as</span> <span class="n">MyType</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">t</span><span class="o">!=</span><span class="n">null</span><span class="p">){</span>
+<span class="o">...</span>
+<span class="p">}</span>
+<span class="k">else</span><span class="p">{</span>
+<span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>キャストを使うとnullチェックも必要になってくる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>object o = Factory.GetObject();
+try {
+    MyType t;
+    t = (MyType)o;
+}
+catch (InValidCastException){
+    //処理の失敗を通知する。
+}
+</pre></div>
+</div>
+</li>
+<li><p>as とcastの違いは、ユーザー定義の変換の違いにある。as
+やisは変換対象となっている実行時の型はチェックするが、それ以外はボックス化を除き、他の処理は行わない。
+特定のオブジェクトが指定の型ではないか、指定のかたから派生した型ではない場合に変換に失敗する。</p></li>
+<li><p>castは指定の型への変換演算子を利用できる。</p></li>
+<li><p>　ユーザー定義型にも問題が出てくる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">SecondType</span><span class="p">{</span>
+    <span class="n">private</span> <span class="n">MyType</span> <span class="n">_value</span><span class="p">;</span>
+
+    <span class="o">//</span><span class="n">Convert</span> <span class="kn">from</span> <span class="nn">SecondType</span> <span class="n">to</span> <span class="n">MyType</span>
+    <span class="n">public</span> <span class="n">static</span> <span class="n">implicit</span> <span class="n">operator</span> <span class="n">MyType</span><span class="p">(</span><span class="n">SecondType</span> <span class="n">t</span><span class="p">){</span>
+        <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">_value</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これをもとに、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>//version 1
+
+
+object o = Factory.GetObject();
+//This will fail. type of o is SecondType
+MyType t = o as MyType;　//oはMyTypeではない。
+if(t!=null){
+...
+}
+else{
+...
+}
+
+//version 2
+object o = Factory.GetObject();
+    try {
+        MyType t;
+        t = (MyType)o;　//Fails. o is not MyType
+    }
+    catch (InValidCastException){
+        //処理の失敗を通知する。
+    }
+</pre></div>
+</div>
+<p>はどちらも失敗する。 version
+２のキャストは一見ユーザー定義の変換ができるため、うまくいくと考えられるが、実は失敗する。
+version2が失敗する理由はコンパイラはコンパイル時におけるoの型を基準とｓてコードを生成するから。コンパイラはoの実行時の型をしらない。
+コンパイラからしたら、object型のインスタンスである！</p>
+<p>objectからMyTypeに変換するユーザー定義の変換演算子ははない。(MyType)o　のところ
+そこで、object型とMyType型をチェックする。ユーザー定義の変換はないため、コンパイラはoの実行時の型がMyTypeかどうかを判定するコードを生成。oはSecondTypeなのでチェックは失敗する。.
+つまりコンパイルの順番に沿って考えることが重要。</p>
+<p>次のように書けば問題は回避できる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>//version 3
+object o = Factory.GetObject();
+SecondType st = o as SecondType;
+    try {
+        MyType t;
+        t = (MyType)o;　// oはMyType
+    }
+    catch (InValidCastException){
+        //処理の失敗を通知する。
+    }
+</pre></div>
+</div>
+<p>つまりは、ユーザー定義の変換演算子はオブジェクトのコンパイル時における型のみに対して作用する。ランタイムの型に作用するものではない。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">MyType</span><span class="p">)</span> <span class="n">st</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>の場合はstの宣言次第で挙動が変わる。stがSecondTypeだったら通るが、stがobjectで定義されていたら失敗する。
+一方で、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">st</span> <span class="k">as</span> <span class="n">MyType</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>と書くと、継承関係がないもののユーザー定義の演算子が存在する場合はコンパイルエラーになる。（継承関係があれば通る、それ以外は通らない、という意味で一貫性がある）</p>
+</li>
+<li><p>どのようにしてasを使うか。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>object o = Factory.GetValue();
+int i = o as int; //Will not compile!
+</pre></div>
+</div>
+<p>This is because int is a value type therefore not accepting null
+as input. However, the code can be rewritten as follows.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>object o = Factory.GetValue();
+var i = o as int?;
+if(i!=null) Console.WriteLine(i.Value);
+</pre></div>
+</div>
+</li>
+<li><p>Foreach
+loopではキャストが行われている。なぜなら値型と参照型の両方に対応しないといけないから。ハードコードすると以下のようになる。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="n">void</span> <span class="n">UsecollectionV2</span><span class="p">(</span><span class="n">IEnumerable</span> <span class="n">theCollection</span><span class="p">){</span>
+    <span class="n">IEnumerator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">theCollection</span><span class="o">.</span><span class="n">GetEnumerator</span><span class="p">();</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">it</span><span class="o">.</span><span class="n">MoveNext</span><span class="p">()){</span>
+        <span class="n">MyType</span> <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="n">MyType</span><span class="p">)</span><span class="n">it</span><span class="o">.</span><span class="n">Current</span><span class="p">;</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">DoStuff</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>で、結局asは使えるときはいつもつかうべきなのか。<a class="reference external" href="https://stackoverflow.com/questions/4926677/c-sharp-as-cast-vs-classic-cast">Stack overflow: C#
+“as” cast vs classic cast
+[duplicate]</a></p>
+<p>With the “classic” method, if the cast fails, an InvalidCastException
+is thrown. With the as method, it results in null, which can be
+checked for, and avoid an exception being thrown.</p>
+<p>Also, you can only use as with reference types, so if you are
+typecasting to a value type, you must still use the “classic” method.</p>
+<p>Note:</p>
+<p>The as method can only be used for types that can be assigned a null
+value. That use to only mean reference types, but when .NET 2.0 came
+out, it introduced the concept of a nullable value type. Since these
+types can be assigned a null value, they are valid to use with the as
+operator.</p>
+<p>他のコメント：</p>
+<p>Null comparison is MUCH faster than throwing and catching exception.
+Exceptions have significant overhead - stack trace must be assembled
+etc.</p>
+<p>Exceptions should represent an unexpected state, which often doesn’t
+represent the situation (which is when as works better).</p>
+</li>
+</ol>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Home</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../theme/morningsatelite.html">モーサテウォッチ(★)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theme/chatgpt_papers.html">Topic on GPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theme/stablediffusion_papers.html">Interesting Papers on Stable Diffusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../theme/zerotoone.html">What important truth do very few people agree with you on?</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../theme/index.html">théma</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../mathematics/stochasticcalculus/index.html">Stochastic Calculus</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../kit/2020-03-13-arduino-network-lamp.html">Arduino</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Effective C Sharp #6.0, #7.0 まとめ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../softwareengineering/index.html">Software Engineering(★)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../MLApp/index.html">Machine Learning(★)</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../securitiestradelifecycle/index.html">Securities Trade Lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deephedge/index.html">Deep Hedge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regulations/frtb.html">トレーディング勘定の抜本的見直し（FRTB）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../regulations/benchmarkreform.html">Benchmark Reform</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../neuroscience/index.html">Neuroscience</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Tips/sphinx-tips.html">Sphinx Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../excel/index.html">Excel Tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tips/tennis.html">Tennis Tips (★)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tips/todo.html">Todo</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, ntaka19.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/src/effectivecsharp/3.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

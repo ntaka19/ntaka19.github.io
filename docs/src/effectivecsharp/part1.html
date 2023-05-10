@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Part 1 &#8212; Home 1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
@@ -13,17 +12,16 @@
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Part 2" href="part2.html" />
-    <link rel="prev" title="Effective C Sharp #6.0, #7.0 まとめ" href="index.html" />
+    <link rel="prev" title="2. const よりもreadonlyを使用すること。" href="2.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -41,81 +39,10 @@
           <div class="body" role="main">
             
   <section id="part-1">
-<h1>Part 1<a class="headerlink" href="#part-1" title="Permalink to this headline">¶</a></h1>
+<h1>Part 1<a class="headerlink" href="#part-1" title="Permalink to this heading">¶</a></h1>
 <p>番号は、本書の「項目」に対応している。
 ここではそれらの補足とサマリーを記述しておく。</p>
 <ol class="arabic">
-<li><p>ローカル変数の型をなるべく暗黙的に指定すること：</p>
-<ul>
-<li><p>var は
-動的型付けではない。あくまでも型推論が行われていて暗黙的に静的型付けされている。</p></li>
-<li><p>型を明記することで、意図しない結果を及ぼす可能性が出てくる。</p></li>
-<li><p>var
-を用いてわかりにくくなるケースがあるが、これは変数名をわかりやすくすることで回避することも可能。</p></li>
-<li><p>しかし開発者からすると、コンパイラが決定した型がなんなのかが分からないという問題点がある。</p></li>
-<li><p>一方で、場合によっては開発者よりもコンパイラのほうが変数に最適な型を選びだしてくれる。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Calling</span> <span class="n">IEnumerable</span><span class="o">.</span><span class="n">Where</span> <span class="n">instead</span> <span class="n">of</span> <span class="n">IQueryable</span><span class="o">.</span><span class="n">Where</span>
-</pre></div>
-</div>
-<p>派生元（基底クラス）をあえて記述しているため、コンパイルは通るが、パフォーマンスが著しく落ちる場合がある。IQueryableを使うと効率的な計算が可能。上記の例のように適切なクエリツリーが作成されるなど。（特にデータがリモートサーバー上にある場合有効）全部リモートから返されると大変。</p>
-</li>
-<li><p>開発者にとってコードを理解するための型の宣言が必要にならないのであれば、ローカル変数をvarとして宣言するのが最善。</p></li>
-</ul>
-</li>
-<li><p>const よりもreadonlyを使用すること。</p>
-<ul>
-<li><p>コンパイル時定数（const)：パフォーマンスが要求される場面で、かつ低数値が将来のリリースにわたって変更されない場合のみに利用する。コンパイル時にMSILにコードが変更される。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="n">const</span> <span class="nb">int</span> <span class="n">Millennium</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>とした場合、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">myDateTime</span><span class="o">.</span><span class="n">Year</span> <span class="o">==</span> <span class="n">Millennium</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>がコンパイルしてMSILにした時点で、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="p">(</span><span class="n">myDateTime</span><span class="o">.</span><span class="n">Year</span> <span class="o">==</span> <span class="mi">2000</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>と同等なものになる。
-整数型、浮動小数型、列挙型、文字列型しかできない。
-さらたに、プリミティブ型であってもコンパイル時定数をnew
-で初期化することはできない。</p>
-</li>
-<li><p>　実行時定数(readonly)：こちらをなるべく使用したほうがよい。コンパイル時定数は若干早いけど柔軟性の意味でデメリットがある。メソッド内では定義できない。
-すべての型で可能。 readonlyの値が実行時に解決される。</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">UsefulValues</span><span class="p">{</span>
-    <span class="n">public</span> <span class="n">static</span> <span class="n">readonly</span> <span class="nb">int</span> <span class="n">StartValue</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-    <span class="n">public</span> <span class="n">const</span> <span class="nb">int</span> <span class="n">EndValue</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>がInfrastructureというアセンブリに存在していたとする。これをApplicationのアセンブリから参照し、コンパイルした。
-続いて、</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nc">UsefulValues</span><span class="p">{</span>
-    <span class="n">public</span> <span class="n">static</span> <span class="n">readonly</span> <span class="nb">int</span> <span class="n">StartValue</span> <span class="o">=</span> <span class="mi">105</span><span class="p">;</span>
-    <span class="n">public</span> <span class="n">const</span> <span class="nb">int</span> <span class="n">EndValue</span> <span class="o">=</span> <span class="mi">120</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>と変更したとする。Infrastructureのアセンブリをビルドしても、この場合、Applicationのアセンブリをビルドしない限り、Application側ではEndValue
-= 10のまま計算してしまう。</p>
-<p class="rubric" id="const-readonly">const, readonly</p>
-<p>コンパイル時定数と、実行時定数がある。</p>
-<p>一般的に実行時定数を用いほうが良いとされている。</p>
-<ul class="simple">
-<li><p>コンパイル時定数(const)：パフォーマンスが要求される場面で、かつ低数値が将来のリリースにわたって変更されない場合で利用する。（暗黙的にstaticになっている）</p></li>
-<li><p>実行時定数(readonly)：実行時に評価される。”readonlyは実行時に値が決定するので、必ずしも同じ値になるとは限らない。つまり、デフォルトではstaticとして宣言されていないのでインスタンスの中にある変数の一つであると見なすことができる。”
-インスタンスごとに異なる値を持つことができる。</p></li>
-<li><p>static readonly:
-“定数値が必要だが、その値の型がconst宣言では使用できない場合、またはその値をコンパイル時に計算できない場合はstatic
-readonlyフィールド。 Effective
-C#では、バージョニング問題の観点からconstよりもstatic
-readonlyの使用が推奨されています”</p></li>
-</ul>
-<p>（参考：<a class="reference external" href="https://qiita.com/4_mio_11/items/203c88eb5299e4a45f31">https://qiita.com/4_mio_11/items/203c88eb5299e4a45f31</a>）</p>
-</li>
-</ul>
-</li>
 <li><p>キャストにはisまたはasを利用すること。 簡単に言うと、</p>
 <ol class="arabic simple">
 <li><p>変換できないときの挙動の違い。as演算子の場合はnull.キャストの場合はexception.</p></li>
@@ -643,7 +570,7 @@ methodがnew修飾子によって上書きされないように注意するべ�
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Effective C Sharp #6.0, #7.0 まとめ</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Effective C Sharp #6.0, #7.0 まとめ</a></li>
+      <li>Previous: <a href="2.html" title="previous chapter">2. const よりもreadonlyを使用すること。</a></li>
       <li>Next: <a href="part2.html" title="next chapter">Part 2</a></li>
   </ul></li>
   </ul></li>
@@ -658,7 +585,7 @@ methodがnew修飾子によって上書きされないように注意するべ�
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -675,8 +602,8 @@ methodがnew修飾子によって上書きされないように注意するべ�
       &copy;2023, ntaka19.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="../../_sources/src/effectivecsharp/part1.rst.txt"

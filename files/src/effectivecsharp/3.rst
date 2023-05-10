@@ -1,0 +1,185 @@
+3. キャストにはisまたはasを利用すること
+=====================================
+
+#. 変換できないときの挙動の違い。as演算子の場合はnull.キャストの場合はexception.
+
+   書籍の内容：
+
+   -  強い型付けとはコードおける方の不一致をコンパイラが見つけてくれるということ。しかし場合によっては実行時の型チェックが避けられないケースがある。as演算子を使用する方法とcastを使用して開発者の意思をコンパイラに強制させる方法がある。
+
+   -  むやみにキャストするよりもas演算子のほうが安全で、実行時の効率も優れるためこちらを利用したほうがよい。使えるときは使う。
+
+   -  try catchを避けることができるため、よい。overheadの意味で。
+
+   -  一番の違い：asやisはユーザー定義の変換をまったく行わない。実行時の型をチェックする。キャストは指定の方への変換演算子を利用できる。
+
+   -  as
+      演算子はボックス化された値型をボックス化解除されたnull許容型へと変換する場合、新しい型を作成する。
+
+   -  キャストを使用すると、nullは任意の参照型へとキャストできるが、as演算子の場合はnull参照に対して、nullが返される。
+
+      ::
+
+                 object o = Factory.GetObject();
+                 MyType t = o as MyType;
+                 if(t!=null){
+                 ...    
+                 }
+                 else{
+                 ...
+                 }
+
+      キャストを使うとnullチェックも必要になってくる。
+
+      ::
+
+                     object o = Factory.GetObject();
+                     try {
+                         MyType t;
+                         t = (MyType)o;
+                     }
+                     catch (InValidCastException){
+                         //処理の失敗を通知する。
+                     }
+
+   -  as とcastの違いは、ユーザー定義の変換の違いにある。as
+      やisは変換対象となっている実行時の型はチェックするが、それ以外はボックス化を除き、他の処理は行わない。
+      特定のオブジェクトが指定の型ではないか、指定のかたから派生した型ではない場合に変換に失敗する。
+
+   -  castは指定の型への変換演算子を利用できる。
+
+   -  　ユーザー定義型にも問題が出てくる。
+
+      ::
+
+                 public class SecondType{
+                     private MyType _value;
+                     
+                     //Convert from SecondType to MyType 
+                     public static implicit operator MyType(SecondType t){
+                         return t._value;
+                     }
+                 }
+
+      これをもとに、
+
+      ::
+
+                 //version 1
+                 
+                 
+                 object o = Factory.GetObject();
+                 //This will fail. type of o is SecondType
+                 MyType t = o as MyType;　//oはMyTypeではない。
+                 if(t!=null){
+                 ...    
+                 }
+                 else{
+                 ...
+                 }
+                 
+                 //version 2
+                 object o = Factory.GetObject();
+                     try {
+                         MyType t;
+                         t = (MyType)o;　//Fails. o is not MyType
+                     }
+                     catch (InValidCastException){
+                         //処理の失敗を通知する。
+                     }
+
+      はどちらも失敗する。 version
+      ２のキャストは一見ユーザー定義の変換ができるため、うまくいくと考えられるが、実は失敗する。
+      version2が失敗する理由はコンパイラはコンパイル時におけるoの型を基準とｓてコードを生成するから。コンパイラはoの実行時の型をしらない。
+      コンパイラからしたら、object型のインスタンスである！
+
+      objectからMyTypeに変換するユーザー定義の変換演算子ははない。(MyType)o　のところ
+      そこで、object型とMyType型をチェックする。ユーザー定義の変換はないため、コンパイラはoの実行時の型がMyTypeかどうかを判定するコードを生成。oはSecondTypeなのでチェックは失敗する。.
+      つまりコンパイルの順番に沿って考えることが重要。
+
+      次のように書けば問題は回避できる。
+
+      ::
+
+                 //version 3
+                 object o = Factory.GetObject();
+                 SecondType st = o as SecondType;
+                     try {
+                         MyType t;
+                         t = (MyType)o;　// oはMyType
+                     }
+                     catch (InValidCastException){
+                         //処理の失敗を通知する。
+                     }
+
+      つまりは、ユーザー定義の変換演算子はオブジェクトのコンパイル時における型のみに対して作用する。ランタイムの型に作用するものではない。
+
+      ::
+
+                 t = (MyType) st;
+
+      の場合はstの宣言次第で挙動が変わる。stがSecondTypeだったら通るが、stがobjectで定義されていたら失敗する。
+      一方で、
+
+      ::
+
+                 t = st as MyType;
+
+      と書くと、継承関係がないもののユーザー定義の演算子が存在する場合はコンパイルエラーになる。（継承関係があれば通る、それ以外は通らない、という意味で一貫性がある）
+
+   -  どのようにしてasを使うか。
+
+      ::
+
+                 object o = Factory.GetValue();
+                 int i = o as int; //Will not compile!
+
+      This is because int is a value type therefore not accepting null
+      as input. However, the code can be rewritten as follows.
+
+      ::
+
+                 object o = Factory.GetValue();
+                 var i = o as int?;
+                 if(i!=null) Console.WriteLine(i.Value); 
+
+   -  Foreach
+      loopではキャストが行われている。なぜなら値型と参照型の両方に対応しないといけないから。ハードコードすると以下のようになる。
+
+      ::
+
+                 public void UsecollectionV2(IEnumerable theCollection){
+                     IEnumerator it = theCollection.GetEnumerator();
+                     while(it.MoveNext()){
+                         MyType t = (MyType)it.Current;
+                         t.DoStuff();
+                     }
+                 }
+
+   で、結局asは使えるときはいつもつかうべきなのか。\ `Stack overflow: C#
+   "as" cast vs classic cast
+   [duplicate] <https://stackoverflow.com/questions/4926677/c-sharp-as-cast-vs-classic-cast>`__
+
+   With the "classic" method, if the cast fails, an InvalidCastException
+   is thrown. With the as method, it results in null, which can be
+   checked for, and avoid an exception being thrown.
+
+   Also, you can only use as with reference types, so if you are
+   typecasting to a value type, you must still use the "classic" method.
+
+   Note:
+
+   The as method can only be used for types that can be assigned a null
+   value. That use to only mean reference types, but when .NET 2.0 came
+   out, it introduced the concept of a nullable value type. Since these
+   types can be assigned a null value, they are valid to use with the as
+   operator.
+
+   他のコメント：
+
+   Null comparison is MUCH faster than throwing and catching exception.
+   Exceptions have significant overhead - stack trace must be assembled
+   etc.
+
+   Exceptions should represent an unexpected state, which often doesn’t
+   represent the situation (which is when as works better).

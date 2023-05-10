@@ -71,10 +71,10 @@ oikonomía
 .. toctree::
    :maxdepth: 1
 
-   ./src/securitiestradelifecycle/index
-   ./src/deephedge/index.rst
-   ./src/regulations/frtb.rst
-   ./src/regulations/benchmarkreform.rst
+   ./src/econ/securitiestradelifecycle/index.rst
+   ./src/econ/deephedge/index.rst
+   ./src/econ/regulations/frtb.rst
+   ./src/econ/regulations/benchmarkreform.rst
    
 
 nevroepistími
