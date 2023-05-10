@@ -7,5 +7,4 @@ théma
    ./chatgpt_papers.rst
    ./stablediffusion_papers.rst
    ./zerotoone.rst
-   ./finance_topic.rst
    ./dynamical_systems.rst

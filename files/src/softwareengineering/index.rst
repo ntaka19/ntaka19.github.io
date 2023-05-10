@@ -30,9 +30,11 @@ DevOps
 
 .. toctree::
    :maxdepth: 1
-   
+
+   ./DevOps/git.rst   
    ./DevOps/docker.rst
    ./DevOps/jenkins.rst
+
  
 
 Web Development Basics

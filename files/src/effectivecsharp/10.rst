@@ -1,0 +1,40 @@
+10. 親クラスの変更に応じる場合のみnew修飾子を使用すること。
+========================================================
+
+-  Virtual method: 一つの制約を表すことができる。Virtual
+      メソッドは派生クラスにおいてその実装が変更されることを期待している。
+
+-  非Virtual
+    methodがnew修飾子によって上書きされないように注意するべき。(派生クラスと基底クラスで振る舞いが変わる）
+
+::
+
+    public class MyClass{
+        public void MagicMethod(){
+            Console.WriteLine("myclass");
+        }
+    }
+    
+    public class MyOtherClass : MyClass{
+        //MagicMethodをこのクラス用に再定義
+        public new void MagicMethod(){
+            Console.WriteLine("myotherclass");
+        }
+    }
+                 
+
+一方で、「基本的にVirtual」な設計とは派生クラスにおいて全ての挙動を変更しても構わないということ。
+
+-  メソッドにnewを使用するべき場面はただ一つ：派生クラスですでに使用済みのメソッド名が、新しいバージョンの親クラスに定義されたメンバと競合した場合。
+
+例えば、BaesWidgetの新しいバージョンに"NormalizeValues"メソッドが新たに追加されていた場合、MyWidgetですでにその名前を使っていたとすると競合起きてしまう。そこで、MyWidgetの関数名を変えるか、それが現実的でない場合は、new演算子でリダイレクトする。
+長期運用シナリオを考えた場合は、やはり名前を変えた方が良い。
+
+::
+
+    public class MyWidget: BaseWidget{
+        public new void NormalizeValues(){
+            ...
+            base.Normalizevalues();
+        }
+    }
