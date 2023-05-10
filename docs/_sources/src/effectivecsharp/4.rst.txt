@@ -1,0 +1,9 @@
+4. string.Format()を補間文字列に置き換える
+=========================================
+
+.String.Formatは生成される文字が評価、検証されるまでは、その内容が分からないため、ミスを誘発しやすいというデメリットがある。また、引数のインデックスを間違いやすい。
+   補間文字列は最初に":math:`\ \{\}"をおく。`
+
+   ::
+
+          Console.WriteLine($@"the ratio of the circumference of a circle to its diameter is {round ? Math.PI.ToString(): Math.PI.ToString("F2"))}"); 

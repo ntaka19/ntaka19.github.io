@@ -1,0 +1,96 @@
+8. イベントの呼び出し時にnull条件演算子を使用すること
+====================================================
+
+イベントについては、次の手順:
+
+#. 必要に応じてイベントを定義。
+
+#. このイベントにアタッチされたイベントハンドラを呼び出すだけ。
+    このことによって、後ろに隠されたマルチキャストデリゲートによって、登録された全てのハンドラが成功する限り呼び出される。
+
+::
+
+        private EventHanlder<int> Updated; 
+        
+        public void RaiseUpdates(){
+            counter++;
+            if (Updates != null)
+                Updated(this, counter);
+        }
+
+ここで、Updatedはイベントでありそこにハンドラ登録されている。
+上のコードの問題点は、null
+checkが通った直後に、イベントが解除された場合、null
+参照となってしまう点である。 マルチスレッドの時に問題起きる。
+
+スレッドセーフ にするためには以下を行う。
+下のコードでは現在のイベントハンドラを新しいローカル変数handlerに割り当てている。
+handlerには、メンバ変数であるイベントUpdatedから参照されている全ての元ハンドラを参照するようなマルチキャストデリゲートが格納される。
+
+イベント割り当て演算子では右辺の浅いコピーが割り当てられる。浅いコピーはアタッチされたイベントハンドラそれぞれに対する参照コピーが含まれる。
+別のスレッドでイベントからハンドラが解除されると、登録解除個〇度ではクラスに定義されたイベントフィールドが変更されるが、ローカル変数からはそのハンドラが削除されない。
+
+::
+
+        public void RaiseUpdates(){
+            counter++;
+            var handler = Updated;
+            if (handler != null)
+                handler(this, counter)
+        }
+
+-  Event型は参照型であり、一見、Updatedを解除すると、handlerも解除されてしまうように思える。仮にhandlerも解除されてしまえば、意味がないことになる。
+
+-  しかし、handlerは解除されない。なぜなら、handlerは immutable
+    であるから。
+    ここが参考にできる\ `why-can-a-temporary-variable-stop-the-client-from-removing-event-handler <https://stackoverflow.com/questions/835274/why-can-a-temporary-variable-stop-the-client-from-removing-event-handler/835301#835301>`__
+
+    The following code snippet is from book Effective C#,
+
+    ::
+
+                public event AddMessageEventHandler Log;
+                
+                public void AddMsg ( int priority, string msg )
+                
+                {
+                    // This idiom discussed below.
+                    AddMessageEventHandler l = Log;
+                    if ( l != null )
+                        l ( null, new LoggerEventArgs( priority, msg ) );
+                }
+
+    " The AddMsg method shows the proper way to raise events. The
+    temporary variable to reference the log event handler is an
+    important safeguard against race conditions in multithreaded
+    programs. Without the copy of the reference, clients could remove
+    event handlers between the if statement check and the execution of
+    the event handler. By copying the reference, that can’t happen.
+
+    Why can a temporary variable stop the client from removing event
+    handler? I must be missing something here. "
+
+    .. rubric:: Answer
+        :name: answer
+
+    "It doesn’t stop the client from removing the event handler - it
+    just means that you’ll call that event handler anyway.
+
+    The important bit you may be missing is that delegates are
+    immutable - when an event handler is removed, the value of Log
+    will change to be the new delegate or null. That’s okay though,
+    because by that stage you’re using 1 instead of Log."
+
+-  イベントに関してpub-subの出材パターンがあるが、、、
+
+上記よりより良い書き方は、次の通り、
+
+::
+
+        public void RaiseUpdates(){
+            counter++;
+            Updated?.Invoke(this, counter);
+        }
+
+まずはnull演算子?により安全性にイベントを呼び出している。
+コンパイラは全てのデリゲートあるいはイベントの定義に対して、タイプセーフInvokeメソッドを生成する。

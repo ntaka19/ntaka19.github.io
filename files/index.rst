@@ -23,7 +23,7 @@
 (★) : Hot article
 
 
-théma 
+Topic 
 ~~~~~~~~~~~~~
 
 .. toctree::
@@ -47,7 +47,7 @@ théma
 
 
 
-mathimatiká
+Mathematics
 ~~~~~~~~~~~~~
 .. toctree::
    :maxdepth: 1
@@ -55,7 +55,7 @@ mathimatiká
    ./src/mathematics/stochasticcalculus/index
 
 
-michanikí
+Engineering
 ~~~~~~~~~~~~~
 .. toctree::
    :maxdepth: 1
@@ -66,8 +66,8 @@ michanikí
    ./src/MLApp/index.rst
 
 
-oikonomía
-~~~~~~~~~~~~~
+Econ&Finance
+~~~~~~~~~~~~~~~~
 .. toctree::
    :maxdepth: 1
 
@@ -75,9 +75,12 @@ oikonomía
    ./src/econ/deephedge/index.rst
    ./src/econ/regulations/frtb.rst
    ./src/econ/regulations/benchmarkreform.rst
+   ./src/econ/topic/finance_topic.rst
+   ./src/econ/topic/marketresearch.rst
+
    
 
-nevroepistími
+Neuroscience
 ~~~~~~~~~~~~~
 .. toctree::
    :maxdepth: 1
