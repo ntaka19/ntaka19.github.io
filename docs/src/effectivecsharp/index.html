@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Effective C Sharp #6.0, #7.0 まとめ &#8212; Home 1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
@@ -13,15 +12,14 @@
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Part 1" href="part1.html" />
+    <link rel="next" title="1. ローカル変数の型をなるべく暗黙的に指定すること" href="1.html" />
     <link rel="prev" title="Arduino" href="../kit/2020-03-13-arduino-network-lamp.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
@@ -40,9 +38,12 @@
           <div class="body" role="main">
             
   <section id="effective-c-sharp-6-0-7-0">
-<h1>Effective C Sharp #6.0, #7.0 まとめ<a class="headerlink" href="#effective-c-sharp-6-0-7-0" title="Permalink to this headline">¶</a></h1>
+<h1>Effective C Sharp #6.0, #7.0 まとめ<a class="headerlink" href="#effective-c-sharp-6-0-7-0" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="1.html">1. ローカル変数の型をなるべく暗黙的に指定すること</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2.html">2. const よりもreadonlyを使用すること。</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3.html">3. キャストにはisまたはasを利用すること</a></li>
 <li class="toctree-l1"><a class="reference internal" href="part1.html">Part 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="part2.html">Part 2</a></li>
 </ul>
@@ -105,7 +106,7 @@
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="../kit/2020-03-13-arduino-network-lamp.html" title="previous chapter">Arduino</a></li>
-      <li>Next: <a href="part1.html" title="next chapter">Part 1</a></li>
+      <li>Next: <a href="1.html" title="next chapter">1. ローカル変数の型をなるべく暗黙的に指定すること</a></li>
   </ul></li>
 </ul>
 </div>
@@ -118,7 +119,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -135,8 +136,8 @@
       &copy;2023, ntaka19.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="../../_sources/src/effectivecsharp/index.rst.txt"
