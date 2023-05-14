@@ -119,10 +119,12 @@ def main():
 
     preview = True
     savefile = './docs/_images/forecast-short.png'
+    #savefile = '../../figures/forecast-short.png'
     draw_chart(data, preview, savefile)
 
     preview = False
     savefile = './docs/_images/forecast.png'
+    #savefile = '../../figures/forecast.png'
     draw_chart(data, preview, savefile)
 
 
