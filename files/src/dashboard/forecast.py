@@ -6,24 +6,28 @@ from datetime import datetime
 import bisect
 from pytz import timezone
 
-url = 'https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=139.69&hourly=temperature_2m,rain,showers&timezone=Asia%2FTokyo'
 
-response = requests.get(url)
-data = json.loads(response.text)
-
-
-def draw_chart(data):
+def draw_chart(data, preview, savepath):
     labels = data['hourly']['time']
-    new_labels = ['-'.join(element.split("-")[1:]) for element in labels]
+    #only show date date
+    new_labels = [datetime.fromisoformat(element).strftime('%Y-%m-%dT%H:%M') for element in labels]
     rain = data['hourly']['rain']
     showers = data['hourly']['showers']
     temperature = data['hourly']['temperature_2m']
 
+    if preview == True:
+        half_length = len(labels)//2
+        rain = rain[:half_length]
+        showers = showers[:half_length]
+        temperature = temperature[:half_length]
+        new_labels = new_labels[:half_length]
+
+    """
     df = pd.DataFrame({'Date': new_labels,
                        'Temperature': temperature,
                        'Rain': rain,
                        'Showers': showers})
-
+    """
     fig, ax = plt.subplots(figsize=(10, 4))
 
     # Set the background color to black
@@ -53,18 +57,29 @@ def draw_chart(data):
     ax2 = ax.twinx()
     ax2.bar(new_labels, rain, color='blue', label='Rain')
     ax2.bar(new_labels, showers, color='green', label='Showers')
-
     ax2.set_ylim(0, 5)
     #https://withbrides.co.jp/lady/precipitation_amount-1mm/
 
-    x_labels = [datetime.fromisoformat(label).strftime('%m-%d %a') for label in labels]
+    daily_time= data['daily']['time']
+    daily_wmo = data['daily']['weathercode']
 
-    #working ticks
-    ax.set_xticks(range(0, len(x_labels), 12))
-    ax.set_xticklabels([x_labels[i * 12] if i%2==0 else "" for i in range(len(x_labels[::12]))])
+    wmo_dict = dict(zip(daily_time, daily_wmo))
 
-    #date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-    #day_of_week = date_obj.strftime("%A")
+    # Set xticks
+    if preview == True:
+        x_labels = [datetime.fromisoformat(label).strftime('%m-%d %a') + \
+                 "\n" + "(wmo:" + str(wmo_dict[datetime.fromisoformat(label).strftime("%Y-%m-%d")]) + ")" for label in labels]
+        #12時間おきにxticksを設定
+        ax.set_xticks(range(0, len(x_labels), 12))
+        #24時間置きにラベル文字を設定する。
+        ax.set_xticklabels([x_labels[i * 12] if i%2==0 else "" for i in range(len(x_labels[::12]))])
+
+    else: 
+        x_labels = [datetime.fromisoformat(label).strftime('%m-%d') + \
+                    "\n" + datetime.fromisoformat(label).strftime('%a') for label in labels]
+
+        ax.set_xticks(range(0, len(x_labels), 24))
+        ax.set_xticklabels(x_labels[::24])
     
     # set background color of xticks
     for i in range(0, len(new_labels), 24):
@@ -79,9 +94,7 @@ def draw_chart(data):
         else :
             ax.axvspan(i, i+24, facecolor='blue', alpha=0.1)
 
-        #ax.text( i, 0.5, day_of_week, color='black', ha='center', va='center')
     # set labels and title
-    
     ax.set_xlabel('Date')
     ax.set_ylabel('Temperature')
     ax2.set_ylabel('mm')
@@ -92,18 +105,26 @@ def draw_chart(data):
     ax2.legend(loc='upper right')
 
     plt.tight_layout()
-    #plt.savefig('forecast2.png')
-    plt.savefig('./docs/_images/forecast.png')
+    plt.savefig(savepath)
+    
 
-    """
-    # Generate a dictionary with the data
-    data_dict = {
-        'updated date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-    }
+def main():
+    url = 'https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=139.69&hourly=temperature_2m,rain,showers&daily=weathercode&forecast_days=14&timezone=Asia%2FTokyo'
+    response = requests.get(url)
+    data = json.loads(response.text)
 
-    # Write the dictionary to a file in JSON format
-    with open('./docs/_images/updatetime_dict.json', 'w') as f:
-        json.dump(data_dict, f)
-    """
-draw_chart(data)
+    #for deploy
+    savepath = './docs/_images/' 
+    #savepath = ''
 
+    preview = True
+    savefile = savepath + 'forecast-short.png'
+    draw_chart(data, preview, savefile)
+
+    preview = False
+    savefile = savepath + 'forecast.png'
+    draw_chart(data, preview, savefile)
+
+
+if __name__ == "__main__":
+    main()
