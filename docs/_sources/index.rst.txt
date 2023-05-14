@@ -10,19 +10,30 @@
 
 四季~Letter~
 ==============
+(★) : Hot article
 
+
+Dashboard
+~~~~~~~~~~
 
 .. include::
-  ./src/dashboard/dashboard.rst
+  ./src/dashboard/dashboard-prev.rst
+
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   ./src/dashboard/dashboard.rst
+
+.. raw:: html
+
+   <a class="show-full" href="./src/dashboard/dashboard.html"> >>Full Dashboard</a>
 
 .. .. image:: ./figures/forecast.png
 ..   :align: center
 
   
-
-(★) : Hot article
-
-
 Topic 
 ~~~~~~~~~~~~~
 
