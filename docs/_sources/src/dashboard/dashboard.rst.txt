@@ -3,7 +3,7 @@ Dashboard
 
 Weather data by Open-Meteo.com<https://open-meteo.com/>
 
-.. image:: ./figures/forecast.png
+.. image:: ../../_images/forecast.png
    :align: center
 
 
