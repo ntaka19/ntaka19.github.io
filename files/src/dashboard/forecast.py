@@ -118,11 +118,11 @@ def main():
     #savepath = ''
 
     preview = True
-    savefile = savepath + 'forecast-short.png'
+    savefile = './docs/_images/forecast-short.png'
     draw_chart(data, preview, savefile)
 
     preview = False
-    savefile = savepath + 'forecast.png'
+    savefile = './docs/_images/forecast.png'
     draw_chart(data, preview, savefile)
 
 
