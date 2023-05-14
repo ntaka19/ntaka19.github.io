@@ -16,11 +16,12 @@
 Dashboard
 ~~~~~~~~~~
 
-..  ./src/dashboard/dashboard-prev.rst
 Weather data by Open-Meteo.com<https://open-meteo.com/>
 
 .. image:: ./figures/forecast-short.png
    :align: center
+
+wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
 
 
 .. toctree::
@@ -33,8 +34,6 @@ Weather data by Open-Meteo.com<https://open-meteo.com/>
 
    <a class="show-full" href="./src/dashboard/dashboard.html"> >>Full Dashboard</a>
 
-.. .. image:: ./figures/forecast.png
-..   :align: center
 
   
 Topic 
