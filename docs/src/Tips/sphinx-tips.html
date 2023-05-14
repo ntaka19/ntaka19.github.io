@@ -178,7 +178,11 @@ help:
 (<a class="reference external" href="https://stackoverflow.com/questions/49210787/how-do-i-highlight-text-in-python-sphinx">https://stackoverflow.com/questions/49210787/how-do-i-highlight-text-in-python-sphinx</a>)</p></li>
 <li><p>javascriptボタンクリックは実装できるが、chart がなぜかできない。</p></li>
 <li><p>github actionsでgithub pages用にデプロイをスケジューリングしてあげることで、定期的にページの更新を行うことができる。例えば天気予報を取得することができる。github actionsはmainブランチからしか実装できない?</p></li>
+<li><p>github pagesデプロイまでの流れを抑えておく必要がある。そもそも”home directoryはどこですか？”</p></li>
 </ol>
+<ul class="simple">
+<li><p>files/figures に入れたものがdocs/_images に行く。（正しくビルドされていれば）。そしてdocsの状態のものがgithub pagesにてデプロイされる。したがって、画像はfiles/figuresに入っている必要がある。</p></li>
+</ul>
 </section>
 
 
@@ -199,6 +203,9 @@ help:
 
 <h3>Navigation</h3>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard/dashboard.html">Dashboard</a></li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../theme/morningsatelite.html">モーサテウォッチ(★)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theme/chatgpt_papers.html">Topic on GPT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theme/stablediffusion_papers.html">Interesting Papers on Stable Diffusion</a></li>
@@ -217,10 +224,12 @@ help:
 <li class="toctree-l1"><a class="reference internal" href="../MLApp/index.html">Machine Learning(★)</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../securitiestradelifecycle/index.html">Securities Trade Lifecycle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../deephedge/index.html">Deep Hedge</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../regulations/frtb.html">トレーディング勘定の抜本的見直し（FRTB）</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../regulations/benchmarkreform.html">Benchmark Reform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../econ/securitiestradelifecycle/index.html">Securities Trade Lifecycle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../econ/deephedge/index.html">Deep Hedge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../econ/regulations/frtb.html">トレーディング勘定の抜本的見直し（FRTB）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../econ/regulations/benchmarkreform.html">Benchmark Reform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../econ/topic/finance_topic.html">参考サイト</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../econ/topic/marketresearch.html">Market Research</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../neuroscience/index.html">Neuroscience</a></li>

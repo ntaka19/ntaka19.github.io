@@ -16,19 +16,24 @@
 Dashboard
 ~~~~~~~~~~
 
-Weather data by Open-Meteo.com<https://open-meteo.com/>
+#. Weather forecast
 
-.. image:: ./figures/forecast-short.png
-   :align: center
+   .. image:: ./figures/forecast-short.png
+      :align: center
+      :width: 1000
+      :height: 250
 
-wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
+   - Weather data by Open-Meteo.com<https://open-meteo.com/>
+   - wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
 
+   .. toctree::
+      :maxdepth: 2
+      :hidden:
+      ./src/dashboard/dashboard.rst
 
-.. toctree::
-   :maxdepth: 2
+.. raw:: html
 
-   ./src/dashboard/dashboard.rst
-
+   <a class="show-more" href="./src/dashboard/dashboard.html"> >>Show more</a>
 
 
   
