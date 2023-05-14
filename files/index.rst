@@ -26,13 +26,9 @@ wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML
 
 .. toctree::
    :maxdepth: 2
-   :hidden:
 
    ./src/dashboard/dashboard.rst
 
-.. raw:: html
-
-   <a class="show-full" href="./src/dashboard/dashboard.html"> >>Full Dashboard</a>
 
 
   
