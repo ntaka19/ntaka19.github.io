@@ -16,8 +16,11 @@
 Dashboard
 ~~~~~~~~~~
 
-.. include::
-  ./src/dashboard/dashboard-prev.rst
+..  ./src/dashboard/dashboard-prev.rst
+Weather data by Open-Meteo.com<https://open-meteo.com/>
+
+.. image:: ./figures/forecast-short.png
+   :align: center
 
 
 .. toctree::
