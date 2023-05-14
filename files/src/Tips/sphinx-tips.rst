@@ -187,3 +187,8 @@ Sphinx Tips
 #. github actionsでgithub pages用にデプロイをスケジューリングしてあげることで、定期的にページの更新を行うことができる。例えば天気予報を取得することができる。github actionsはmainブランチからしか実装できない? 
 
 
+#. github pagesデプロイまでの流れを抑えておく必要がある。そもそも"home directoryはどこですか？” 
+
+- files/figures に入れたものがdocs/_images に行く。（正しくビルドされていれば）。そしてdocsの状態のものがgithub pagesにてデプロイされる。したがって、画像はfiles/figuresに入っている必要がある。
+
+
