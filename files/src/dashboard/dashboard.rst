@@ -15,3 +15,8 @@ Dashboard
 
 #. Market
 
+test
+
+.. raw:: html
+
+   <a class="show-more" href="./src/dashboard/marketinfo.html"> >>Show more</a>
