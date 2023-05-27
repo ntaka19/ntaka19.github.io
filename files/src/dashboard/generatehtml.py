@@ -77,8 +77,8 @@ class APIExtractor(AbstractMarketExtractor):
 def main():
 
     #market_extractor = JsonExtractor()
-    market_extractor = APIExtractor(os.environ['ENV1'])
-    rawdata = market_extractor.Extract()
+    market_extractor = APIExtractor()
+    rawdata = market_extractor.Extract(os.environ['ENV1'])
     formatted_data = market_extractor.Format(rawdata)
     
     generator = Generator()
