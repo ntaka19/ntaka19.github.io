@@ -19,4 +19,4 @@ test
 
 .. raw:: html
 
-   <a class="show-more" href="./marketinfo.html"> >>Show more</a>
+   <a class="marketdashboard" href="./marketinfo.html"> >>Check Market!</a>
