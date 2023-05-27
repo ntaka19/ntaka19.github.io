@@ -2,7 +2,6 @@ name: Deploy to Gh-pages (Scheduled)
 
 on:
   push:
-    - main
   schedule:
     - cron:  '0 * * * *'
 
