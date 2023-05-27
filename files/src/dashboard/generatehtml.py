@@ -4,7 +4,7 @@ from django.template import Template, Context
 import json
 import requests
 from abc import ABC, ABCMeta, abstractmethod
-
+import os
 
 class Generator:
     def __init__(self):
@@ -76,12 +76,11 @@ class APIExtractor(AbstractMarketExtractor):
 
 def main():
 
-    market_extractor = JsonExtractor()
-    #market_extractor = APIExtractor(os.)
+    #market_extractor = JsonExtractor()
+    market_extractor = APIExtractor(os.environ['ENV1'])
     rawdata = market_extractor.Extract()
     formatted_data = market_extractor.Format(rawdata)
     
-
     generator = Generator()
     generator.generate_html(formatted_data)
 
