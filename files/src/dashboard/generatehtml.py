@@ -71,6 +71,9 @@ class APIExtractor(AbstractMarketExtractor):
         response = requests.get(url)
         rawdata = response.json()
 
+        print("rawdata")
+        print(rawdata)
+
         return rawdata
 
 
