@@ -83,7 +83,7 @@ def main():
     #market_extractor = JsonExtractor()
     market_extractor = APIExtractor()
     #rawdata = market_extractor.Extract(os.environ['ENV1'])
-    print(os.environ['ENV1'][0])
+    #print(os.environ['ENV1'][0])
     rawdata = market_extractor.Extract(sys.argv[1])
 
     formatted_data = market_extractor.Format(rawdata)
