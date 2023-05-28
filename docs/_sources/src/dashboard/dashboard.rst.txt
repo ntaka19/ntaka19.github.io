@@ -15,8 +15,12 @@ Dashboard
 
 #. Market
 
-test
+Market data from Financial Modeling Prep. 
+(https://github.com/antoinevulcain/Financial-Modeling-Prep-API/blob/master/LICENSE)
 
 .. raw:: html
 
-   <a class="marketdashboard" href="./marketinfo.html"> >>Check Market!</a>
+    <iframe src="./marketinfo.html" width="100%></iframe>
+
+.. :file: "./marketinfo.html"
+.. <a class="marketdashboard" href="./marketinfo.html"> >>Check Market!</a>
