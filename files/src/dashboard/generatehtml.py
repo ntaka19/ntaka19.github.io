@@ -34,8 +34,24 @@ class Generator:
                     "open1": formatted_data["open"][0],
                     "low1": formatted_data["low"][0],
                     "high1": formatted_data["high"][0],
-                    "date1": formatted_data["date"][0]
+                    "date1": formatted_data["date"][0],
                     })
+        """
+        "Symbol1": stock_index_data["Symbol"][0],
+                "Name1" : stock_index_data["Name"][0],
+                "Price1" : stock_index_data["Name"][0],
+                "ChangeP1" : stock_index_data["ChangeP"][0],
+                "Change1" : stock_index_data["Change"][0],
+                "DayLow1" : stock_index_data["DayLow"][0],
+                "DayHigh1" : stock_index_data["DayHigh"][0],
+                "YearHigh1" : stock_index_data["YearHigh"][0],
+                "YearLow1" : stock_index_data["YearLow"][0],
+                "Volume1" : stock_index_data["Volume"][0],
+                "AverageVolume1" : stock_index_data["AverageVolume"][0],
+                "Exchange1" : stock_index_data["Exchange"][0],
+                "Open1" : stock_index_data["Open"][0],
+                "PreviousClose1" : stock_index_data["PreviousClose"][0],
+        """
 
         rendered_html = t.render(c)
 
@@ -60,7 +76,7 @@ class AbstractMarketExtractor(metaclass=ABCMeta):
                     [timezone("America/New_York").localize(datetime.strptime(d[key], "%Y-%m-%d %H:%M:%S")).astimezone(timezone("Asia/Tokyo")).strftime("%Y-%m-%d %H:%M:%S") for d in rawdata]
                 #      [ datetime.strptime(d[key], "%Y-%m-%d %H:%M:%S").replace(tzinfo=utc).astimezone(timezone("Asia/Tokyo")).strftime("%Y-%m-%d %H:%M:%S") for d in rawdata]
                 # need localize method to incorporate summer time.
-                print("date " + ','.join(formatted_data[key]))
+                # print("date " + ','.join(formatted_data[key]))
 
             else: formatted_data[key] = [d[key] for d in rawdata]
         return formatted_data
@@ -81,21 +97,31 @@ class APIExtractor(AbstractMarketExtractor):
         response = requests.get(url)
         rawdata = response.json()
 
-        print("rawdata")
-        print(rawdata)
-
         return rawdata
+    
+    def ExtractStockIndex(self, apikey):
+        url = f"https://financialmodelingprep.com/api/v3/quote/%5EGSPC,%5EDJI,%5EIXIC?apikey={apikey}"
+        response = requests.get(url)
+        rawdata = response.json()
+        return rawdata
+
 
 
 def main():
 
     #market_extractor = JsonExtractor()
     market_extractor = APIExtractor()
-    #rawdata = market_extractor.Extract(os.environ['TEST'])
-    rawdata = market_extractor.Extract(sys.argv[1])
 
+    #fx data
+    rawdata = market_extractor.Extract(os.environ['TEST'])
+    #rawdata = market_extractor.Extract(sys.argv[1]) #For test
+    rawdata = [item for item in rawdata if item["ticker"] == "USD/JPY"]
     formatted_data = market_extractor.Format(rawdata)
-    
+
+    #stock index data
+    #stock_index_data = market_extractor.ExtractStockIndex(os.environ['TEST'])
+    #stock_index_data = market_extractor.ExtractStockIndex(sys.argv[1])
+ 
     generator = Generator()
     generator.generate_html(formatted_data)
 
