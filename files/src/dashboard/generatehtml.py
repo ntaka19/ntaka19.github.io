@@ -6,6 +6,8 @@ import requests
 from abc import ABC, ABCMeta, abstractmethod
 import os
 import sys
+from pytz import timezone, utc
+from datetime import datetime
 
 class Generator:
     def __init__(self):
@@ -52,6 +54,13 @@ class AbstractMarketExtractor(metaclass=ABCMeta):
         for key in rawdata[0].keys():
             if key=="changes":
                 formatted_data[key] = [format(d[key], '.2f') for d in rawdata]
+            
+            elif key == "date":
+                formatted_data[key] = \
+                    [timezone("America/New_York").localize(datetime.strptime(d[key], "%Y-%m-%d %H:%M:%S")).astimezone(timezone("Asia/Tokyo")).strftime("%Y-%m-%d %H:%M:%S") for d in rawdata]
+                #      [ datetime.strptime(d[key], "%Y-%m-%d %H:%M:%S").replace(tzinfo=utc).astimezone(timezone("Asia/Tokyo")).strftime("%Y-%m-%d %H:%M:%S") for d in rawdata]
+                # need localize method to incorporate summer time.
+                print("date " + ','.join(formatted_data[key]))
 
             else: formatted_data[key] = [d[key] for d in rawdata]
         return formatted_data
@@ -82,9 +91,8 @@ def main():
 
     #market_extractor = JsonExtractor()
     market_extractor = APIExtractor()
-    rawdata = market_extractor.Extract(os.environ['TEST'])
-    #print(os.environ['ENV1'][0])
-    #rawdata = market_extractor.Extract(sys.argv[1])
+    #rawdata = market_extractor.Extract(os.environ['TEST'])
+    rawdata = market_extractor.Extract(sys.argv[1])
 
     formatted_data = market_extractor.Format(rawdata)
     

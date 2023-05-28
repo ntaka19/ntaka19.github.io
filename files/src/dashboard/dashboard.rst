@@ -15,12 +15,11 @@ Dashboard
 
 #. Market
 
-Market data from Financial Modeling Prep. 
+- Market data from Financial Modeling Prep. 
 (https://github.com/antoinevulcain/Financial-Modeling-Prep-API/blob/master/LICENSE)
 
 .. raw:: html
 
     <iframe src="./marketinfo.html" width="100%></iframe>
 
-.. :file: "./marketinfo.html"
-.. <a class="marketdashboard" href="./marketinfo.html"> >>Check Market!</a>
+
