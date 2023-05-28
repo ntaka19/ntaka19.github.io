@@ -12,11 +12,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.8
-        cache: 'pip'
+        python-version: 3.9
+        cache: 'pip' #dependency caching
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -29,7 +29,7 @@ jobs:
       run: |
         python ./files/src/dashboard/generatehtml.py #メインスクリプトを実行
       env:
-        TEST: ${{ secrets. }}
+        TEST: ${{ secrets.FMP_API }}
 
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3
