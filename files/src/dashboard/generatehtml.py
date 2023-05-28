@@ -82,7 +82,7 @@ def main():
 
     #market_extractor = JsonExtractor()
     market_extractor = APIExtractor()
-    print(os.environ['TEST'])
+    print("check environ " + os.environ['TEST'])
 
     rawdata = market_extractor.Extract(os.environ['TEST'])
     #print(os.environ['ENV1'][0])
