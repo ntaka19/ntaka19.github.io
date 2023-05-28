@@ -28,7 +28,7 @@ jobs:
       run: |
         python ./files/src/dashboard/generatehtml.py #メインスクリプトを実行
       env:
-        ENV1: ${{ secrets.TEST }}
+        TEST: ${{ secrets.TEST }}
 
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3
