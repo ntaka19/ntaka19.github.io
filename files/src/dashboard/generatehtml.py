@@ -5,6 +5,7 @@ import json
 import requests
 from abc import ABC, ABCMeta, abstractmethod
 import os
+import sys
 
 class Generator:
     def __init__(self):
@@ -81,7 +82,10 @@ def main():
 
     #market_extractor = JsonExtractor()
     market_extractor = APIExtractor()
-    rawdata = market_extractor.Extract(os.environ['ENV1'])
+    #rawdata = market_extractor.Extract(os.environ['ENV1'])
+    print(os.environ['ENV1'][0])
+    rawdata = market_extractor.Extract(sys.argv[1])
+
     formatted_data = market_extractor.Format(rawdata)
     
     generator = Generator()
