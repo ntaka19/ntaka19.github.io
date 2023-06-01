@@ -27,10 +27,3 @@ jobs:
         python ./files/src/dashboard/daily_batch.py #メインスクリプトを実行
       env:
         OPENAI_API: ${{ secrets.OPENAI_API }}
-
-    - name: deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .
-        publish_branch: main
