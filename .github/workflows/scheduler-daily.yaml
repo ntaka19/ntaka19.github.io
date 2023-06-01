@@ -1,4 +1,4 @@
-name: Deploy to Gh-pages (Scheduled)
+name: Actions main (Scheduled)
 
 on:
   push:
