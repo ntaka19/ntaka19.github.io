@@ -7,6 +7,7 @@ import django
 from django.conf import settings
 from django.template import Template, Context
 from datetime import datetime
+from pytz import timezone
 
 
 class ChatGPTWrapper:
@@ -38,6 +39,7 @@ def forecast():
     data = json.loads(response.text)
     
     today = datetime.fromisoformat(data['hourly']['time'][0]).strftime('%m-%d %a')
+    updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%m/%d %H:%M')
 
     chatgpt = ChatGPTWrapper()
     prompt = "この日の天気を詳しく予報して：  {first}".format(first=json.dumps(data))                                
@@ -58,7 +60,8 @@ def forecast():
     with open('./files/src/dashboard/template_todayweather.html', 'r') as template_file:
         t = Template(template_file.read())
         c = Context({"today" : today,
-                     "forecast_text": forecast_text})    
+                     "forecast_text": forecast_text,
+                     "updated_time": updated_time})    
         
         rendered_html = t.render(c)
 
