@@ -31,7 +31,6 @@ Dashboard
    - wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
    
 
-
    .. toctree::
       :maxdepth: 2
       :hidden:
