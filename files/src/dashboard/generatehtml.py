@@ -113,8 +113,10 @@ def main():
     market_extractor = APIExtractor()
 
     #fx data
-    rawdata = market_extractor.Extract(os.environ['TEST'])
+    rawdata = market_extractor.Extract(os.environ['FMP_API'])
     #rawdata = market_extractor.Extract(sys.argv[1]) #For test
+
+    #rawdata = [item for item in rawdata if "JPY" in item["ticker"]]
     rawdata = [item for item in rawdata if item["ticker"] == "USD/JPY"]
     formatted_data = market_extractor.Format(rawdata)
 
