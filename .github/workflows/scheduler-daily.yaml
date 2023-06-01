@@ -25,6 +25,8 @@ jobs:
     - name: Run Daily Batch
       run: |
         python ./files/src/dashboard/daily_batch.py #メインスクリプトを実行
+        git config --global user.email "naruakitakano@gmail.com"
+        git config --global user.name "ntaka19"
         git add .
         git commit -m "crongenerated"
         git push
