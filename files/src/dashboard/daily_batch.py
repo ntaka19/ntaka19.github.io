@@ -12,8 +12,8 @@ from datetime import datetime
 class ChatGPTWrapper:
     
     def __init__(self):
-        #self.api = os.environ['OPENAI_API']
-        self.api = sys.argv[1]
+        self.api = os.environ['OPENAI_API']
+        #self.api = sys.argv[1]
 
     def GetResponse(self, prompt):
         openai.api_key = self.api
