@@ -8,6 +8,7 @@ from pytz import timezone
 import sys
 import os
 
+
 def draw_chart(data, preview, savepath):
     labels = data['hourly']['time']
     #only show date date
@@ -109,6 +110,7 @@ def draw_chart(data, preview, savepath):
     plt.savefig(savepath)
 
 def forecast():
+
     url = 'https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=139.69&hourly=temperature_2m,rain,showers&daily=weathercode&forecast_days=14&timezone=Asia%2FTokyo'
     response = requests.get(url)
     data = json.loads(response.text)

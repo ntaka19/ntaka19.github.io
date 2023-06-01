@@ -22,8 +22,15 @@ Dashboard
       :align: center
       :width: 1000
 
+   .. ここにhtmlの抜粋データをいれておく。daily実行。
+   .. raw:: html
+
+    <iframe src="./src/dashboard/forecast_text.html" width="100%" height="100%"></iframe>
+
    - Weather data by Open-Meteo.com<https://open-meteo.com/>
    - wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
+   
+
 
    .. toctree::
       :maxdepth: 2

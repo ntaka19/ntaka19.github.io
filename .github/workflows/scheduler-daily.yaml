@@ -3,7 +3,7 @@ name: Deploy to Gh-pages (Scheduled)
 on:
   push:
   schedule:
-    - cron:  '0 * * * *'
+    - cron:  '0 */12 * * *'
 
 jobs:
   build:
@@ -21,15 +21,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-api.txt
-    - name: Run script
+    
+    - name: Run Daily Batch
       run: |
-        python ./files/src/dashboard/forecast.py #メインスクリプトを実行
-
-    - name: Run marketgenerate script
-      run: |
-        python ./files/src/dashboard/generatehtml.py #メインスクリプトを実行
+        python ./files/src/dashboard/daily_batch.py #メインスクリプトを実行
       env:
-        FMP_API: ${{ secrets.FMP_API }}
+        OPENAI_API: ${{ secrets.OPENAI_API }}
 
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3

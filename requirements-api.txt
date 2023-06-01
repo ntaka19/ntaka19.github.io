@@ -3,3 +3,4 @@ matplotlib
 pandas
 pytz
 django
+openai
