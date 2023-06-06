@@ -17,4 +17,9 @@ Effective C Sharp #6.0, #7.0 まとめ
    ./8.rst
    ./9.rst
    ./10.rst
-   ./part2.rst
+   ./11.rst
+   ./12.rst
+   ./13.rst
+   ./14.rst
+   ./15.rst
+   

@@ -1,0 +1,121 @@
+14. 初期化ロジックの重複を最小化する。(デフォルト引数 vs.コンストラクタオーバーライド）
+====================================================================================
+
+
+-  コンストラクタを定義するという作業は幾度となく繰り返されるもの。
+
+-  デフォルト引数は、引数の名前とそのデフォルト値がpublic interfaceの一部になる。つまり引数の名前を変更した場合、このクラスを使用する全てのコードが名前の変更に追従しないといけない。
+
+-  static プロパティはコンパイル時定数ではない。
+
+    -  コンパイル時定数：コンパイルした後に値を直書きしたときと同じように扱われる。
+
+-  利用側を再コンパイルするまで...ライブラリだけコンパイルして再配布はできない。
+
+-  名前付き引数は、それを追従しているときにエラーが出る可能性がある。これはどういうことかというと、
+
+    ::
+
+                static int Sum(int x, int y = 1, int z = 1)
+                    {
+                        return x + y + z;
+                    }
+
+    に対して、
+
+    ::
+
+                Sum(x: 0, y: 1, z: 2);
+
+    と呼び出しできるし、
+
+    ::
+
+                Sum(x:0, z:2);
+
+    としても呼び出すことができるが、 例えば、
+
+    ::
+
+                static int Sum(int x, int y = 1, int zzz = 1)
+                    {
+                        return x + y + zzz;
+                    }
+
+    と変更した場合、呼び出しがエラーになる。
+
+-  将来起こりうる変化に対しては、オーバーロードされたコンストラクタの方が耐性がある。
+
+-  コンストラクタに共有する処理を別メソッドとして切り出す方法にはデメリットがある。
+
+    -  コンパイラはいくつかの機能を呼び出すためのコードを自動的にコンストラクタに追加する。
+
+    -  全ての変数に愛するオブジェクト初期化子用のぶんを追加する。
+
+    -  こっちが実装として良い：（「コンパイル時にオブジェクト初期化子用のコードがよばれる回数が少なくて済む。親クラスのコンストラクタ呼び出しの回数(object())も一回だけ)
+
+        ::
+
+            　　  public class MyClass{
+                private List<ImportantDat> call;
+                
+                private string name;
+                
+                public Myclass(null, ""){
+                }
+                public MyClass(int initialCount):this(initialCount, string.Empty){
+                
+                }
+                public MyClass(int initialCount, string name){            //コンパイル時にここでオブジェクトだったり、初期化子用のコードがよばれる。
+
+                    col =(initialCount > 0) ? new List<ImportantData>(initialCount) : new List<ImportantData>();
+                    this.name = name;
+                }
+                }
+
+        共通の機能を切り出してしまうと、非効率的になる。
+
+        ::
+
+            public class MyClass{
+            private List<ImportantDat> call;
+
+            private string name;
+
+            public Myclass(null, ""){
+                //コンパイル時にここでオブジェクトだったり、初期化子用のコードがよばれる。
+                commonConstructor(null, "");
+            }
+
+            public MyClass(int initialCount):this(initialCount, string.Empty){
+                //コンパイル時にここでオブジェクトだったり、初期化子用のコードがよばれる。
+                commonConstructor(initialCount, name);
+            }
+
+            private void commonConstructor(int count, string name){
+                col =(initialCount > 0) ? new List<ImportantData>(initialCount) : new List<ImportantData>();
+                this.name = name;
+            }
+            }
+
+    -  型のインスタンスが初めて生成される際に行われる処理の流れ：
+
+        #. static変数のメモリストレージがnullに初期化される
+
+        #. static変数の初期化子が実行される
+
+        #. 親クラスの staticコンストラクタが実行される
+
+        #. staticコンストラクタが実行される
+
+        #. インスタンス変数のメモリストレージがnullに初期化される
+
+        #. インスタンス変数の初期化子が実行される
+
+        #. 適切な親クラスのコンストラクタが実行される
+
+        #. インスタンスコンストラクタが実行される
+
+        型の初期化処理は1回しか行われない。同じ型の別インスタンスにおける初期化処理は手順5(「インスタンス変数のメモリストレージが初期化」から始まる。
+
+-  「static初期化子はクラスのロード時に行われる」
