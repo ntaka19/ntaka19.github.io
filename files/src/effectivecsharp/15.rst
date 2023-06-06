@@ -1,0 +1,33 @@
+15. 不必要なオブジェクト生成を避けること
+=====================================================================
+
+-  ヒープオブジェクト：いろんなことができる。スタックは、
+
+-  参照型のオブジェクトをメソッド中でローカル変数として大量に使用s流ほど、アプリケーショのパフォーマンスに大きな影響を与えることになる。
+
+-  GCの実行条件はメモリの確保料と確保の頻度！GCにできるだけ仕事させないこと！
+
+    ::
+
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                using (Font MyFont = new Font("Arial",10.0f){
+                    e.Graphics.DrawString(DateTime.Now.ToString(), myFont, Brushes.Black,newPointF(0, 0)); 
+                }
+                base.OnPaint(e);
+            }
+
+    Fontオブジェクトが毎回破棄されなければならなくなる。
+    その代わりメンバに昇格させると良い。
+
+    ::
+
+            private readonly Font myFont = newFont("Arial", 10.0f);
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                e.Graphics.DrawString(DateTime.Now.ToString(), myFont, Brushes.Black,newPointF(0, 0)); 
+                base.OnPaint(e);
+            }
+
+-  Fontオブジェクトのように、IDisposableインターフェイスを実装するオブジェクトをローカル変数からメンバ変数に昇格させる場合は、暮らす自身にもIDisposableインタフェースを実装するべき。
+
