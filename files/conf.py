@@ -65,5 +65,9 @@ html_static_path = ['_static']
 #]
 
 
-extensions = ['sphinxcontrib.video', 'sphinx.ext.graphviz', 'jupyter_sphinx']
+extensions = ['sphinxcontrib.video', 'sphinx.ext.graphviz', 'jupyter_sphinx', 'sphinxcontrib.plantuml']
+
+
+plantuml = 'java -jar /root/plantuml-1.2023.9.jar'
+
 
