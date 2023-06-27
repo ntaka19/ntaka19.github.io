@@ -22,13 +22,16 @@ Dashboard
       :align: center
       :width: 1000
 
+   - wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
+
    .. ここにhtmlの抜粋データをいれておく。daily実行。
    .. raw:: html
 
-    <iframe src="./src/dashboard/forecast_text.html" width="100%" height="100%"></iframe>
-
+    <iframe src="./src/dashboard/forecast_text.html" width="100%" height="100%" position="fixed"></iframe>
+   
    - Weather data by Open-Meteo.com<https://open-meteo.com/>
-   - wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
+
+   - Text generated from ChatGPT API (GPT-3.5).
    
 
    .. toctree::
@@ -96,6 +99,8 @@ Econ&Finance
    ./src/econ/regulations/benchmarkreform.rst
    ./src/econ/topic/finance_topic.rst
    ./src/econ/topic/marketresearch.rst
+   ./src/econ/quantlib/index.rst
+   ./src/econ/structuring/index.rst
 
    
 

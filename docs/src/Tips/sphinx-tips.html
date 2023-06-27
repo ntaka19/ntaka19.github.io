@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Sphinx Tips &#8212; Home 1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
@@ -178,11 +178,68 @@ help:
 (<a class="reference external" href="https://stackoverflow.com/questions/49210787/how-do-i-highlight-text-in-python-sphinx">https://stackoverflow.com/questions/49210787/how-do-i-highlight-text-in-python-sphinx</a>)</p></li>
 <li><p>javascriptボタンクリックは実装できるが、chart がなぜかできない。</p></li>
 <li><p>github actionsでgithub pages用にデプロイをスケジューリングしてあげることで、定期的にページの更新を行うことができる。例えば天気予報を取得することができる。github actionsはmainブランチからしか実装できない?</p></li>
-<li><p>github pagesデプロイまでの流れを抑えておく必要がある。そもそも”home directoryはどこですか？”</p></li>
-</ol>
-<ul class="simple">
+<li><p>github pagesデプロイまでの流れを抑えておく必要がある。そもそも”home directoryはどこですか？”</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>files/figures に入れたものがdocs/_images に行く。（正しくビルドされていれば）。そしてdocsの状態のものがgithub pagesにてデプロイされる。したがって、画像はfiles/figuresに入っている必要がある。</p></li>
 </ul>
+</div></blockquote>
+</li>
+<li><dl>
+<dt>RSTファイルでinternal link を作る方法 (underscoreを使う)：</dt><dd><p>次をrst本文中に書き込む。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>.. _RBC25: //これはアンカー
+
+    This is a link to the RST Overview: `RBC25`_. //ここがリンク
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p>Plantuml をdocker + sphinx 環境で入れる方法</p>
+<ol class="arabic">
+<li><p>pip install する requirements.txtに入れる。</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">plantuml</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">plantuml</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>ダウンロードしてきたplantuml-1.2023.9.jarを/root/にコピーする。DockerFileを編集する。plantuml-1.2023.9.jarをローカルからDockerのイメージにコピーしないとなぜかconf.pyからは指定できない。(マウントしているのに相対パスで読めないのはなぜ?)</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Java (jarを動かすため)</span>
+<span class="n">RUN</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span> <span class="o">&amp;&amp;</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">openjdk</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="n">jre</span>
+
+<span class="n">COPY</span> <span class="o">./</span><span class="n">plantuml</span><span class="o">-</span><span class="mf">1.2023.9</span><span class="o">.</span><span class="n">jar</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span>
+<span class="n">RUN</span> <span class="n">chmod</span> <span class="o">+</span><span class="n">r</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">plantuml</span><span class="o">-</span><span class="mf">1.2023.9</span><span class="o">.</span><span class="n">jar</span>
+<span class="n">RUN</span> <span class="n">ls</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">plantuml</span><span class="o">-</span><span class="mf">1.2023.9</span><span class="o">.</span><span class="n">jar</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>conf.pyをeditする。</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sphinxcontrib.plantuml&#39;</span><span class="p">]</span>
+<span class="n">plantuml</span> <span class="o">=</span> <span class="s1">&#39;java -jar /root/plantuml-1.2023.9.jar&#39;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>rstファイルに記入する。</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">uml</span><span class="p">::</span>
+
+    <span class="nd">@startuml</span>
+    <span class="n">Class01</span> <span class="o">-&gt;</span> <span class="n">Class02</span> <span class="p">:</span> <span class="n">Link</span>
+    <span class="n">Class02</span> <span class="o">--&gt;</span> <span class="n">Class03</span> <span class="p">:</span> <span class="n">Another</span> <span class="n">link</span>
+    <span class="nd">@enduml</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</li>
+</ol>
 </section>
 
 
@@ -202,9 +259,6 @@ help:
 
 
 <h3>Navigation</h3>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../dashboard/dashboard.html">Dashboard</a></li>
-</ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../theme/morningsatelite.html">モーサテウォッチ(★)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theme/chatgpt_papers.html">Topic on GPT</a></li>
@@ -230,6 +284,8 @@ help:
 <li class="toctree-l1"><a class="reference internal" href="../econ/regulations/benchmarkreform.html">Benchmark Reform</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../econ/topic/finance_topic.html">参考サイト</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../econ/topic/marketresearch.html">Market Research</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../econ/quantlib/index.html">Quantlib (★)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../econ/structuring/index.html">仕組み債</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../neuroscience/index.html">Neuroscience</a></li>
@@ -276,7 +332,7 @@ help:
       &copy;2023, ntaka19.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |

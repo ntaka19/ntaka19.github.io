@@ -191,6 +191,20 @@ Docker Composeで何ができるか？
   docker-compose exec container3 bash
 
 
+Requirements.txtを更新したいとき
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+イメージを再度作成する。
+
+::
+     
+      docker build . -t イメージ名
+
+docker composeし直してコンテナを作る。
+
+::
+
+  docker compose up -d
 
 
 Kubernetes

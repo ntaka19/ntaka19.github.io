@@ -189,6 +189,55 @@ Sphinx Tips
 
 #. github pagesデプロイまでの流れを抑えておく必要がある。そもそも"home directoryはどこですか？” 
 
-- files/figures に入れたものがdocs/_images に行く。（正しくビルドされていれば）。そしてdocsの状態のものがgithub pagesにてデプロイされる。したがって、画像はfiles/figuresに入っている必要がある。
+    - files/figures に入れたものがdocs/_images に行く。（正しくビルドされていれば）。そしてdocsの状態のものがgithub pagesにてデプロイされる。したがって、画像はfiles/figuresに入っている必要がある。
 
+#. RSTファイルでinternal link を作る方法 (underscoreを使う)：
+    次をrst本文中に書き込む。
+
+    :: 
+
+        .. _RBC25: //これはアンカー
+
+            This is a link to the RST Overview: `RBC25`_. //ここがリンク
+
+#.  Plantuml をdocker + sphinx 環境で入れる方法
+
+    #. pip install する requirements.txtに入れる。
+
+        ::  
+
+            pip install plantuml
+            pip install sphinxcontrib-plantuml
+
+
+    #. ダウンロードしてきたplantuml-1.2023.9.jarを/root/にコピーする。DockerFileを編集する。plantuml-1.2023.9.jarをローカルからDockerのイメージにコピーしないとなぜかconf.pyからは指定できない。(マウントしているのに相対パスで読めないのはなぜ?)
+
+        :: 
+
+            # Install Java (jarを動かすため)
+            RUN apt-get update && apt-get install -y openjdk-11-jre
+
+            COPY ./plantuml-1.2023.9.jar /root/
+            RUN chmod +r /root/plantuml-1.2023.9.jar
+            RUN ls /root/plantuml-1.2023.9.jar
+
+
+
+    #. conf.pyをeditする。
+
+        ::
+
+            extensions = ['sphinxcontrib.plantuml']
+            plantuml = 'java -jar /root/plantuml-1.2023.9.jar'
+
+    #. rstファイルに記入する。
+        
+        :: 
+
+            .. uml::
+
+                @startuml
+                Class01 -> Class02 : Link
+                Class02 --> Class03 : Another link
+                @enduml
 

@@ -31,5 +31,12 @@ COPY ./requirements.txt /root/
 #requirements.txtなら以下のように
 RUN pip3 install -r /root/requirements.txt
 
+# Install Java
+RUN apt-get update && apt-get install -y openjdk-11-jre
+
+COPY ./plantuml-1.2023.9.jar /root/
+RUN chmod +r /root/plantuml-1.2023.9.jar
+RUN ls /root/plantuml-1.2023.9.jar
+
 WORKDIR /home/files
 # RUN make html
