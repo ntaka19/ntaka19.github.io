@@ -240,4 +240,12 @@ Sphinx Tips
                 Class01 -> Class02 : Link
                 Class02 --> Class03 : Another link
                 @enduml
+        
+        以下の図を得る。
+        
+        .. uml::
 
+                @startuml
+                Class01 -> Class02 : Link
+                Class02 --> Class03 : Another link
+                @enduml
