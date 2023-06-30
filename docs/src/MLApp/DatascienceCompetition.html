@@ -45,6 +45,41 @@
 <li><p>システム化を念頭において、デザインパターンをpythonで実装した。</p></li>
 <li><p>今後もライブラリのアップデートとともに更新する可能性はある。</p></li>
 </ul>
+<ol class="arabic">
+<li><p>Factory Methodでまとめてみる</p>
+<blockquote>
+<div><p class="plantuml">
+<img src="../../_images/plantuml-4243403a9a5ff30d82a2839c298c1126e68ed431.png" alt="&#64;startuml
+
+interface IFactory {
+    + factoryMethod(): Product
+}
+
+interface IProduct {
+    + operation(): void
+}
+
+class ConcreteFactory {
+    + factoryMethod(): Product
+}
+
+class ConcreteProduct {
+    + operation(): void
+}
+
+IFactory -right--&gt; IProduct : create
+ConcreteFactory -right--&gt; ConcreteProduct : create
+
+IFactory &lt;|.. ConcreteFactory : implements
+IProduct &lt;|.. ConcreteProduct : implements
+
+&#64;enduml"/>
+</p>
+<p>これをpythonで書くと、</p>
+</div></blockquote>
+</li>
+<li><p>利用のパターンについて</p></li>
+</ol>
 </section>
 
 

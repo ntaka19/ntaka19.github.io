@@ -8,3 +8,38 @@
 * 今後もライブラリのアップデートとともに更新する可能性はある。
 
 
+#. Factory Methodでまとめてみる
+
+    .. uml:: 
+
+        @startuml
+
+        interface IFactory {
+            + factoryMethod(): Product
+        }
+
+        interface IProduct {
+            + operation(): void
+        }
+
+        class ConcreteFactory {
+            + factoryMethod(): Product
+        }
+        
+        class ConcreteProduct {
+            + operation(): void
+        }
+
+        IFactory -right--> IProduct : create
+        ConcreteFactory -right--> ConcreteProduct : create
+
+        IFactory <|.. ConcreteFactory : implements
+        IProduct <|.. ConcreteProduct : implements
+
+        @enduml
+
+
+    これをpythonで書くと、
+
+
+#. 利用のパターンについて
