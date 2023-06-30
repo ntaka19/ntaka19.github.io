@@ -42,7 +42,7 @@ def forecast():
     updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%m/%d %H:%M')
 
     chatgpt = ChatGPTWrapper()
-    prompt = "この日の天気を詳しく予報して：  {first}".format(first=json.dumps(data))                                
+    prompt = "この日の天気をキャスターのように予報をして：  {first}".format(first=json.dumps(data))                                
     forecast_text = chatgpt.GetResponse(prompt)
 
     ##html生成 あとで別のモジュールにしておく。
