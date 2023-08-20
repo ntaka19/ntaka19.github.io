@@ -16,4 +16,11 @@ Git
 
 - git actionsの書き方まとめ
 
-- 
+- unable to unlink old ... permission denied エラーについて : https://qiita.com/FrogWoman/items/31cd5df4c4a5ae23f7e0
+
+    .. 
+        cd  作業ディレクトリ
+        sudo chown -R ユーザ名 ./
+        sudo chgrp -R グループ名 ./
+
+    
