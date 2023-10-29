@@ -12,16 +12,6 @@ Todo
 
 #. githubpages 独自ドメインを利用する方法は
 
-#. サブスク有効活用できている?
-
-    * globis
-    * kindle unlimited
-    * テレ東biz
-    * udemy
-    * newspicks
-    * 楽天マガジン
-
-
 #. github actionsを用いてweb api Restを再現する。
 
   * https://qiita.com/Kanahiro/items/e7021b05199ae52e818b

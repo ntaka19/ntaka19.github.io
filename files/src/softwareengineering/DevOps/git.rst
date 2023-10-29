@@ -23,4 +23,11 @@ Git
         sudo chown -R ユーザ名 ./
         sudo chgrp -R グループ名 ./
 
+
+.. toctree::
+   :maxdepth: 1
+
+    ./githubpages.rst
+    ./githubactions.rst
+
     

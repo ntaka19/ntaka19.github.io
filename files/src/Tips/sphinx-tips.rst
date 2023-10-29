@@ -8,32 +8,34 @@ Sphinx Tips
 
    https://www.sphinx-doc.org/ja/master/usage/restructuredtext/directives.html
 
-#. githubpagesで利用可能とするためには
+#. githubpagesで利用可能とするためには:
 
-    ::
 
-      # Minimal makefile for Sphinx documentation
-      #
+    .. code-block:: bash
+       :linenos:
+       :caption: Makefile (files直下にある). make htmlコマンドで、sphinx buildの代わりにautobuildを設定している。ctrl - Sで都度手元でビルドできるようにしている。--host 0.0.0.0 --port 8000 の設定については、docker側のportとローカル側のportの対応関係を規定している。ローカルのブラウザでhttp://localhost:8000/でアクセス可能となる。
 
-      # You can set these variables from the command line, and also
-      # from the environment for the first two.
-      SPHINXOPTS    ?=
-      SPHINXBUILD   ?= sphinx-build
-      SOURCEDIR     = .
-      BUILDDIR      = ../docs#_build
+        # Minimal makefile for Sphinx documentation
 
-      # Put it first so that "make" without argument is like "make help".
-      help:
-              @$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+        # You can set these variables from the command line, and also
+        # from the environment for the first two.
+        SPHINXOPTS    ?=
+        SPHINXBUILD   ?= sphinx-build
+        SOURCEDIR     = .
+        BUILDDIR      = ../docs#_build
 
-      .PHONY: help Makefile
+        # Put it first so that "make" without argument is like "make help".
+        help:
+                @$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-      # Catch-all target: route all unknown targets to Sphinx using the new
-      # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-      # $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/
-      %: Makefile
-              # @$(SPHINXBUILD) -b $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-              sphinx-autobuild -b $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) --host 0.0.0.0 --port 8000
+        .PHONY: help Makefile
+
+        # Catch-all target: route all unknown targets to Sphinx using the new
+        # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+        # $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/
+        %: Makefile
+                # @$(SPHINXBUILD) -b $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+                sphinx-autobuild -b $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O) --host 0.0.0.0 --port 8000
 
 
 

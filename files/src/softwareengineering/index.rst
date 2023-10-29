@@ -31,7 +31,8 @@ DevOps
 .. toctree::
    :maxdepth: 1
 
-   ./DevOps/git.rst   
+   ./DevOps/git.rst
+   ./DevOps/github.rst
    ./DevOps/docker.rst
    ./DevOps/jenkins.rst
 
