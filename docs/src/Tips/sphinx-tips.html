@@ -43,44 +43,46 @@
 <li><p>Sphinx directives</p>
 <p><a class="reference external" href="https://www.sphinx-doc.org/ja/master/usage/restructuredtext/directives.html">https://www.sphinx-doc.org/ja/master/usage/restructuredtext/directives.html</a></p>
 </li>
-<li><p>githubpagesで利用可能とするためには</p>
+<li><p>githubpagesで利用可能とするためには:</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Minimal makefile for Sphinx documentation
-#
-
-# You can set these variables from the command line, and also
-# from the environment for the first two.
-SPHINXOPTS    ?=
-SPHINXBUILD   ?= sphinx-build
-SOURCEDIR     = .
-BUILDDIR      = ../docs#_build
-
-# Put it first so that &quot;make&quot; without argument is like &quot;make help&quot;.
-help:
-        @$(SPHINXBUILD) -M help &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINXOPTS) $(O)
-
-.PHONY: help Makefile
-
-# Catch-all target: route all unknown targets to Sphinx using the new
-# &quot;make mode&quot; option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-# $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/
-%: Makefile
-        # @$(SPHINXBUILD) -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINXOPTS) $(O)
-        sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINXOPTS) $(O) --host 0.0.0.0 --port 8000
+<div><div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Makefile (files直下にある). make htmlコマンドで、sphinx buildの代わりにautobuildを設定している。ctrl - Sで都度手元でビルドできるようにしている。–host 0.0.0.0 –port 8000 の設定については、docker側のportとローカル側のportの対応関係を規定している。ローカルのブラウザでhttp://localhost:8000/でアクセス可能となる。</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="c1"># Minimal makefile for Sphinx documentation</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="w"> </span><span class="c1"># You can set these variables from the command line, and also</span>
+<span class="linenos"> 4</span><span class="w"> </span><span class="c1"># from the environment for the first two.</span>
+<span class="linenos"> 5</span><span class="w"> </span>SPHINXOPTS<span class="w">    </span>?<span class="o">=</span>
+<span class="linenos"> 6</span><span class="w"> </span>SPHINXBUILD<span class="w">   </span>?<span class="o">=</span><span class="w"> </span>sphinx-build
+<span class="linenos"> 7</span><span class="w"> </span><span class="nv">SOURCEDIR</span><span class="w">     </span><span class="o">=</span><span class="w"> </span>.
+<span class="linenos"> 8</span><span class="w"> </span><span class="nv">BUILDDIR</span><span class="w">      </span><span class="o">=</span><span class="w"> </span>../docs#_build
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="w"> </span><span class="c1"># Put it first so that &quot;make&quot; without argument is like &quot;make help&quot;.</span>
+<span class="linenos">11</span><span class="w"> </span>help:
+<span class="linenos">12</span><span class="w">         </span>@<span class="k">$(</span>SPHINXBUILD<span class="k">)</span><span class="w"> </span>-M<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>SOURCEDIR<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>BUILDDIR<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">$(</span>SPHINXOPTS<span class="k">)</span><span class="w"> </span><span class="k">$(</span>O<span class="k">)</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="w"> </span>.PHONY:<span class="w"> </span><span class="nb">help</span><span class="w"> </span>Makefile
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="w"> </span><span class="c1"># Catch-all target: route all unknown targets to Sphinx using the new</span>
+<span class="linenos">17</span><span class="w"> </span><span class="c1"># &quot;make mode&quot; option.  $(O) is meant as a shortcut for $(SPHINXOPTS).</span>
+<span class="linenos">18</span><span class="w"> </span><span class="c1"># $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/</span>
+<span class="linenos">19</span><span class="w"> </span>%:<span class="w"> </span>Makefile
+<span class="linenos">20</span><span class="w">         </span><span class="c1"># @$(SPHINXBUILD) -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINXOPTS) $(O)</span>
+<span class="linenos">21</span><span class="w">         </span>sphinx-autobuild<span class="w"> </span>-b<span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>SOURCEDIR<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>BUILDDIR<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">$(</span>SPHINXOPTS<span class="k">)</span><span class="w"> </span><span class="k">$(</span>O<span class="k">)</span><span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span>
 </pre></div>
+</div>
 </div>
 </div></blockquote>
 </li>
 <li><p>Pandocコマンド</p>
 <blockquote>
-<div><div class="literal-block-wrapper docutils container" id="id1">
-<div class="code-block-caption"><span class="caption-text">Markdown to Restructured Text (RST)</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div><div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Markdown to Restructured Text (RST)</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>pandoc<span class="w"> </span>-f<span class="w"> </span>markdown<span class="w"> </span>-t<span class="w"> </span>rst<span class="w"> </span>-o<span class="w"> </span>README.rst<span class="w"> </span>README.md
 </pre></div>
 </div>
 </div>
-<div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">tex to Restructured Text (RST)</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">tex to Restructured Text (RST)</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>pandoc<span class="w"> </span>README.tex<span class="w"> </span>-o<span class="w"> </span>README.rst
 </pre></div>
 </div>
@@ -145,7 +147,7 @@ help:
 </li>
 <li><p>Graphvizモジュールでそのまま実行する方法</p>
 <blockquote>
-<div><figure class="align-default" id="id3">
+<div><figure class="align-default" id="id4">
 <div class="graphviz"><img src="../../_images/graphviz-44071c64d1beeab3fcbe920907e587041e1ed8dc.png" alt="digraph G1 {
 
     graph [size=&quot;4,4&quot;];
@@ -169,7 +171,7 @@ help:
 
 }" class="graphviz" /></div>
 <figcaption>
-<p><span class="caption-text">graphvizでフローチャートを作成する際の主な流れ</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<p><span class="caption-text">graphvizでフローチャートを作成する際の主な流れ</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
 </figcaption>
 </figure>
 </div></blockquote>
