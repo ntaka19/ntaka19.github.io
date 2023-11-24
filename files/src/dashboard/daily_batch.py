@@ -1,4 +1,4 @@
-import openai
+from openai import OpenAI
 import json
 import os
 import sys
@@ -14,9 +14,26 @@ class ChatGPTWrapper:
     
     def __init__(self):
         self.api = os.environ['OPENAI_API']
-        #self.api = sys.argv[1]
 
     def GetResponse(self, prompt):
+        client = OpenAI(
+            api_key = self.api
+        )
+
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="gpt-3.5-turbo",
+        )
+
+        return chat_completion["choices"][0]["message"]["content"]
+        #print(chat_completion["choices"][0]["message"]["content"] )
+
+        """
         openai.api_key = self.api
 
         response = openai.ChatCompletion.create(
@@ -26,10 +43,8 @@ class ChatGPTWrapper:
                 }, #※1後述
             ]
         )
-
-        return response["choices"][0]["message"]["content"] #返信のみを出力
-
-
+        """
+        #return response["choices"][0]["message"]["content"] #返信のみを出力
 
 
 

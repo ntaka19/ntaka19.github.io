@@ -35,6 +35,7 @@ DevOps
    ./DevOps/github.rst
    ./DevOps/docker.rst
    ./DevOps/jenkins.rst
+   ./DevOps/latex.rst
 
  
 
