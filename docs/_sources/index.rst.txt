@@ -8,7 +8,7 @@
    :align: left
    :width: 70
 
-narumind
+**narumind**
 ==============
 (★) : Hot article
 
@@ -51,6 +51,7 @@ Topic
 .. toctree::
    :maxdepth: 2
     
+   ./src/theme/miscellaneous.rst
    ./src/theme/morningsatelite.rst
    ./src/theme/chatgpt_papers.rst
    ./src/theme/stablediffusion_papers.rst
