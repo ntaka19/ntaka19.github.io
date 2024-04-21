@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>分析用雛形~Classification~(★) &#8212; Home 1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
@@ -24,8 +24,9 @@
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -38,7 +39,7 @@
           <div class="body" role="main">
             
   <section id="classification">
-<h1>分析用雛形~Classification~(★)<a class="headerlink" href="#classification" title="Permalink to this heading">¶</a></h1>
+<h1>分析用雛形~Classification~(★)<a class="headerlink" href="#classification" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>いろんな機械学習のアルゴリズムを試したいときに、拡張可能なものを作った。AzureやAWSにもある。ドラッグアンドドロップのものもあるはず。</p></li>
 <li><p>システム化を念頭において、デザインパターンをpythonで実装してみた。</p></li>
@@ -51,7 +52,7 @@
 <li><p>実行 : <a class="reference internal" href="#frame-main">frame_main</a></p></li>
 </ol>
 <section id="pipeline">
-<span id="frame-pipeline"></span><h2>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this heading">¶</a></h2>
+<span id="frame-pipeline"></span><h2>Pipeline<a class="headerlink" href="#pipeline" title="Link to this heading">¶</a></h2>
 <p>Pipelineを作成するにあたりFactory パターンを利用した。Factory Methodについては下記のようなクラス図がかける。抽象クラスでも作れると思う。</p>
 <p class="plantuml">
 <img src="../../_images/plantuml-4243403a9a5ff30d82a2839c298c1126e68ed431.png" alt="&#64;startuml
@@ -88,7 +89,7 @@ IProduct &lt;|.. ConcreteProduct : implements
 <li><p>ConreteProduct → PipelineLGBなど (pipeline_instances.pyの中のもの)</p></li>
 </ol>
 <div class="literal-block-wrapper docutils container" id="id2">
-<div class="code-block-caption"><span class="caption-text">Framework/factory.py</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="code-block-caption"><span class="caption-text">Framework/factory.py</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
@@ -101,7 +102,7 @@ IProduct &lt;|.. ConcreteProduct : implements
 </div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id3">
-<div class="code-block-caption"><span class="caption-text">Pipeline/pipeline_factory.py</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="code-block-caption"><span class="caption-text">Pipeline/pipeline_factory.py</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">Framework.factory</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">Pipeline.pipeline_instances</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
@@ -133,7 +134,7 @@ IProduct &lt;|.. ConcreteProduct : implements
 </div>
 </div>
 <div class="literal-block-wrapper docutils container" id="id4">
-<div class="code-block-caption"><span class="caption-text">Pipeline/pipeline_instances.py</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<div class="code-block-caption"><span class="caption-text">Pipeline/pipeline_instances.py</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PipelineLGB</span><span class="p">:</span>
 <span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">get</span><span class="p">():</span>
@@ -209,13 +210,13 @@ IProduct &lt;|.. ConcreteProduct : implements
 </ul>
 </section>
 <section id="model">
-<span id="frame-model"></span><h2>Model<a class="headerlink" href="#model" title="Permalink to this heading">¶</a></h2>
+<span id="frame-model"></span><h2>Model<a class="headerlink" href="#model" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>各種モデルの特徴についてはまたあとでまとめる。</p></li>
 <li><p>ModelについてはOptunaでハイパーパラメータチューニングできるように実装してみた。ここのモデルもinterfaceなりabstract classなりでまとめることができる。</p></li>
 </ul>
 <div class="literal-block-wrapper docutils container" id="id5">
-<div class="code-block-caption"><span class="caption-text">Models/model.py</span><a class="headerlink" href="#id5" title="Permalink to this code">¶</a></div>
+<div class="code-block-caption"><span class="caption-text">Models/model.py</span><a class="headerlink" href="#id5" title="Link to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LGBModel</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Created LGB model&quot;</span><span class="p">)</span>
@@ -352,10 +353,10 @@ IProduct &lt;|.. ConcreteProduct : implements
 </div>
 </section>
 <section id="frame-main">
-<span id="id1"></span><h2>実行<a class="headerlink" href="#frame-main" title="Permalink to this heading">¶</a></h2>
+<span id="id1"></span><h2>実行<a class="headerlink" href="#frame-main" title="Link to this heading">¶</a></h2>
 <p>実行のイメージ (main)</p>
 <div class="literal-block-wrapper docutils container" id="id6">
-<div class="code-block-caption"><span class="caption-text">main.py</span><a class="headerlink" href="#id6" title="Permalink to this code">¶</a></div>
+<div class="code-block-caption"><span class="caption-text">main.py</span><a class="headerlink" href="#id6" title="Link to this code">¶</a></div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
 
     <span class="n">DIR_PATH</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -415,6 +416,7 @@ IProduct &lt;|.. ConcreteProduct : implements
 
 <h3>Navigation</h3>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../theme/miscellaneous.html">いろいろ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theme/morningsatelite.html">モーサテウォッチ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theme/chatgpt_papers.html">Topic on GPT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theme/stablediffusion_papers.html">Interesting Papers on Stable Diffusion</a></li>
@@ -486,11 +488,11 @@ IProduct &lt;|.. ConcreteProduct : implements
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, ntaka19.
+      &#169;2023, ntaka19.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
       <a href="../../_sources/src/MLApp/DatascienceCompetition.rst.txt"

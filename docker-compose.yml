@@ -1,11 +1,11 @@
 
 version: "3"
 services:
-  container3:
+  container0:
     build: .
     ports:
       - "8000:8000"
-    image: "image4"
+    image: "sphinximage"
     stdin_open: true # docker run -i
     tty: true        # docker run -t
     command: /bin/bash

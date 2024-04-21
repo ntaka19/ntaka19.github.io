@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Docker &#8212; Home 1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css?v=572af1d6" />
     <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=29a6c3e3"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Jenkins" href="jenkins.html" />
-    <link rel="prev" title="Git" href="git.html" />
+    <link rel="prev" title="Github" href="github.html" />
    
   <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -38,7 +39,7 @@
           <div class="body" role="main">
             
   <section id="docker">
-<h1>Docker<a class="headerlink" href="#docker" title="Permalink to this heading">¶</a></h1>
+<h1>Docker<a class="headerlink" href="#docker" title="Link to this heading">¶</a></h1>
 <p>ここではsphinxの環境構築をテーマにDockerの学習記録を記載する。</p>
 <p>目的は</p>
 <ul class="simple">
@@ -52,7 +53,7 @@
 <li><p>Containers from scratch (<a class="reference external" href="https://www.youtube.com/watch?v=8fi7uSYlOdc">https://www.youtube.com/watch?v=8fi7uSYlOdc</a>)</p></li>
 </ul>
 <section id="dockerfile">
-<h2>Dockerfile<a class="headerlink" href="#dockerfile" title="Permalink to this heading">¶</a></h2>
+<h2>Dockerfile<a class="headerlink" href="#dockerfile" title="Link to this heading">¶</a></h2>
 <p>sphinx環境をセットアップするためのイメージはDockerfileで記述する。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#ベースイメージはubuntuにしておく。alpineが軽量?
 FROM ubuntu:20.04
@@ -105,7 +106,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime &amp;&amp; echo $TZ &gt;
 </ul>
 </section>
 <section id="id1">
-<h2>イメージの作成・コンテナの起動<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
+<h2>イメージの作成・コンテナの起動<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <ol class="arabic">
 <li><p>Docker build (Dockerfileからイメージの作成)</p>
 <blockquote>
@@ -155,7 +156,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 </ol>
 </section>
 <section id="docker-compose">
-<h2>Docker Composeとは<a class="headerlink" href="#docker-compose" title="Permalink to this heading">¶</a></h2>
+<h2>Docker Composeとは<a class="headerlink" href="#docker-compose" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>そもそもDocker engineの一部ではなくpython製のツール。</p></li>
 </ul>
@@ -204,7 +205,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 </div>
 </section>
 <section id="requirements-txt">
-<h2>Requirements.txtを更新したいとき<a class="headerlink" href="#requirements-txt" title="Permalink to this heading">¶</a></h2>
+<h2>Requirements.txtを更新したいとき<a class="headerlink" href="#requirements-txt" title="Link to this heading">¶</a></h2>
 <p>イメージを再度作成する。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">.</span> <span class="o">-</span><span class="n">t</span> <span class="n">イメージ名</span>
 </pre></div>
@@ -215,7 +216,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 </div>
 </section>
 <section id="kubernetes">
-<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Permalink to this heading">¶</a></h2>
+<h2>Kubernetes<a class="headerlink" href="#kubernetes" title="Link to this heading">¶</a></h2>
 </section>
 </section>
 
@@ -237,6 +238,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 
 <h3>Navigation</h3>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../theme/miscellaneous.html">いろいろ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../theme/morningsatelite.html">モーサテウォッチ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../theme/chatgpt_papers.html">Topic on GPT</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../theme/stablediffusion_papers.html">Interesting Papers on Stable Diffusion</a></li>
@@ -279,7 +281,7 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
 <ul>
   <li><a href="../../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Software Engineering(★)</a><ul>
-      <li>Previous: <a href="git.html" title="previous chapter">Git</a></li>
+      <li>Previous: <a href="github.html" title="previous chapter">Github</a></li>
       <li>Next: <a href="jenkins.html" title="next chapter">Jenkins</a></li>
   </ul></li>
   </ul></li>
@@ -308,11 +310,11 @@ sphinx-autobuild -b $@ &quot;$(SOURCEDIR)&quot; &quot;$(BUILDDIR)&quot; $(SPHINX
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2023, ntaka19.
+      &#169;2023, ntaka19.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
       |
       <a href="../../../_sources/src/softwareengineering/DevOps/docker.rst.txt"
