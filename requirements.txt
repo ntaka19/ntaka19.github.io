@@ -1,5 +1,5 @@
-sphinx
-sphinx-autobuild
+Sphinx==4.2.0
+sphinx-autobuild==2021.3.14
 numpy
 matplotlib
 sphinxcontrib.video

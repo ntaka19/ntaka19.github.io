@@ -36,7 +36,7 @@ class ChatGPTWrapper:
                     "content": prompt,
                 }
             ],
-            model="gpt-3.5-turbo",
+            model="gpt-4.0-turbo",
         )
 
         return chat_completion.choices[0].message.content
@@ -45,7 +45,7 @@ class ChatGPTWrapper:
 class D001_WeatherForecast_Daily:
     
     def forecast_text_html(self):
-        url = 'https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=139.69&hourly=temperature_2m,rain,showers,weathercode&forecast_days=1&timezone=Asia%2FTokyo'
+        url = 'https://api.open-meteo.com/v1/forecast?latitude=35.6604&longitude=139.7451&hourly=temperature_2m,rain,showers,weathercode&forecast_days=1&daily=sunshine_duration,uv_index_max&timezone=Asia%2FTokyo'
         response = requests.get(url)
         data = json.loads(response.text)
         
@@ -53,7 +53,7 @@ class D001_WeatherForecast_Daily:
         updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%m/%d %H:%M')
 
         chatgpt = ChatGPTWrapper()
-        prompt = "この日の天気を簡潔にキャスターのように予報をして：  {first}".format(first=json.dumps(data))                                
+        prompt = "天気予報士のように、この日の天気を簡潔に教えて。加えて、UV indexと日照時間の情報をもとに日傘が必要か教えて。：  {first}".format(first=json.dumps(data))                                
         forecast_text = chatgpt.GetResponse(prompt)
 
         ##html生成 あとで別のモジュールにしておく。
@@ -151,7 +151,7 @@ class D002_FX_Daily:
 
     def market_summary_html(self):
         chatgpt = ChatGPTWrapper()
-        prompt = "まるで証券アナリストのように、次の為替の状況をまとめよ。断定はしてはならない。：  {first}".format(first=json.dumps(self.data_json))                                
+        prompt = "まるで証券アナリストのように、以下の為替の状況を簡潔にまとめよ。断定してはならない。ネットから取得したニュース情報を織り交ぜて論ぜよ：  {first}".format(first=json.dumps(self.data_json))                                
         market_summary_text = chatgpt.GetResponse(prompt)
         print(market_summary_text)
         #market_summary_text = "As a securities analyst, this pattern suggests positive momentum, although the fixed price on \
