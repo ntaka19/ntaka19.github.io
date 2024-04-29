@@ -151,7 +151,7 @@ class D002_FX_Daily:
 
     def market_summary_html(self):
         chatgpt = ChatGPTWrapper()
-        prompt = "まるで証券アナリストのように、次の為替の状況を簡潔にまとめよ。断定はしてはならない。：  {first}".format(first=json.dumps(self.json_data))                                
+        prompt = "まるで証券アナリストのように、次の為替の状況を簡潔にまとめよ。断定はしてはならない。：  {first}".format(first=json.dumps(self.data_json))                                
         market_summary_text = chatgpt.GetResponse(prompt)
 
         #market_summary_text = "As a securities analyst, this pattern suggests positive momentum, although the fixed price on \
