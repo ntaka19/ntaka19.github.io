@@ -84,8 +84,8 @@ class D001_WeatherForecast_Daily:
 class D002_FX_Daily:
 
     def __init__(self):
-        #self.market_extractor = APIExtractor(os.environ['FMP_API'])
-        self.market_extractor = APIExtractor(sys.argv[1])
+        self.market_extractor = APIExtractor(os.environ['FMP_API'])
+        #self.market_extractor = APIExtractor(sys.argv[1])
         self.data_json = self.market_extractor.Extract_Two_Weeks()
         self.updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%m/%d %H:%M')
 
