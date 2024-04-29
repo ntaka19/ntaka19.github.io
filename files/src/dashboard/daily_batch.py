@@ -44,7 +44,7 @@ class ChatGPTWrapper:
 
 class D001_WeatherForecast_Daily:
     
-    def forecast_text_html():
+    def forecast_text_html(self):
         url = 'https://api.open-meteo.com/v1/forecast?latitude=35.69&longitude=139.69&hourly=temperature_2m,rain,showers,weathercode&forecast_days=1&timezone=Asia%2FTokyo'
         response = requests.get(url)
         data = json.loads(response.text)
