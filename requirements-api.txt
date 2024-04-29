@@ -4,3 +4,4 @@ pandas
 pytz
 django
 openai
+mplfinance

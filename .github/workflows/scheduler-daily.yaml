@@ -33,3 +33,4 @@ jobs:
         git push
       env:
         OPENAI_API: ${{ secrets.OPENAI_API }}
+        FMP_API: ${{ secrets.FMP_API }}

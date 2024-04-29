@@ -23,26 +23,32 @@ Dashboard
       :width: 1000
 
    - wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
+   - Weather data by Open-Meteo.com<https://open-meteo.com/> 
 
-   .. ここにhtmlの抜粋データをいれておく。daily実行。
    .. raw:: html
 
-    <iframe src="./src/dashboard/forecast_text.html" width="100%" height="100%" position="fixed"></iframe>
-   
-   - Weather data by Open-Meteo.com<https://open-meteo.com/>
+      <iframe src="./src/dashboard/forecast_text.html" width="100%" height="100%" position="fixed"></iframe>
 
    - Text generated from ChatGPT API (GPT-3.5).
-   
 
-   .. toctree::
-      :maxdepth: 2
-      :hidden:
-      ./src/dashboard/dashboard.rst
+   
+#. Market
+   
+   .. image:: ./figures/candlechartUSDJPY.png
+      :align: center
+      :width: 1000
+
+   - Data from Financial Modeling Prep API. 
+
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   ./src/dashboard/dashboard.rst
 
 .. raw:: html
 
    <a class="show-more" href="./src/dashboard/dashboard.html"> >>Show more</a>
-
 
   
 Topic 

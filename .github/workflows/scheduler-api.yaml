@@ -24,13 +24,7 @@ jobs:
     - name: Run script
       run: |
         python ./files/src/dashboard/forecast.py #メインスクリプトを実行
-
-    - name: Run marketgenerate script
-      run: |
-        python ./files/src/dashboard/generatehtml.py #メインスクリプトを実行
-      env:
-        FMP_API: ${{ secrets.FMP_API }}
-
+    
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3
       with:

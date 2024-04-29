@@ -13,10 +13,13 @@ Dashboard
    - wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
 
 
-#. Market
+#. Daily Market
+
+   .. image:: ../../figures/candlechartUSDJPY.png
+      :align: center
+      :width: 1000
 
     - Market data from Financial Modeling Prep. 
-    - Data provided by Financial Modeling Prep” 
     
         - https://financialmodelingprep.com/developer/docs/
         - https://github.com/antoinevulcain/Financial-Modeling-Prep-API/blob/master/LICENSE
