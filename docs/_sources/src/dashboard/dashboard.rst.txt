@@ -19,13 +19,13 @@ Dashboard
       :align: center
       :width: 1000
 
-    - Market data from Financial Modeling Prep. 
-    
-        - https://financialmodelingprep.com/developer/docs/
-        - https://github.com/antoinevulcain/Financial-Modeling-Prep-API/blob/master/LICENSE
+   
+   .. raw:: html
 
-.. raw:: html
-
-    <iframe src="./marketinfo.html" width="100%" height="500"></iframe>
+      <iframe src="./marketinfo.html" width="100%" height="500"></iframe>
 
 
+   Market data from Financial Modeling Prep. 
+      
+      - https://financialmodelingprep.com/developer/docs/
+      - https://github.com/antoinevulcain/Financial-Modeling-Prep-API/blob/master/LICENSE
