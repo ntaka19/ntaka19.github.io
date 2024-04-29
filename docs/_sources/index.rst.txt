@@ -29,7 +29,7 @@ Dashboard
 
       <iframe src="./src/dashboard/forecast_text.html" width="100%" height="100%" position="fixed"></iframe>
 
-   - Text generated from ChatGPT API (GPT-3.5).
+   - Text generated from ChatGPT API (GPT-4).
 
    
 #. Market
