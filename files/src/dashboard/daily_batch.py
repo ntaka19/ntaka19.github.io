@@ -56,7 +56,7 @@ class PerplexityWrapper:
 
         # The data payload
         data = {
-            "model": "sonar",
+            "model": "sonar-pro",
             "messages": [
                 {
                     "role": "system",
@@ -208,7 +208,7 @@ class D002_FX_Daily:
     def market_summary_html(self):
         #chatgpt = ChatGPTWrapper()
         perplexity = PerplexityWrapper()
-        prompt = "世界経済のニュースを簡潔に述べよ。重要なイベントを述べよ。最後に、USD/JPYのデータからニュースの情報を織り交ぜつつ分析せよ:  {first}".format(first=json.dumps(self.data_json))                                
+        prompt = "世界経済のニュースを述べよ。今後の重要なイベントを述べよ。最後に、USD/JPYの分析をせよ。" #:  {first}".format(first=json.dumps(self.data_json))                                
         market_summary_text = perplexity.GetResponse(prompt)
         print(market_summary_text)
 
