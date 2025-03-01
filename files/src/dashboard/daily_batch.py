@@ -42,6 +42,62 @@ class ChatGPTWrapper:
         return chat_completion.choices[0].message.content
         
 
+class PerplexityWrapper:
+    def __init__(self):
+        self.api = os.environ['PPLX_API']
+
+    def GetResponse(self, prompt):
+        headers = {
+            "Authorization": f"Bearer {self.api}",
+            "Content-Type": "application/json"
+        }
+        # API endpoint
+        url = "https://api.perplexity.ai/chat/completions"
+
+        # The data payload
+        data = {
+            "model": "sonar",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "Be precise and concise."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+        }
+        response = requests.post(url, headers=headers, data=json.dumps(data))
+
+        output = ""
+
+        if response.status_code == 200:
+            # Parse the JSON response
+            result = response.json()
+
+            # Extract the assistant's reply
+            assistant_reply = result['choices'][0]['message']['content']
+            output += "Assistant's reply:\n"
+            output += assistant_reply + "\n"
+
+            # Extract citations
+            citations = result.get('citations', [])
+            if citations:
+                output += "\nCitations:\n"
+                for idx, citation in enumerate(citations, 1):
+                    output += f"{idx}. {citation}\n"
+            else:
+                output += "\nNo citations found in the response.\n"
+        else:
+            output += f"Error: {response.status_code}\n"
+            output += response.text + "\n"
+
+        return output
+
+
+
+
 class D001_WeatherForecast_Daily:
     
     def forecast_text_html(self):
@@ -150,26 +206,11 @@ class D002_FX_Daily:
 
 
     def market_summary_html(self):
-        chatgpt = ChatGPTWrapper()
-        prompt = "まるで証券アナリストのように、以下の為替の状況を簡潔にまとめよ。断定してはならない。ネットから取得したニュース情報を織り交ぜて論ぜよ：  {first}".format(first=json.dumps(self.data_json))                                
-        market_summary_text = chatgpt.GetResponse(prompt)
+        #chatgpt = ChatGPTWrapper()
+        perplexity = PerplexityWrapper()
+        prompt = "世界経済のニュースを簡潔に述べよ。重要なイベントを述べよ。最後に、USD/JPYのデータから分析せよ:  {first}".format(first=json.dumps(self.data_json))                                
+        market_summary_text = perplexity.GetResponse(prompt)
         print(market_summary_text)
-        #market_summary_text = "As a securities analyst, this pattern suggests positive momentum, although the fixed price on \
-        #    the last day would require further investigation to understand the underlying cause—be it technical errors... "
-        
-        ##html生成 あとで別のモジュールにしておく。
-        """
-        settings.configure(
-                DEBUG=True,
-                TEMPLATES=[
-                    {
-                        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-                        'APP_DIRS': True,
-                    },
-                ]
-            )
-        django.setup()
-        """
 
         with open('./files/src/dashboard/template_market.html', 'r') as template_file:
             t = Template(template_file.read())
