@@ -56,7 +56,7 @@ class PerplexityWrapper:
 
         # The data payload
         data = {
-            "model": "sonar-pro",
+            "model": "sonar",
             "messages": [
                 {
                     "role": "system",
