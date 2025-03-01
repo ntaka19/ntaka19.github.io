@@ -29,7 +29,7 @@ Dashboard
 
       <iframe src="./src/dashboard/forecast_text.html" width="100%" height="100%" position="fixed"></iframe>
 
-   - Text generated from ChatGPT API (GPT-4).
+   - Text generated from ChatGPT API (GPT-4o).
 
    
 #. Market
@@ -39,6 +39,11 @@ Dashboard
       :width: 1000
 
    - Data from Financial Modeling Prep API. 
+
+   .. raw:: html
+
+      <iframe src="./src/dashboard/marketinfo.html" width="100%" height="100%" position="fixed"></iframe>
+
 
 
 .. toctree::
