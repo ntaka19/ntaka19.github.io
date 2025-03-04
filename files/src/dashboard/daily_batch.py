@@ -79,8 +79,8 @@ class PerplexityWrapper:
 
             # Extract the assistant's reply
             assistant_reply = result['choices'][0]['message']['content']
-            output += "Assistant's reply:\n"
-            output += assistant_reply + "\n"
+            #output += "Assistant's reply:\n"
+            #output += assistant_reply + "\n"
 
             # Extract citations
             citations = result.get('citations', [])
@@ -96,7 +96,7 @@ class PerplexityWrapper:
 
         #Disclaimer
         output += "\n\n**Disclaimer:**\n\n"
-        output += "The data presented herein is sourced through an API (FMP). The information provided is automatically generated from LLM. Accordingly, the creators expressly disclaim any liability for losses or damages incurred as a result of using this information."
+        output += "The data presented herein is sourced through an API (FMP). The information provided is automatically generated from LLM (Perplexity API). Accordingly, the creators expressly disclaim any liability for losses or damages incurred as a result of using this information."
         return output
 
 
@@ -113,10 +113,18 @@ class D001_WeatherForecast_Daily:
         updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%m/%d %H:%M')
 
         chatgpt = ChatGPTWrapper()
-        prompt = "天気予報士のように、この日の天気を簡潔に教えて。加えて、UV indexと日照時間の情報をもとに日傘が必要か教えて。：  {first}".format(first=json.dumps(data))                                
-        forecast_text = chatgpt.GetResponse(prompt)
+        prompt = "天気予報士のように、この日の天気を簡潔に教えて。加えて、UV indexと日照時間の情報をもとに日傘が必要か教えて。：  {first}".format(first=json.dumps(data))  
+                                      
+        forecast_text = f"# 今日の天気 ({datetime.datetime.now().strftime('%m-%d %a')})\n\n"
+        forecast_text += chatgpt.GetResponse(prompt)
+
+        # Convert Markdown to HTML
+        html_output = markdown.markdown(forecast_text)
+        with open("./docs/src/dashboard/forecast_text.html", "w", encoding="utf-8") as file:
+            file.write(html_output)
 
         ##html生成 あとで別のモジュールにしておく。
+        """
         settings.configure(
                 DEBUG=True,
                 TEMPLATES=[
@@ -139,6 +147,7 @@ class D001_WeatherForecast_Daily:
             # Save the rendered HTML as an HTML file
             with open("./docs/src/dashboard/forecast_text.html", "w") as file:
                 file.write(rendered_html)
+        """
 
 
 class D002_FX_Daily:
@@ -212,7 +221,7 @@ class D002_FX_Daily:
     def market_summary_html(self):
         #chatgpt = ChatGPTWrapper()
         perplexity = PerplexityWrapper()
-        prompt = "世界経済のニュースを述べよ。今後の重要なイベントを述べよ。最後に、USD/JPYの分析をせよ。" #:  {first}".format(first=json.dumps(self.data_json))                                
+        prompt = "本日時点の世界経済のニュースを述べよ。顕著な株価の増減を述べよ。また、USD/JPYの分析をせよ。最後に今後の重要なイベントを述べよ。" #:  {first}".format(first=json.dumps(self.data_json))                                
         market_summary_text = perplexity.GetResponse(prompt)
         print(market_summary_text)
 
