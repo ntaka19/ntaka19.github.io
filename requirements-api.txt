@@ -5,3 +5,4 @@ pytz
 django
 openai
 mplfinance
+markdown
