@@ -44,8 +44,6 @@ Dashboard
 
       <iframe src="./src/dashboard/marketinfo.html" width="100%" height="100%" position="fixed"></iframe>
 
-
-
 .. toctree::
    :maxdepth: 2
    :hidden:
@@ -55,18 +53,15 @@ Dashboard
 
    <a class="show-more" href="./src/dashboard/dashboard.html"> >>Show more</a>
 
-  
 Topic 
 ~~~~~~~~~~~~~
 
 .. toctree::
    :maxdepth: 2
     
-   ./src/theme/miscellaneous.rst
    ./src/theme/morningsatelite.rst
    ./src/theme/chatgpt_papers.rst
    ./src/theme/stablediffusion_papers.rst
-   ./src/theme/zerotoone.rst
 
 .. raw:: html
 
@@ -79,6 +74,17 @@ Topic
    ./src/theme/index.rst
 
 
+Engineering
+~~~~~~~~~~~~~
+.. toctree::
+   :maxdepth: 1
+   
+   ./src/RaspberryPi/raspberrypi-setup.rst
+   ./src/RaspberryPi/localLLM_raspberrypi.rst
+   ./src/kit/2020-03-13-arduino-network-lamp.rst
+   ./src/effectivecsharp/index.rst
+   ./src/softwareengineering/index.rst
+   ./src/MLApp/index.rst
 
 
 Mathematics
@@ -87,17 +93,6 @@ Mathematics
    :maxdepth: 1
 
    ./src/mathematics/stochasticcalculus/index
-
-
-Engineering
-~~~~~~~~~~~~~
-.. toctree::
-   :maxdepth: 1
-   
-   ./src/kit/2020-03-13-arduino-network-lamp.rst
-   ./src/effectivecsharp/index.rst
-   ./src/softwareengineering/index.rst
-   ./src/MLApp/index.rst
 
 
 Econ&Finance

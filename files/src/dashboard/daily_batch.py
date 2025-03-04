@@ -221,7 +221,7 @@ class D002_FX_Daily:
     def market_summary_html(self):
         #chatgpt = ChatGPTWrapper()
         perplexity = PerplexityWrapper()
-        prompt = "本日時点の世界経済のニュースを述べよ(日付もいれるように）。次に顕著な株価の増減を述べよ。その次に、USD/JPYの分析をせよ。最後に今後の重要なイベントを述べよ" #:  {first}".format(first=json.dumps(self.data_json))                                
+        prompt = "本日時点の世界経済のニュースを述べよ(日付もいれるように）。次に顕著な株価の増減を複数述べよ。次に、USD/JPYの分析をせよ。最後に今後の重要な経済イベントを述べよ" #:  {first}".format(first=json.dumps(self.data_json))                                
         market_summary_text = perplexity.GetResponse(prompt)
         print(market_summary_text)
 
