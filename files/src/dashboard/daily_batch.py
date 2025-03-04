@@ -18,6 +18,7 @@ import matplotlib.dates as mdates
 import matplotlib.ticker as ticker
 
 from market_extractor import APIExtractor
+import markdown
 
 class ChatGPTWrapper:
     
@@ -84,15 +85,18 @@ class PerplexityWrapper:
             # Extract citations
             citations = result.get('citations', [])
             if citations:
-                output += "\nCitations:\n"
+                output += "\n\n**Citations:**\n\n"
                 for idx, citation in enumerate(citations, 1):
-                    output += f"{idx}. {citation}\n"
+                    output += f"{idx}. [{citation}]({citation})\n\n"
             else:
                 output += "\nNo citations found in the response.\n"
         else:
             output += f"Error: {response.status_code}\n"
             output += response.text + "\n"
 
+        #Disclaimer
+        output += "\n\n**Disclaimer:**\n\n"
+        output += "The data presented herein is sourced through an API (FMP). The information provided is automatically generated from LLM. Accordingly, the creators expressly disclaim any liability for losses or damages incurred as a result of using this information."
         return output
 
 
@@ -212,6 +216,12 @@ class D002_FX_Daily:
         market_summary_text = perplexity.GetResponse(prompt)
         print(market_summary_text)
 
+        # Convert Markdown to HTML
+        html_output = markdown.markdown(market_summary_text)
+        with open("./docs/src/dashboard/marketinfo.html", "w", encoding="utf-8") as file:
+            file.write(html_output)
+
+        """
         with open('./files/src/dashboard/template_market.html', 'r') as template_file:
             t = Template(template_file.read())
             c = Context({"market_summary_text": market_summary_text,
@@ -222,6 +232,7 @@ class D002_FX_Daily:
             # Save the rendered HTML as an HTML file
             with open("./docs/src/dashboard/marketinfo.html", "w") as file:
                 file.write(rendered_html)
+        """
 
 def main():
     print("D001")
