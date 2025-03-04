@@ -114,8 +114,8 @@ class D001_WeatherForecast_Daily:
 
         chatgpt = ChatGPTWrapper()
         prompt = "天気予報士のように、この日の天気を簡潔に教えて。加えて、UV indexと日照時間の情報をもとに日傘が必要か教えて。：  {first}".format(first=json.dumps(data))  
-                                      
-        forecast_text = f"# 今日の天気 ({datetime.datetime.now().strftime('%m-%d %a')})\n\n"
+
+        forecast_text = f"# 今日の天気 ({datetime.now().strftime('%m-%d %a')})\n\n"
         forecast_text += chatgpt.GetResponse(prompt)
 
         # Convert Markdown to HTML
