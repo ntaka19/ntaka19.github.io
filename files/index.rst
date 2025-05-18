@@ -16,38 +16,35 @@
 Dashboard
 ~~~~~~~~~~
 
-#. Weather forecast
+#. Weather forecast (text generated from ChatGPT)
 
    .. image:: ./figures/forecast-short.png
       :align: center
       :width: 1000
 
-   - wmo code (https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM)
-   - Weather data by Open-Meteo.com<https://open-meteo.com/> 
 
    .. raw:: html
 
-      <iframe src="./src/dashboard/forecast_text.html" width="100%" height="100%" position="fixed"></iframe>
-
-   - Text generated from ChatGPT API (GPT-4o).
+      <iframe src="./src/dashboard/forecast_text.html" width="100%" height="200" position="fixed"></iframe>
 
    
-#. Market
+#. Market (Data from Financial Modeling Prep API)
    
    .. image:: ./figures/candlechartUSDJPY.png
       :align: center
       :width: 1000
 
-   - Data from Financial Modeling Prep API. 
-
    .. raw:: html
 
-      <iframe src="./src/dashboard/marketinfo.html" width="100%" height="100%" position="fixed"></iframe>
+      <iframe src="./src/dashboard/marketinfo.html" width="100%" height="500" position="fixed"></iframe>
 
 .. toctree::
    :maxdepth: 2
    :hidden:
    ./src/dashboard/dashboard.rst
+
+
+
 
 .. raw:: html
 
