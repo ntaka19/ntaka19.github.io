@@ -25,6 +25,7 @@ jobs:
         
     - name: Run Daily Batch
       run: |
+        echo "Token starts with: ${HF:0:1}"
         python ./files/src/dashboard/daily_batch.py #メインスクリプトを実行
         git config --global user.email "naruakitakano@gmail.com"
         git config --global user.name "ntaka19"
