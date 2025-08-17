@@ -35,3 +35,4 @@ jobs:
         OPENAI_API: ${{ secrets.OPENAI_API }}
         PPLX_API: ${{ secrets.PPLX_API }}
         FMP_API: ${{ secrets.FMP_API }}
+        HF: ${{ secrets.HF }}
