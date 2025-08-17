@@ -53,7 +53,7 @@ class HFWrapper:
         )
 
         chat_completion = client.chat.completions.create(
-            model="openai/gpt-oss-120b:fireworks-ai",
+            model="openai/gpt-oss-20b:fireworks-ai",
             messages=[
                 {
                     "role": "user",
