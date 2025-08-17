@@ -44,7 +44,7 @@ class ChatGPTWrapper:
 
 class HFWrapper:
     def __init__(self):
-        self.api = os.environ['HF'],
+        self.api = os.environ['HF']
 
     def GetResponse(self, prompt):
         client = OpenAI(
