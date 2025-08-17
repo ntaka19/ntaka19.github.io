@@ -41,7 +41,28 @@ class ChatGPTWrapper:
         )
 
         return chat_completion.choices[0].message.content
-        
+
+class HFWrapper:
+    def __init__(self):
+        self.api = os.environ["HF"],
+
+    def GetResponse(self, prompt):
+        client = OpenAI(
+            base_url="https://router.huggingface.co/v1",
+            api_key=self.api,
+        )
+
+        chat_completion = client.chat.completions.create(
+            model="openai/gpt-oss-120b:fireworks-ai",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+        )
+        return chat_completion.choices[0].message.content
+
 
 class PerplexityWrapper:
     def __init__(self):
@@ -110,12 +131,12 @@ class D001_WeatherForecast_Daily:
         data = json.loads(response.text)
         
         today = datetime.fromisoformat(data['hourly']['time'][0]).strftime('%m-%d %a')
-        updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%m/%d %H:%M')
+        updated_time = datetime.now(timezone("Asia/Tokyo"))
 
-        chatgpt = ChatGPTWrapper()
+        chatgpt = HFWrapper()
         prompt = "天気予報士のように、この日の天気を簡潔に教えて。加えて、UV indexと日照時間の情報をもとに日傘が必要か教えて。：  {first}".format(first=json.dumps(data))  
 
-        forecast_text = f"# 今日の天気 ({datetime.now().strftime('%m-%d %a')})\n\n"
+        forecast_text = f"# 今日の天気 ({updated_time.strftime('%m-%d %a')})\n\n"
         forecast_text += chatgpt.GetResponse(prompt)
 
         # Convert Markdown to HTML
@@ -219,9 +240,28 @@ class D002_FX_Daily:
 
 
     def market_summary_html(self):
-        #chatgpt = ChatGPTWrapper()
+        updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%Y/%m/%d %H:%M')
         perplexity = PerplexityWrapper()
-        prompt = "本日時点の世界経済のニュースを述べよ(日付もいれるように）。次に顕著な株価の増減を複数述べよ。次に、USD/JPYの分析をせよ。最後に今後の重要な経済イベントを述べよ" #:  {first}".format(first=json.dumps(self.data_json))                                
+        
+        prompt = f"""
+        # 経済ニュースサマリー
+
+        ## 📅 {updated_time}時点の世界経済ニュース
+        - 世界経済に関する主要なニュースを簡潔にまとめます。
+
+        ## 📈 顕著な株価の増減
+        - 主要な株式市場（例：NYダウ、NASDAQ、日経平均）における顕著な増減を複数挙げ、その背景を説明します。
+
+        ## 💹 USD/JPYの分析
+        - USD/JPYの現在の動向を分析し、変動要因や今後の見通しを述べます。
+
+        ## ⛏️ 商品市場の動向
+        - 貴金属（金、銀など）、銅、原油、電力、LNGなどの主要商品の価格動向と、その変動要因について分析します。
+
+        ## 🗓️ 今後の重要な経済イベント
+        - 今後1週間から1ヶ月の間に予定されている重要な経済イベント（例：FOMC、ECB理事会、雇用統計など）をリストアップします。
+        """
+        
         market_summary_text = perplexity.GetResponse(prompt)
         print(market_summary_text)
 
@@ -229,19 +269,6 @@ class D002_FX_Daily:
         html_output = markdown.markdown(market_summary_text)
         with open("./docs/src/dashboard/marketinfo.html", "w", encoding="utf-8") as file:
             file.write(html_output)
-
-        """
-        with open('./files/src/dashboard/template_market.html', 'r') as template_file:
-            t = Template(template_file.read())
-            c = Context({"market_summary_text": market_summary_text,
-                        "updated_time": self.updated_time})    
-            
-            rendered_html = t.render(c)
-
-            # Save the rendered HTML as an HTML file
-            with open("./docs/src/dashboard/marketinfo.html", "w") as file:
-                file.write(rendered_html)
-        """
 
 def main():
     print("D001")
