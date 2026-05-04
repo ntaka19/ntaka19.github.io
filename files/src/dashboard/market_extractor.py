@@ -60,6 +60,10 @@ class APIExtractor(AbstractMarketExtractor):
         url = f"https://financialmodelingprep.com/api/v3/historical-chart/1day/USDJPY?from={two_weeks_before_str}&to={today_str}&apikey={self.apikey}"
         response = requests.get(url)
         data_json = response.json()
+        if not isinstance(data_json, list):
+            raise ValueError(f"FMP API returned unexpected response (expected list): {data_json}")
+        if len(data_json) == 0:
+            raise ValueError("FMP API returned empty data for USDJPY historical chart")
         return data_json
 
     
