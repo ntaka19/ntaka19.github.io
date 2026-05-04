@@ -25,7 +25,6 @@ jobs:
         
     - name: Run Daily Batch
       run: |
-        echo "Token starts with: ${HF:0:1}"
         python ./files/src/dashboard/daily_batch.py #メインスクリプトを実行
         git config --global user.email "naruakitakano@gmail.com"
         git config --global user.name "ntaka19"
@@ -33,6 +32,7 @@ jobs:
         git commit -m "crongenerated"
         git push
       env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         OPENAI_API: ${{ secrets.OPENAI_API }}
         PPLX_API: ${{ secrets.PPLX_API }}
         FMP_API: ${{ secrets.FMP_API }}

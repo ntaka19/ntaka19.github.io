@@ -1,4 +1,5 @@
 from openai import OpenAI
+import google.generativeai as genai
 import json
 import os
 import sys
@@ -117,10 +118,20 @@ class PerplexityWrapper:
 
         #Disclaimer
         output += "\n\n**Disclaimer:**\n\n"
-        output += "The data presented herein is sourced through an API (FMP). The information provided is automatically generated from LLM (Perplexity API). Accordingly, the creators expressly disclaim any liability for losses or damages incurred as a result of using this information."
+        output += "The data presented herein is sourced through an API (FMP). The information provided is automatically generated from LLM (Gemini API). Accordingly, the creators expressly disclaim any liability for losses or damages incurred as a result of using this information."
         return output
 
 
+
+
+class GeminiWrapper:
+    def __init__(self):
+        genai.configure(api_key=os.environ['GEMINI_API_KEY'])
+        self.model = genai.GenerativeModel('gemini-2.0-flash')
+
+    def GetResponse(self, prompt):
+        response = self.model.generate_content(prompt)
+        return response.text
 
 
 class D001_WeatherForecast_Daily:
@@ -133,7 +144,7 @@ class D001_WeatherForecast_Daily:
         today = datetime.fromisoformat(data['hourly']['time'][0]).strftime('%m-%d %a')
         updated_time = datetime.now(timezone("Asia/Tokyo"))
 
-        chatgpt = HFWrapper()
+        chatgpt = GeminiWrapper()
         prompt = "天気予報士のように、この日の天気を簡潔に教えて。加えて、UV indexと日照時間の情報をもとに日傘が必要か教えて。：  {first}".format(first=json.dumps(data))  
 
         forecast_text = f"# 今日の天気 ({updated_time.strftime('%m-%d %a')})\n\n"
@@ -241,7 +252,7 @@ class D002_FX_Daily:
 
     def market_summary_html(self):
         updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%Y/%m/%d %H:%M')
-        perplexity = PerplexityWrapper()
+        perplexity = GeminiWrapper()
         
         prompt = f"""
         # 経済ニュースサマリー：商品市場の動向と展望
