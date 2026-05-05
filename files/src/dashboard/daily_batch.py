@@ -1,5 +1,5 @@
 from openai import OpenAI
-import google.generativeai as genai
+from google import genai
 import json
 import os
 import sys
@@ -126,11 +126,13 @@ class PerplexityWrapper:
 
 class GeminiWrapper:
     def __init__(self):
-        genai.configure(api_key=os.environ['GEMINI_API_KEY'])
-        self.model = genai.GenerativeModel('gemini-2.0-flash')
+        self.client = genai.Client(api_key=os.environ['GEMINI_API_KEY'])
 
     def GetResponse(self, prompt):
-        response = self.model.generate_content(prompt)
+        response = self.client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
         return response.text
 
 

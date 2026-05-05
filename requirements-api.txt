@@ -6,3 +6,4 @@ django
 openai
 mplfinance
 markdown
+google-generativeai
