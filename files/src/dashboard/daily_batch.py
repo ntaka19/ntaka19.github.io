@@ -188,12 +188,18 @@ class D002_FX_Daily:
 
     def __init__(self):
         self.market_extractor = APIExtractor(os.environ['FMP_API'])
-        #self.market_extractor = APIExtractor(sys.argv[1])
-        self.data_json = self.market_extractor.Extract_Two_Weeks()
         self.updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%m/%d %H:%M')
+        try:
+            self.data_json = self.market_extractor.Extract_Two_Weeks()
+        except Exception as e:
+            print(f"FMP API skipped: {e}")
+            self.data_json = None
 
 
     def draw_candle_chart(self, savepath):
+        if self.data_json is None:
+            print("draw_candle_chart skipped: no FMP data")
+            return
         # Convert JSON to DataFrame
         df = pd.DataFrame(self.data_json)
 
