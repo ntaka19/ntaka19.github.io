@@ -67,61 +67,61 @@ class HFWrapper:
 
 class PerplexityWrapper:
     def __init__(self):
-        self.api = os.environ['PPLX_API']
+        self.api = os.environ.get('PPLX_API')
 
     def GetResponse(self, prompt):
         headers = {
             "Authorization": f"Bearer {self.api}",
             "Content-Type": "application/json"
         }
-        # API endpoint
+        
         url = "https://api.perplexity.ai/chat/completions"
 
-        # The data payload
         data = {
-            "model": "sonar",
+            "model": "sonar", 
             "messages": [
                 {
                     "role": "system",
-                    "content": "Be precise and concise."
+                    "content": "You are a professional financial analyst. Provide detailed, data-driven reports with citations."
                 },
                 {
                     "role": "user",
                     "content": prompt
                 }
-            ]
+            ],
+
+            "max_tokens": 3000, 
+            "temperature": 0.2,
+            "return_citations": True
         }
-        response = requests.post(url, headers=headers, data=json.dumps(data))
 
-        output = ""
-
-        if response.status_code == 200:
-            # Parse the JSON response
+        try:
+            response = requests.post(url, headers=headers, json=data, timeout=60)
+            response.raise_for_status()
             result = response.json()
-
-            # Extract the assistant's reply
+            
+            # 1. Extract the main report
             assistant_reply = result['choices'][0]['message']['content']
-            #output += "Assistant's reply:\n"
-            output += assistant_reply + "\n"
-
-            # Extract citations
+            
+            # 2. Extract and format citations (crucial for financial data)
             citations = result.get('citations', [])
+            citation_text = ""
             if citations:
-                output += "\n\n**Citations:**\n\n"
-                for idx, citation in enumerate(citations, 1):
-                    output += f"{idx}. [{citation}]({citation})\n\n"
-            else:
-                output += "\nNo citations found in the response.\n"
-        else:
-            output += f"Error: {response.status_code}\n"
-            output += response.text + "\n"
+                citation_text = "\n\n### 📚 参照ソース (Citations):\n"
+                for idx, url_link in enumerate(citations, 1):
+                    citation_text += f"{idx}. [{url_link}]({url_link})\n"
 
-        #Disclaimer
-        output += "\n\n**Disclaimer:**\n\n"
-        output += "The data presented herein is sourced through an API (FMP). The information provided is automatically generated from LLM (Gemini API). Accordingly, the creators expressly disclaim any liability for losses or damages incurred as a result of using this information."
-        return output
+            # 3. Build final output
+            disclaimer = (
+                "\n\n---\n**免責事項 (Disclaimer):**\n"
+                "本データはAPI（FMP等）およびLLM（Perplexity/Gemini）により自動生成されたものです。 "
+                "利用による損失について作成者は一切の責任を負いません。"
+            )
+            
+            return f"{assistant_reply}{citation_text}{disclaimer}"
 
-
+        except Exception as e:
+            return f"Error occurred: {str(e)}"
 
 
 class GeminiWrapper:
@@ -260,7 +260,7 @@ class D002_FX_Daily:
 
     def market_summary_html(self):
         updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%Y/%m/%d %H:%M')
-        perplexity = GeminiWrapper()
+        perplexity = PerplexityWrapper()
         
         prompt = f"""
         # 経済ニュースサマリー：商品市場の動向と展望
