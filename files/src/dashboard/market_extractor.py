@@ -57,7 +57,7 @@ class APIExtractor(AbstractMarketExtractor):
         two_weeks_before = today - timedelta(weeks=2)
         today_str = today.strftime("%Y-%m-%d")
         two_weeks_before_str = two_weeks_before.strftime("%Y-%m-%d")
-        url = f"https://financialmodelingprep.com/api/v3/historical-chart/1day/USDJPY?from={two_weeks_before_str}&to={today_str}&apikey={self.apikey}"
+        url = f"https://financialmodelingprep.com/stable/historical-price-eod/full?symbol=USDJPY&from={two_weeks_before_str}&to={today_str}&apikey={self.apikey}"
         response = requests.get(url)
         data_json = response.json()
         if not isinstance(data_json, list):
