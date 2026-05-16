@@ -16,3 +16,21 @@ Waveshareの透明モニターが近未来感があっていい感じ。
    :width: 320px
    :height: 480px
    :name: figure
+
+
+githubからコードをcloneする。既存のコードを改善することもできる。
+実行するコードは以下の通り、
+
+::
+
+   git clone https://github.com/ggml-org/llama.cpp
+   cd llama.cpp
+
+   pip install -r requirements.txt
+
+
+次にモデルをクローンしてセットアップする。
+
+::
+
+
