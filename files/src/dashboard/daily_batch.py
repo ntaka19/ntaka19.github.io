@@ -97,7 +97,28 @@ class PerplexityWrapper:
 
             "max_tokens": 3000, 
             "temperature": 0.2,
-            "return_citations": True
+            "return_citations": True,
+            "search_domain_filter": [
+                # --- 海外の主要経済・総合ニュース ---
+                "reuters.com",         # ロイター（国際ニュース・金融）
+                "bloomberg.com",       # ブルームバーグ（金融情報）
+                "ft.com",              # フィナンシャル・タイムズ（英・経済）
+                "wsj.com",             # ウォール・ストリート・ジャーナル（米・経済）
+                "economist.com",       # エコノミスト（英・経済誌）
+                "nytimes.com",         # ニューヨーク・タイムズ（米・総合）
+                "cnbc.com",            # CNBC（米・市場・ビジネス）
+                "bbc.com",             # BBC（英・国際総合）
+                
+                # --- 日本の主要経済・総合ニュース ---
+                "nikkei.com",          # 日本経済新聞
+                "bloomberg.co.jp",     # ブルームバーグ（日本版）
+                "asahi.com",           # 朝日新聞
+                "yomiuri.co.jp",       # 読売新聞
+                
+                # --- 国際機関・公式データ（アナリスト向け） ---
+                "reuters.co.jp",       # ロイター（日本版）
+                "apnews.com"           # AP通信（国際ニュース）
+            ]
         }
 
         try:
