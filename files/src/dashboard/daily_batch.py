@@ -264,175 +264,55 @@ class D002_FX_Daily:
 
 
     def market_summary_html(self):
-        # 現在時刻の取得
-        updated_time = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y/%m/%d %H:%M")
+        updated_time = datetime.now(timezone("Asia/Tokyo")).strftime('%Y/%m/%d %H:%M')
         perplexity = PerplexityWrapper()
+        
+        prompt = f"""
+        # 経済ニュースサマリー：商品市場の動向と展望
 
-        # 1. Perplexityへ投げるプロンプト
-        # 1. Perplexityへ投げる「最小限のデータ要求」プロンプト（トークン削減）
+        ## 📅 最新の市場動向（{updated_time}時点）
+        - 世界経済に関する主要なニュースを簡潔にまとめて。
+        - 顕著な株価の増減（例：NYダウ、NASDAQ、日経平均）とその背景を説明して。
+        - USD/JPYの現在の動向、変動要因、今後の見通しを分析して。
 
-        prompt = """
+        ## 商品市場の動向
+        - 以下の各商品について、直近の価格動向、主要な変動要因、今後の見通しを詳細に分析してください。
 
-        以下の各項目について、最新の動向をリサーチし、指定のJSONフォーマットでのみ回答してください。
-        余計な挨拶、説明文、Markdownのコードブロック（```json など）は一切含めず、純粋なJSONオブジェクト単体を出力してください。
+        ### 1. 原油市場
+        - **価格動向:** 直近1週間のWTIとブレント原油の価格推移と、直近1ヶ月のトレンドを分析。
+        - **変動要因:** OPEC+の減産方針、地政学的リスク（中東情勢など）、米国の在庫統計、世界経済の需要見通しに焦点を当てて。
 
-        【出力ルール】
-        - "trend"（原因➔変化）: 何が原因でどう変化したかを100文字程度で簡潔に。
-        - "focus"（注視点）: 今後何に注視すべきかを50文字程度で簡潔に。
+        ### 2. LNG（液化天然ガス）市場
+        - **価格動向:** アジア（JKM）と欧州（TTF）の価格動向を比較分析。
+        - **変動要因:** 欧州の備蓄状況、主要輸出国の生産動向（例：米国の輸出施設）、冬季の需要予測に焦点を当てて。
 
-        【フォーマット】
+        ### 3. 電力市場
+        - **価格動向:** 日本（JEPX）、欧州、北米の主要な電力市場価格の動向。
+        - **変動要因:** 再生可能エネルギーの供給量、気温変動による需要の変化、発電燃料（LNG、石炭）の価格動向に焦点を当てて。
 
-        {
-        "dow": {"trend": "...", "focus": "..."},
-        "nasdaq": {"trend": "...", "focus": "..."},
-        "sp500": {"trend": "...", "focus": "..."},
-        "nikkei": {"trend": "...", "focus": "..."},
-        "topix": {"trend": "...", "focus": "..."},
-        "usdjpy": {"trend": "...", "focus": "..."},
-        "wti": {"trend": "...", "focus": "..."},
-        "brent": {"trend": "...", "focus": "..."},
-        "jkm": {"trend": "...", "focus": "..."},
-        "ttf": {"trend": "...", "focus": "..."},
-        "hh": {"trend": "...", "focus": "..."},
-        "jepx": {"trend": "...", "focus": "..."},
-        "copper": {"trend": "...", "focus": "..."},
-        "aluminum": {"trend": "...", "focus": "..."},
-        "gold": {"trend": "...", "focus": "..."},
-        "silver": {"trend": "...", "focus": "..."},
-        "events": [
-            {"date": "MM/DD", "name": "イベント名", "reason": "注視すべき理由（1行）"},
-            {"date": "MM/DD", "name": "イベント名", "reason": "注視すべき理由（1行）"},
-            {"date": "MM/DD", "name": "イベント名", "reason": "注視すべき理由（1行）"}
-        ]
-        }
+        ### 4. 貴金属・LME（非鉄金属）市場
+        - **貴金属（金・銀）:**
+            - **価格動向:** 金と銀の価格推移（ドル建てスポット価格）。
+            - **変動要因:** 金融政策（利上げ・利下げ観測）、ドル相場、安全資産としての需要動向に焦点を当てて。
+        - **LME（銅・アルミなど）:**
+            - **価格動向:** 主要な非鉄金属（銅、アルミ）の価格推移。
+            - **変動要因:** 中国の需要動向、世界的な製造業の景況感、主要生産国の供給状況に焦点を当てて。
+
+        ## 今後の重要な経済イベント
+        - 今後1週間から1ヶ月の間に予定されている重要な経済イベント（例：FOMC、ECB理事会、各国の雇用統計など）をリストアップしてください。
+
+        **生成時の注意点:**
+        - 各項目の分析は、複数の要因を網羅的に記載し、深掘りした内容にしてください。
+        - 情報源の信頼性を確保し、正確なデータに基づいて記述してください。
+        - 専門用語には簡単な補足を加えてください。
         """
-        # 2. APIから応答を取得
-        raw_response = perplexity.GetResponse(prompt)
-        try:
-            json_str = re.search(r"\{.*\}", raw_response, re.DOTALL).group(0)
-            data = json.loads(json_str)
-        except Exception as e:
-            print(f"JSONパースエラー。生の応答: {raw_response}")
-            return
+        
+        market_summary_text = perplexity.GetResponse(prompt)
+        print(market_summary_text)
 
-        # 3. textwrap.dedent(f"""...""") でインデントを自動解消する
-        template = textwrap.dedent(
-            f"""\
-        # 📈 経済・コモディティ市場サマリー（{updated_time} 時点）
-
-        ## 🌐 1. マクロ環境（株価・為替）
-
-        ### 🇺🇸 米国主要株価指数
-        > 💡 **指標の違いと定義：**
-        > * **NYダウ:** 選び抜かれた主要優良企業30社の「株価平均」。値がさ株（高額株）の影響を受けやすい。
-        > * **S&P 500:** 主要500社の「時価総額加重平均」。米国市場全体の調子を最も正確に反映し、プロの基準となる。
-        > * **NASDAQ:** IT・ハイテク・新興企業中心の約3,000銘柄の指数。金利動向に非常に敏感。
-
-        * **NYダウ**
-        * **【原因 ➔ 変化】** {data['dow']['trend']}
-        * **【今後の注視点】** {data['dow']['focus']}
-        * **S&P 500**
-        * **【原因 ➔ 変化】** {data['sp500']['trend']}
-        * **【今後の注視点】** {data['sp500']['focus']}
-        * **NASDAQ**
-        * **【原因 ➔ 変化】** {data['nasdaq']['trend']}
-        * **【今後の注視点】** {data['nasdaq']['focus']}
-
-        ### 🇯🇵 日本主要株価指数
-        > 💡 **指標の違いと定義：**
-        > * **日経平均:** 東証主要225銘柄の「株価平均」。一部の特定の超大型株（ユニクロなど）の上下に振り回されがち。
-        > * **TOPIX:** 東証プライム全銘柄の「時価総額加重平均」。日本経済・市場全体の「時流（ウエイト）」を丸ごと反映する。
-
-        * **日経平均株価**
-        * **【原因 ➔ 変化】** {data['nikkei']['trend']}
-        * **【今後の注視点】** {data['nikkei']['focus']}
-        * **TOPIX**
-        * **【原因 ➔ 変化】** {data['topix']['trend']}
-        * **【今後の注視点】** {data['topix']['focus']}
-
-        ### 💵 為替動向
-        * **ドル円（USD/JPY）**
-        * **【原因 ➔ 変化】** {data['usdjpy']['trend']}
-        * **【今後の注視点】** {data['usdjpy']['focus']}
-
-        ---
-
-        ## ⚡ 2. エネルギー・バリューチェーン（上流 ➔ 下流）
-
-        ### 🛢️ 原油市場（上流：大元の原料）
-        > 💡 **指標の定義：**
-        > * **WTI:** 米国テキサス産の軽質原油。北米市場の基準。
-        > * **ブレント（Brent）:** 英国北海産の原油。欧州や中東、世界の原油価格の主要な国際ベンチマーク。
-
-        * **WTI原油**
-        * **【原因 ➔ 変化】** {data['wti']['trend']}
-        * **【今後の注視点】** {data['wti']['focus']}
-        * **ブレント原油**
-        * **【原因 ➔ 変化】** {data['brent']['trend']}
-        * **【今後の注視点】** {data['brent']['focus']}
-
-        ### 💨 天然ガス・LNG市場（中流：発電の主燃料）
-        > 💡 **指標の定義：**
-        > * **HH（Henry Hub）:** 米国ルイジアナ州の拠点を基準とする、北米の天然ガス価格指標。シェールガス増産の影響を受けやすい。
-        > * **TTF:** オランダを拠点とする、欧州の主要な天然ガス市場指標。パイプラインや地政学リスクで激しく変動する。
-        > * **JKM（Japan Korea Marker）:** 日本・韓国を中心とする、アジア向けの液化天然ガス（LNG）スポット価格指標。
-
-        * **HH（北米ガス）**
-        * **【原因 ➔ 変化】** {data['hh']['trend']}
-        * **【今後の注視点】** {data['hh']['focus']}
-        * **TTF（欧州ガス）**
-        * **【原因 ➔ 変化】** {data['ttf']['trend']}
-        * **【今後の注視点】** {data['ttf']['focus']}
-        * **JKM（アジアLNG）**
-        * **【原因 ➔ 変化】** {data['jkm']['trend']}
-        * **【今後の注視点】** {data['jkm']['focus']}
-
-        ### 🔌 電力市場（下流：最終エネルギー消費）
-        > 💡 **指標の定義：**
-        > * **JEPX:** 日本卸電力取引所。日本の電力スポット価格の基準（燃料費や再エネ供給量、気温に直結）。
-
-        * **JEPX（日本電力市場・海外主要動向）**
-        * **【原因 ➔ 変化】** {data['jepx']['trend']}
-        * **【今後の注視点】** {data['jepx']['focus']}
-
-        ---
-
-        ## 🏗️ 3. 産業素材・コモディティ
-
-        ### 🪵 LME非鉄金属（景気の先行指標）
-        > 💡 **指標の定義：**
-        > * **LME:** ロンドン金属取引所。世界最大の非鉄金属取引所。特に「銅」は電気自動車やインフラに必須で、世界景気の先行指標（ドクター・コッパー）と呼ばれる。
-
-        * **銅（Copper）**
-        * **【原因 ➔ 変化】** {data['copper']['trend']}
-        * **【今後の注視点】** {data['copper']['focus']}
-        * **アルミニウム（Aluminum）**
-        * **【原因 ➔ 変化】** {data['aluminum']['trend']}
-        * **【今後の注視点】** {data['aluminum']['focus']}
-
-        ### 👑 貴金属（安全資産・インフレヘッジ）
-        * **金（Gold）**
-        * **【原因 ➔ 変化】** {data['gold']['trend']}
-        * **【今後の注視点】** {data['gold']['focus']}
-        * **銀（Silver）**
-        * **【原因 ➔ 変化】** {data['silver']['trend']}
-        * **【今後の注視点】** {data['silver']['focus']}
-
-        ---
-
-        ## 📅 4. 今後の最重要経済イベント（厳選）
-        """
-        )
-
-        # イベント部分を動的に追加（こちらもインデントを考慮）
-        for ev in data["events"]:
-            template += f"- **[{ev['date']}] {ev['name']}**\n  - *注視理由:* {ev['reason']}\n"
-
-        # 4. HTMLに変換して保存
-        html_output = markdown.markdown(template, extensions=["extra"])
-        with open(
-            "./docs/src/dashboard/marketinfo.html", "w", encoding="utf-8"
-        ) as file:
+        # Convert Markdown to HTML
+        html_output = markdown.markdown(market_summary_text)
+        with open("./docs/src/dashboard/marketinfo.html", "w", encoding="utf-8") as file:
             file.write(html_output)
 
 def main():
