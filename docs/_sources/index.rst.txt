@@ -41,9 +41,8 @@ Dashboard
 .. toctree::
    :maxdepth: 2
    :hidden:
+
    ./src/dashboard/dashboard.rst
-
-
 
 
 .. raw:: html

@@ -24,6 +24,7 @@ import markdown
 import json
 import re
 from zoneinfo import ZoneInfo
+import textwrap
 
 class ChatGPTWrapper:
     
@@ -261,21 +262,26 @@ class D002_FX_Daily:
         plt.tight_layout()
         plt.savefig(savepath)
 
+
     def market_summary_html(self):
         # 現在時刻の取得
-        updated_time = datetime.now(ZoneInfo("Asia/Tokyo")).strftime('%Y/%m/%d %H:%M')
+        updated_time = datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y/%m/%d %H:%M")
         perplexity = PerplexityWrapper()
-        
+
+        # 1. Perplexityへ投げるプロンプト
         # 1. Perplexityへ投げる「最小限のデータ要求」プロンプト（トークン削減）
+
         prompt = """
+
         以下の各項目について、最新の動向をリサーチし、指定のJSONフォーマットでのみ回答してください。
         余計な挨拶、説明文、Markdownのコードブロック（```json など）は一切含めず、純粋なJSONオブジェクト単体を出力してください。
-        
+
         【出力ルール】
         - "trend"（原因➔変化）: 何が原因でどう変化したかを100文字程度で簡潔に。
         - "focus"（注視点）: 今後何に注視すべきかを50文字程度で簡潔に。
-        
+
         【フォーマット】
+
         {
         "dow": {"trend": "...", "focus": "..."},
         "nasdaq": {"trend": "...", "focus": "..."},
@@ -300,19 +306,19 @@ class D002_FX_Daily:
         ]
         }
         """
-        
-        # 2. APIから応答を取得し、堅牢にJSONとしてパース
+        # 2. APIから応答を取得
         raw_response = perplexity.GetResponse(prompt)
         try:
-            # 万が一json などのマークダウンが含まれていた場合のトリミング
-            json_str = re.search(r'\{.*\}', raw_response, re.DOTALL).group(0)
+            json_str = re.search(r"\{.*\}", raw_response, re.DOTALL).group(0)
             data = json.loads(json_str)
         except Exception as e:
             print(f"JSONパースエラー。生の応答: {raw_response}")
             return
 
-        # 3. Python側で固定する「各指標の定義・違い」入りのHTML/Markdownテンプレート（バリューチェーン順）
-        template = f"""# 📈 経済・コモディティ市場サマリー（{updated_time} 時点）
+        # 3. textwrap.dedent(f"""...""") でインデントを自動解消する
+        template = textwrap.dedent(
+            f"""\
+        # 📈 経済・コモディティ市場サマリー（{updated_time} 時点）
 
         ## 🌐 1. マクロ環境（株価・為替）
 
@@ -376,7 +382,7 @@ class D002_FX_Daily:
         * **【今後の注視点】** {data['hh']['focus']}
         * **TTF（欧州ガス）**
         * **【原因 ➔ 変化】** {data['ttf']['trend']}
-        * ** {data['ttf']['focus']}
+        * **【今後の注視点】** {data['ttf']['focus']}
         * **JKM（アジアLNG）**
         * **【原因 ➔ 変化】** {data['jkm']['trend']}
         * **【今後の注視点】** {data['jkm']['focus']}
@@ -416,13 +422,17 @@ class D002_FX_Daily:
 
         ## 📅 4. 今後の最重要経済イベント（厳選）
         """
-        # イベント部分を動的に追加
-        for ev in data['events']:
+        )
+
+        # イベント部分を動的に追加（こちらもインデントを考慮）
+        for ev in data["events"]:
             template += f"- **[{ev['date']}] {ev['name']}**\n  - *注視理由:* {ev['reason']}\n"
 
         # 4. HTMLに変換して保存
-        html_output = markdown.markdown(template, extensions=['extra'])
-        with open("./docs/src/dashboard/marketinfo.html", "w", encoding="utf-8") as file:
+        html_output = markdown.markdown(template, extensions=["extra"])
+        with open(
+            "./docs/src/dashboard/marketinfo.html", "w", encoding="utf-8"
+        ) as file:
             file.write(html_output)
 
 def main():

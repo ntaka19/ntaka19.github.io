@@ -1,42 +1,32 @@
-FROM ubuntu:20.04
+# QuantLibの互換性と最新AI対応を両立するため、Python 3.10 を採用
+FROM python:3.10-slim
 
-# time zoneを設定
+# タイムゾーンの設定
 ENV TZ=Asia/Tokyo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+# システムパッケージのインストール
+# ※ OSの仕様（trixieリポジトリ）に合わせて Java 21 を指定
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    graphviz \
+    openjdk-21-jre-headless \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
+# pip, setuptools, wheel を最新にアップデート
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
-# 必要そうなものをinstall
-RUN apt-get update && apt-get install -y --no-install-recommends wget build-essential libreadline-dev \ 
-libncursesw5-dev libssl-dev libsqlite3-dev libgdbm-dev libbz2-dev liblzma-dev zlib1g-dev uuid-dev libffi-dev libdb-dev
-
-#任意バージョンのpython install
-RUN wget --no-check-certificate https://www.python.org/ftp/python/3.9.5/Python-3.9.5.tgz \
-&& tar -xf Python-3.9.5.tgz \
-&& cd Python-3.9.5 \
-&& ./configure --enable-optimizations\
-&& make \
-&& make install
-
-
-#必要なpythonパッケージをpipでインストール
-#RUN pip3 install --upgrade pip && pip3 install --no-cache-dir jupyterlab
-RUN apt-get update
-RUN apt install -y graphviz
-
-#サイズ削減のため不要なものは削除
-RUN apt-get autoremove -y
-
-COPY ./requirements.txt /root/
-#requirements.txtなら以下のように
-RUN pip3 install -r /root/requirements.txt
-
-# Install Java
-RUN apt-get update && apt-get install -y openjdk-11-jre
-
+# PlantUML の配置
 COPY ./plantuml-1.2023.9.jar /root/
 RUN chmod +r /root/plantuml-1.2023.9.jar
-RUN ls /root/plantuml-1.2023.9.jar
 
+# Pythonパッケージのインストール
+COPY ./requirements.txt /root/
+RUN pip install --no-cache-dir -r /root/requirements.txt
+
+# ★ Jupyter用のpython3カーネルを明示的に登録 (This fixes the Sphinx error)
+RUN python -m ipykernel install --name python3 --user
+
+# 作業ディレクトリの設定
 WORKDIR /home/files
-# RUN make html

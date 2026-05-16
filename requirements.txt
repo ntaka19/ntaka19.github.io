@@ -1,12 +1,28 @@
-Sphinx==4.2.0
-sphinx-autobuild==2021.3.14
-numpy
-matplotlib
-sphinxcontrib.video
-jupyter_sphinx
-graphviz
-QuantLib-Python
-plantuml
-sphinxcontrib-plantuml
-mplfinance
-google-genai
+# --- Sphinx Core & Helpers ---
+Sphinx>=5.3.0
+# ★ 最新のバグを回避するため、バージョンを強制固定します
+sphinx-autobuild==2024.10.3
+
+sphinxcontrib-applehelp
+sphinxcontrib-devhelp
+sphinxcontrib-htmlhelp
+sphinxcontrib-serializinghtml
+sphinxcontrib-qthelp
+
+# --- Data Science & Charts ---
+numpy==1.23.5
+matplotlib==3.8.4
+mplfinance==0.12.9b0
+ipykernel==6.29.5
+
+# --- Extensions & Tools ---
+sphinxcontrib-video==0.2.1
+jupyter_sphinx==0.4.0
+graphviz==0.20.3
+plantuml==0.3.0
+sphinxcontrib-plantuml==0.24
+
+# --- Finance & AI ---
+QuantLib-Python==1.18
+google-genai==0.1.0
+markdown==3.6

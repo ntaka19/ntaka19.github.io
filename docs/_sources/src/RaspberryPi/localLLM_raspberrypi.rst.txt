@@ -66,7 +66,7 @@ https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
    :align: center
    :width: 320px
    :height: 480px
-   :name: figure
+   :name: figure1
 
 
 かなり思考が長い。5分後くらいの状況：
@@ -75,7 +75,7 @@ https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
    :align: center
    :width: 320px
    :height: 480px
-   :name: figure
+   :name: figure2
 
 最終的にはthinkが終わり、答えを出している。
 
@@ -83,7 +83,7 @@ https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
    :align: center
    :width: 320px
    :height: 480px
-   :name: figure
+   :name: figure3
 
 
 しばらく処理させていると、cpuが80度超えることがあったため(vcgencmd measure_tempでわかる)、その場しのぎとして保冷剤を使ってみた。（もちろん冷却ファンも内部でつけているが不十分。）
@@ -93,6 +93,6 @@ https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B
 .. figure:: raspberrypi_cooling.jpg
    :align: center
    :width: 320px
-   :name: figure
+   :name: figure4
 
 
