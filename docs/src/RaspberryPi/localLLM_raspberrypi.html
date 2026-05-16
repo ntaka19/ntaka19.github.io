@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Local LLM and Raspbery Pi(★) &#8212; Home 1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
-    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=12dfc556" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../_static/jupyter-sphinx.css?v=572af1d6" />
     <link rel="stylesheet" type="text/css" href="../../_static/thebelab.css" />
     <script src="../../_static/documentation_options.js?v=29a6c3e3"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/thebelab-helper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -83,21 +84,29 @@
 ところどころ隙が見えており、可愛く見えてくる。</p>
 <p>質問はHow to find e = mc^2?
 だが、なぜかそれを補足してから、推論が始まる。</p>
-<figure class="align-center" id="figure">
-<a class="reference internal image-reference" href="../../_images/emc2part1.mp4"><video height="480" src="../../_images/emc2part1.mp4" title="../../_images/emc2part1.mp4" width="320"><a href="../../_images/emc2part1.mp4">../../_images/emc2part1.mp4</a></video></a>
+<figure class="align-center" id="figure1">
+<a class="reference internal image-reference" href="../../_images/emc2part1.mp4"><video src="../../_images/emc2part1.mp4" style="width: 320px; height: 480px;" title="../../_images/emc2part1.mp4">
+<a href="../../_images/emc2part1.mp4">../../_images/emc2part1.mp4</a>
+</video>
+</a>
 </figure>
 <p>かなり思考が長い。5分後くらいの状況：</p>
-<figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="../../_images/emc2part2.mp4"><video height="480" src="../../_images/emc2part2.mp4" title="../../_images/emc2part2.mp4" width="320"><a href="../../_images/emc2part2.mp4">../../_images/emc2part2.mp4</a></video></a>
+<figure class="align-center" id="figure2">
+<a class="reference internal image-reference" href="../../_images/emc2part2.mp4"><video src="../../_images/emc2part2.mp4" style="width: 320px; height: 480px;" title="../../_images/emc2part2.mp4">
+<a href="../../_images/emc2part2.mp4">../../_images/emc2part2.mp4</a>
+</video>
+</a>
 </figure>
 <p>最終的にはthinkが終わり、答えを出している。</p>
-<figure class="align-center" id="id2">
-<a class="reference internal image-reference" href="../../_images/emc2result.jpg"><img alt="../../_images/emc2result.jpg" src="../../_images/emc2result.jpg" style="width: 320px; height: 480px;" /></a>
+<figure class="align-center" id="figure3">
+<a class="reference internal image-reference" href="../../_images/emc2result.jpg"><img alt="../../_images/emc2result.jpg" src="../../_images/emc2result.jpg" style="width: 320px; height: 480px;" />
+</a>
 </figure>
 <p>しばらく処理させていると、cpuが80度超えることがあったため(vcgencmd measure_tempでわかる)、その場しのぎとして保冷剤を使ってみた。（もちろん冷却ファンも内部でつけているが不十分。）</p>
 <p>一定程度効果があることが分かり、つけない場合と比べて温度の立ち上がりは小さくなった。</p>
-<figure class="align-center" id="id3">
-<a class="reference internal image-reference" href="../../_images/raspberrypi_cooling.jpg"><img alt="../../_images/raspberrypi_cooling.jpg" src="../../_images/raspberrypi_cooling.jpg" style="width: 320px;" /></a>
+<figure class="align-center" id="figure4">
+<a class="reference internal image-reference" href="../../_images/raspberrypi_cooling.jpg"><img alt="../../_images/raspberrypi_cooling.jpg" src="../../_images/raspberrypi_cooling.jpg" style="width: 320px;" />
+</a>
 </figure>
 </section>
 
@@ -106,7 +115,7 @@
           
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
 <h1 class="logo"><a href="../../index.html">Home</a></h1>
 
@@ -117,7 +126,19 @@
 
 
 
-<h3>Navigation</h3>
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard/dashboard.html">Dashboard</a></li>
+</ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../theme/morningsatelite.html">モーサテウォッチ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../theme/chatgpt_papers.html">Topic on GPT</a></li>
@@ -166,16 +187,6 @@
   </ul></li>
 </ul>
 </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -192,8 +203,8 @@
       &#169;2023, ntaka19.
       
       |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
       |
       <a href="../../_sources/src/RaspberryPi/localLLM_raspberrypi.rst.txt"
