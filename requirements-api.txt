@@ -7,3 +7,4 @@ openai
 mplfinance
 markdown
 google-genai
+yfinance
